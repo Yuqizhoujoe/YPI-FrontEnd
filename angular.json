@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "YPI": {
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "YPI"
+    }
+  },
+  "defaultProject": "YPI",
+  "cli": {
+    "analytics": "b0f936fb-a00d-47a2-a03d-95846c214df0"
+  }
 }
