@@ -12,9 +12,8 @@ import { AppComponent as Home} from './components/homepage/app/app.component';
 import { CommonModule } from '@angular/common';
 
 const routes:Routes = [
- 
-  {path: "", component: Home}, // CONTAINS  THE HEADER/NAVBAR/FOOTER
-  {path: "", component: LoginPageComponent}, // CONTAINS THE LOGIN PAGE (HOME PAGE)(APP)
+  {path: '',   redirectTo: '/homePage', pathMatch: 'full' }, // REDIRECTS TO THE HOMEPAGE
+  {path: "homePage", component: LoginPageComponent }, // CONTAINS THE LOGIN PAGE (HOME PAGE)(APP)
   {path: "resourcesPage", component: ResourcePage}, // CONTAINS THE RESOURCES PAGE(APP)
   {path: "projectPage", component: ProjectPage}, // CONTAINS THE PROJECT PAGE(APP)
   {path: "formulaPage", component: FormulaPage}, // CONTAINS THE FORMALA PAGE(APP)
@@ -25,7 +24,7 @@ const routes:Routes = [
 @NgModule({
   exports:[RouterModule],
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes) // ADDS THE ROUTES TO ROOT COMPONENT
   ]
 })
 export class AppRoutingModule { }
