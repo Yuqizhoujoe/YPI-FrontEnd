@@ -1,0 +1,34 @@
+i {
+    font-size: 170%;
+}
+
+.H-ICON-USER{
+    font-size: 285%;
+}
+.H{
+    color: oldlace;
+}
+
+.HEADER-ROW{
+    background-color: orangered;
+}
+
+.H-RIGHT{
+    margin-left: 700px;
+}
+
+i:link, i:visited{
+	text-decoration: none;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 100%;
+	border-bottom: 1.5px solid transparent;
+	transition: border-bottom .2s;
+	
+}
+
+i:hover, i:active {
+	color:rgba(232, 65, 24,1.0);
+	border-bottom: 1.5px solid #fff;
+	padding-bottom: 5px;
+}
