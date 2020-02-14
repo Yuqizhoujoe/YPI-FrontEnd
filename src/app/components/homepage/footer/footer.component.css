@@ -1,6 +1,6 @@
 footer {
 	background-color: #333;
-    padding: 50px;
+    padding: 30px;
     bottom: 0;
     position: fixed;
     width: 100%;
@@ -45,33 +45,4 @@ footer p {
 	text-align: center;
 	font-size:90%;
 	margin-top: 30px;
-}
-
-.social-links li a:link, .social-links li a:visited {
-	font-size: 180%;
-}
-.fa-twitter-square,
-.fa-facebook-square,
-.fa-google-plus-square,
-.fa-instagram {
-	transition: color .2s;
-}
-
-
-
-
-.fa-twitter-square:hover {
-	color: #00aced;
-}
-
-.fa-facebook-square:hover {
-	color: #3b5998;
-}
-
-.fa-google-plus-square:hover {
-	color: #dd4b39;
-}
-
-.fa-instagram:hover {
-	color: #517fa4; 
 }

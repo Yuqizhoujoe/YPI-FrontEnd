@@ -30,7 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent
   ],
   imports: [BrowserModule,BrowserAnimationsModule, AppRoutingModule, BrowserAnimationsModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })

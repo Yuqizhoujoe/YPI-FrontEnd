@@ -1,75 +1,27 @@
-<!-- <div class="container col-3">
-        <button (click)="showUserForm = !showUserForm" class="btn btn-secondary mb-3 mt-3"><i class="fas fa-user-plus"></i></button>
-        <div class="card card-body mb-3" *ngIf="showUserForm">
-          <h2>Add User</h2>
-          <form #userForm="ngForm" (ngSubmit)="addUser(name.value,email.value)">
-            <div class="form-group">
-              <label>First Name</label>
-              <input 
-                type="text" 
-                
-                [ngClass]="{'is-invalid':userName.errors && userName.touched}"
-                class="form-control" 
-                name="name"
-                #userName="ngModel"
-                required
-                #name
-                minlength="2"
-              >
-              <div [hidden]="!userName.errors?.required" class="invalid-feedback">
-                First name required
-              </div>
-        
-              <div [hidden]="!userName.errors?.minlength" class="invalid-feedback">
-                  Must be at least 2 characters
-              </div>
+
+<div class="container card bg-light LOG mt-5 LOG-TITLE ">
+    <div class="row align-middle">
+        <h1 class="font-italic font-weight-bold">Login</h1>
+    </div>
+    <div class="row LOG-FIELD">
+        <form #myForm ="ngForm" (ngSubmit)="submitForm()"action="">
+            <label for="" class="font-weight-bold"><h4>Username</h4></label>
+            <div class="LOG-INPUT mb-2">
+                <input type="text">
             </div>
-            <div class="form-group">
-                <label>Website</label>
-                <input 
-                  type="text" 
-                  
-                  [ngClass]="{'is-invalid':userWebsite.errors && userWebsite.touched}"
-                  class="form-control" 
-                  name="website"
-                  #userWebsite="ngModel"
-                  #website
-                  required
-                  minlength="2"
-                >
-                <div [hidden]="!userWebsite.errors?.required" class="invalid-feedback">
-                  Website required
-                </div>
-          
-                <div [hidden]="!userWebsite.errors?.minlength" class="invalid-feedback">
-                    Must be at least 2 characters
-                </div>
-              </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input 
-              type="email" 
-              
-              [ngClass]="{'is-invalid':userEmail.errors && userEmail.touched}"
-              class="form-control" 
-              name="email"
-              #userEmail="ngModel"
-              #email
-              required
-              pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-            >
-            <div [hidden]="!userEmail.errors?.required" class="invalid-feedback">
-              Email name required
+            <label for="" class="font-weight-bold"><h4>Password</h4></label>
+            <div class="LOG-INPUT">
+                <input type="text">
             </div>
-        
-            <div [hidden]="!userEmail.errors?.pattern" class="invalid-feedback">
-                Email is not valid
+            <button type="button" class=" LOG-LOGIN btn text-center mt-3">Login</button>
+            <div class="row mt-3 ml-0 border-bottom p-0">
+                        <input class="col-1 mt-1" type="checkbox" aria-label="Checkbox for following text input">
+                        <p class="text-muted mt-0 ">Remember me</p> 
             </div>
-            </div>
-            <input type="hidden"  name="id">
-            <button  [disabled]="!userForm.form.valid"   class="btn btn-light mb-3">Add New User</button>
-           
-          </form>
+            <div class="row mt-3 pb-3 ml-0 border-bottom p-0">
+                    <button type="button" class="LOG-SIGNUP btn text-center mt-3">Sign-Up</button>
+                    <p class="text-muted mt-4 ml-5">Forgot Password?</p> 
         </div>
-</div> -->
-<h1>LOGIN</h1>
+        </form>
+    </div>
+</div>
