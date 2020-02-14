@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/homepage/home/home.component';
+//import { HomeComponent } from './components/homepage/home/home.component';
 import { HeaderComponent } from './components/homepage/header/header.component';
 import { NavbarComponent } from './components/homepage/navbar/navbar.component';
 import { LoginPageComponent } from './components/homepage/login-page/login-page.component';
@@ -14,7 +14,7 @@ import { TempleteAppComponent } from './components/formulaPage/templete-app/temp
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    // HomeComponent,
     HeaderComponent,
     NavbarComponent,
     LoginPageComponent,

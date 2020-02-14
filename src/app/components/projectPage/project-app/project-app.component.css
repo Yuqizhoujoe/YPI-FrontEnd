@@ -1,0 +1,20 @@
+table.left{
+  float:left;
+  margin-left: 100px;
+  width: 730px;
+  border: 1px solid black;
+  size: auto;
+}
+
+table.right{
+
+  width: 730px;
+  margin-left: 10px;
+  border: 1px solid black;
+  size: auto;
+}
+
+caption{
+  border:1px solid black;
+
+}
