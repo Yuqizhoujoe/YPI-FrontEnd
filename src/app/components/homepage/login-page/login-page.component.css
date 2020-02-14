@@ -1,0 +1,40 @@
+div{
+    z-index: 6;
+}
+
+.LOG-TITLE{
+    color: orangered;
+    width: 27%;
+} 
+.LOG-FIELD{
+    margin-left: 0vh;
+}
+input{
+    width:40vh ;
+}
+input[type=checkbox]{
+    width:20vh;
+    height: 75%;
+}
+h1{
+    margin-left: 110px;
+}
+p{
+    margin-top: -10vh;
+}
+.LOG-LOGIN{
+    width: 40vh;
+    background-color: orangered;
+    color: ghostwhite;
+}
+.LOG-INPUT{
+    margin-top: -3vh;
+}
+.LOG-SIGNUP {
+    width: 15vh;
+    background-color: orangered;
+    color: ghostwhite;
+}
+body{
+    
+}
