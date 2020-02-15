@@ -1,16 +1,39 @@
-<<<<<<< HEAD
 <div>
-  <table class="left" align="center">
-    <caption>Resource Catalog</caption>
+  <table class="left" border="1" >
+
+    <caption>Resource Catalog
+      <button type="button" class="iconButton"><i class="fas fa-share"></i></button>
+      <button type="button" class="iconButton"><i class="fa fa-bars"></i></button>
+
+    </caption>
+      <tr>
+        <th>Project Name</th>
+        <th>Project Code</th>
+      </tr>
+
+      <ng-container *ngFor="let i of dummy">
+        <tr>
+          <td class ="projectName">
+            <span><i class="fas fa-caret-right"></i></span>
+            <span><input type="checkbox"></span>
+            <span> {{i}}</span>
+          </td>
+          <td class ="projectCode">
+            <span>helo</span>
+          </td>
+        </tr>
+      </ng-container>
+
+  </table>
+
+  <table class="right" align="center" >
+    <caption>Project
+      <button type="button" class="iconButton"><i class="fas fa-trash-alt"></i></button>
+    </caption>
+
     <th>Project Name</th>
     <th>Project Code</th>
   </table>
 
-  <table class="right" align="center">
-    <caption>Project</caption>
-  </table>
-
 </div>
-=======
-<p>THIS IS THE PROJECTS PAGE IAN</p>
->>>>>>> 6b9077247a197ecaf09bed849605fe8bc718c34f
+

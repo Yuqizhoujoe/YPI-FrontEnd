@@ -1,20 +1,40 @@
+table{
+  width: 500px;
+  border: 1px solid black;
+  text-align: center;
+  float: left;
+}
+
 table.left{
   float:left;
   margin-left: 100px;
-  width: 730px;
-  border: 1px solid black;
-  size: auto;
+
 }
 
 table.right{
 
-  width: 730px;
   margin-left: 10px;
-  border: 1px solid black;
-  size: auto;
 }
 
 caption{
   border:1px solid black;
+  text-align: center;
+  font-size: large;
+  caption-side: top;
+}
 
+.iconButton{
+  float: right;
+  margin-right: 5px;
+  background-color: orangered;
+  color: white;
+}
+
+td.projectName{
+ text-align: left;
+
+}
+
+td.projectCode{
+  text-align: left;
 }

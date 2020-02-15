@@ -9,6 +9,7 @@ export class AppComponent implements OnInit {
 
   constructor() { }
 
+  dummy = ['1', '2', '3']
   ngOnInit(): void {
   }
 
