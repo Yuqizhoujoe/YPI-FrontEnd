@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, Input, Output, ViewChildren, EventEmitter, QueryList} from '@angular/core';
+
+import { ResourceHeaderComponent } from '../resource-header/resource-header.component';
+import { ResourceTableComponent } from '../resource-table/resource-table.component';
+import { from } from 'rxjs';
+
 
 @Component({
   selector: 'app-app',
@@ -6,10 +11,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  
+  constructor(){
 
-  constructor() { }
-
-  ngOnInit(): void {
   }
+  
+   
+  ngOnInit(): void {
+    
+  }
+
+  
 
 }
