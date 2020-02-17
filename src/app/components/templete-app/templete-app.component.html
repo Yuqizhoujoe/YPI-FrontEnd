@@ -1,0 +1,28 @@
+<div class="template">
+    <table class="table-responsive-md table-striped table-bordered">
+        <thead>
+          <tr>
+              <th colspan="2">Project Scope Fields</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>name</td>
+                <td><input type="checkbox" [(ngModel)]="name" (change)="toggleTable()"></td>
+            </tr>
+            <tr>
+                <td>cost_code</td>
+                <td><input type="checkbox" [(ngModel)]="cost_code" (change)="toggleTable()"></td>
+            </tr>
+            <tr>
+                <td>editable</td>
+                <td><input type="checkbox" [(ngModel)]="editable" (change)="toggleTable()"></td>
+            </tr>
+            <tr>
+                <td>item_id</td>
+                <td><input type="checkbox" [(ngModel)]="item_id" (change)="toggleTable()"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button (click)="updateTable()">Save</button>
+</div>

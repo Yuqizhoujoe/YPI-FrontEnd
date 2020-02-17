@@ -11,8 +11,8 @@ import { NavbarComponent } from "./components/homepage/navbar/navbar.component";
 import { LoginPageComponent } from "./components/homepage/login-page/login-page.component";
 import { AppComponent as ResourcePage } from "./components/resourcePage/app/app.component";
 import { AppComponent as ProjectPage } from "./components/projectPage/app/app.component";
-import { AppComponent as FormulaPage } from "./components/formulaPage/app/app.component";
-import { AppComponent as TempletePage } from "./components/formulaPage/app/app.component";
+import { FormulaComponent } from "./components/formula/formula.component";
+import { TempleteAppComponent } from "./components/templete-app/templete-app.component";
 import { FooterComponent } from "./components/homepage/footer/footer.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -25,8 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginPageComponent,
     ResourcePage,
     ProjectPage,
-    FormulaPage,
-    TempletePage,
+    FormulaComponent,
+    TempleteAppComponent,
     FooterComponent
   ],
   imports: [BrowserModule,BrowserAnimationsModule, AppRoutingModule, BrowserAnimationsModule,

@@ -1,0 +1,35 @@
+<div class="formula">
+    <table class="table table-stripped">
+        <tr>
+            <ng-container *ngFor="let table of tables">
+                <th scope="col">{{table}}</th>
+            </ng-container>
+        </tr>
+        <tbody *ngFor="let project of projects">
+            <tr (click)="getSubProject(project)">
+                <ng-container *ngIf="name">
+                    <td contenteditable=true><input #project_name type="text" value={{project.name}} [(ngModel)]="project.name"></td>
+                </ng-container>
+                <ng-container *ngIf="cost_code">
+                    <td contenteditable=true><input #project_cost_code type="text" value={{project.cost_code}} [(ngModel)]="project.cost_code"></td>
+                </ng-container>
+            </tr>
+            <ng-container *ngIf="compareArray(project)">
+                <tr *ngFor="let sub_project of sub_projects">
+                    <ng-container *ngIf="name">
+                        <td contenteditable=true><input #sub_project_name type="text" value={{sub_project.name}} [(ngModel)]="sub_project.name"></td>
+                    </ng-container>
+                    <ng-container *ngIf="cost_code">
+                        <td contenteditable=true><input #sub_project_cost_code type="text" value={{sub_project.cost_code}} [(ngModel)]="sub_project.cost_code"></td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <a routerLink="/formulaPage/templete">Edit Quantity Survey Template</a>
+    <br>
+    <button type="button" class="btn btn-outline-dark">Submit</button>
+</div>
+
+
+

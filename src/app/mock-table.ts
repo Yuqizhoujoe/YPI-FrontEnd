@@ -1,0 +1,1 @@
+export var TABLE = ['NAME', 'COST_CODE', 'EDITABLE', 'ITEM_ID'];

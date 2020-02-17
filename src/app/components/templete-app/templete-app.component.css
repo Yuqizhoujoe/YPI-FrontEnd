@@ -1,0 +1,7 @@
+.table-striped {
+    width: 300px;
+}
+
+tr, td, th {
+    padding: 1rem;
+}
