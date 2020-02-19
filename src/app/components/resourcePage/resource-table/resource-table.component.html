@@ -1,4 +1,6 @@
 
+
+    
 <table class="table table-striped">
         <thead>
         <tr>
@@ -10,17 +12,17 @@
         <tbody>
         <tr *ngFor="let li of dataList | async">
           <th scope="row"><i class="fas fa-sign-in-alt"></i></th>
-          <td><ngb-highlight [result]="li.name" [term]="service.searchTerm"></ngb-highlight></td>
-          <td><ngb-highlight [result]="li.codeNumber | number" [term]="service.searchTerm"></ngb-highlight> </td>
+          <td><ngb-highlight [result]="li.name" [term]="theservice.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="li.codeNumber " [term]="theservice.searchTerm"></ngb-highlight> </td>
         </tr>
         </tbody>
 </table>
-<div class="d-flex justify-content-between p-2">
+<div class="d-flex justify-content-between p-2 mb-5">
         <ngb-pagination
-          [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+          [collectionSize]="total | async" [(page)]="theservice.page" [pageSize]="theservice.pageSize">
         </ngb-pagination>
     
-        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="theservice.pageSize">
           <option [ngValue]="5">5 items per page</option>
           <option [ngValue]="10">10 items per page</option>
           <option [ngValue]="15">15 items per page</option>

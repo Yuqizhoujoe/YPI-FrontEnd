@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import {  AuthenticationService } from '../../../services/authentication.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  model = {
+    left: true,
+    right: false
+  };
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
   }
-
+  onSignout(){
+    this.authenticationService.logout();
+    this.router.navigate(['/homePage']);
+  }
 }

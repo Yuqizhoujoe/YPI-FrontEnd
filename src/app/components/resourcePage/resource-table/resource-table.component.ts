@@ -14,12 +14,13 @@ import { DecimalPipe } from '@angular/common';
 export class ResourceTableComponent implements OnInit {
   dataList:Observable<DATA[]>;
   total: Observable<number>;
-  
+  theservice:any;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   
   constructor(private service:DataService) {
     this.dataList= service.datas$;
     this.total = service.total$;
+    this.theservice = service;
    }
    
   ngOnInit(): void {

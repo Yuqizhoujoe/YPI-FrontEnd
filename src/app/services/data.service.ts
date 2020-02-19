@@ -39,8 +39,9 @@ function sort(datas: DATA[], column: string, direction: string): DATA[] {
 
 function matches(data: DATA, term: string, pipe: PipeTransform) {
   return data.name.toLowerCase().includes(term.toLowerCase())
+    || pipe.transform(data.name).includes(term)
     || pipe.transform(data.codeNumber).includes(term);
-    
+
 }
 
 @Injectable({
@@ -74,7 +75,7 @@ export class DataService {
     this._search$.next();
   }
 
-  get datas$() { return this._datas$.asObservable(); }
+  get datas$():Observable<DATA[]> { return this._datas$.asObservable(); }
   get total$() { return this._total$.asObservable(); }
   get loading$() { return this._loading$.asObservable(); }
   get page() { return this._state.page; }
