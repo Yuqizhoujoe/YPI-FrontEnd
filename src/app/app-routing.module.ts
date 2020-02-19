@@ -12,8 +12,8 @@ import { AppComponent as Home} from './components/homepage/app/app.component';
 import { CommonModule } from '@angular/common';
 
 const routes:Routes = [
-  {path: '',   redirectTo: '/homePage', pathMatch: 'full' }, // REDIRECTS TO THE HOMEPAGE
-  {path: "homePage", component: LoginPageComponent }, // CONTAINS THE LOGIN PAGE (HOME PAGE)(APP)
+  {path: "", component: Home}, // CONTAINS  THE HEADER/NAVBAR/FOOTER
+  {path: "homePage", component: LoginPageComponent}, // CONTAINS THE LOGIN PAGE (HOME PAGE)(APP)
   {path: "resourcesPage", component: ResourcePage}, // CONTAINS THE RESOURCES PAGE(APP)
   {path: "projectPage", component: ProjectPage}, // CONTAINS THE PROJECT PAGE(APP)
   {path: "formulaPage", component: FormulaPage}, // CONTAINS THE FORMALA PAGE(APP)
