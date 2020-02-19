@@ -1,59 +1,64 @@
 .selectProject{
   float: right;
 }
-.selectButton{
-
+.projectTitle{
+  text-align: center;
 }
 
 table{
   width: 49%;
-  border: 1px solid black;
+  border: 1px solid #aaaaaa;
   text-align: center;
-  float: left;
-  overflow: scroll;
 
+  float: left;
+  height: 535px;
 }
 
 table.left{
   float:left;
-  margin-top: 100px;
-  margin-bottom: 500px;
-  height: 500px;
+  margin-top: 50px;
+  display: inline-block;
 }
 
 table.right{
   margin-left: 2%;
-  margin-top: 80px;
-  min-height: 500px;
-  height: 500px;
+  margin-top: 30px;
+  display: inline-block;
+  overflow-y: scroll;
+  width: 49%;
+
 }
 
-
-
 caption{
-  border:1px solid black;
   text-align: center;
   font-size: large;
   caption-side: top;
+  width: 542px;
+  background-color: #888888;
+  color: black;
 
 }
 
 th{
-  border: 1px solid black;
   width: 50%;
+  border: 1px solid #aaaaaa;
+  background-color: #dddddd;
 }
 
+tbody{
+  overflow: scroll;
+  display: inline-block;
+}
 
-
-td.projectName{
+td{
  text-align: left;
+  width: 272px;
 }
 
-td.projectCode{
-  text-align: left;
 
+.dataField{
+  margin-left: 3%;
 }
-
 .iconButton{
   float: right;
   margin-right: 10px;
@@ -61,7 +66,7 @@ td.projectCode{
   color: white;
 }
 .iconButton[name=trash]{
-  margin-left: -60px;
+  margin-left: -6%;
 }
 
 .dropbtn{
@@ -75,7 +80,7 @@ td.projectCode{
   display: inline-block;
   float: right;
   margin-right: 5px;
-  margin-left: -60px;
+  margin-left: -6%;
 
 }
 
@@ -126,5 +131,8 @@ td.projectCode{
 .pagination{
   float: left;
   margin-top: 1%;
-  margin-left: 5%;
+}
+
+.pageNumber{
+  margin-left: 40%;
 }
