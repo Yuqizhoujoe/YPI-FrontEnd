@@ -12,13 +12,35 @@
                     </div>
             </div>
             <div class="H-RIGHT">
-                <ng-template #popcontent>Member Since: November-2015</ng-template>
-                <button type="button" class="btn btn-outline-dark mr-2" placement="bottom"
-                        ngbPopover="Member Since: November-2015" popoverTitle="Cost Manager">
+                <ng-template class="bg-dark" #popTitle>
+                        <div class="row justify-content-center mb-0"><h1>Manager</h1> </div>
+                        <div class="row justify-content-center">Member Since:</div>
+                        <div class="row justify-content-center">November-2015</div>
+                </ng-template>
+                <ng-template #popButtons>
+                                <div class="btn-group btn-group-toggle">
+                                        <label class="btn-primary col-6" ngbButtonLabel>
+                                                <input type="checkbox" ngbButton [(ngModel)]="model.left"> 
+                                                <i class="fas fa-id-card mt-2"></i>
+                                        </label>
+                                        <label (click)="onSignout()" class="btn-danger col-6 ml-1" ngbButtonLabel>
+                                                <input type="checkbox" ngbButton [(ngModel)]="model.right"> 
+                                                <i class="fas fa-power-off mt-2"></i>
+                                        </label>                             
+                                </div>  
+                                <hr>
+                                
+                </ng-template>
+
+                <button type="button" class="btn mr-2" placement="bottom"  click=""
+                        [ngbPopover]="popButtons" [popoverTitle]="popTitle">
                         <i class="fas fa-user-astronaut H-ICON-USER "></i>
                 </button>
-                   
-                    <i class="far fa-question-circle H-ICON-USER ml-5"></i>
+                <button type="button" class="btn mr-2" placement="bottom" 
+                        ngbPopover="Questions??" popoverTitle="Contact ADMIN">
+                        <i class="far fa-question-circle H-ICON-USER ml-5"></i>
+                </button>  
+                    
             </div>
                
          

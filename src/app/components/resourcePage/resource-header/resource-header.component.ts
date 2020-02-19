@@ -8,10 +8,9 @@ import {Observable} from 'rxjs';
   styleUrls: ['./resource-header.component.css']
 })
 export class ResourceHeaderComponent implements OnInit {
-  
-
+  theservice;
   constructor(private service:DataService) {
-  
+    this.theservice = service;
    }
 
   ngOnInit(): void {

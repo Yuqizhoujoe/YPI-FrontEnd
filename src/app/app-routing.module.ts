@@ -5,7 +5,7 @@ import { TempleteAppComponent as TempletePage} from './components/formulaPage/te
 import { AppComponent as ResourcePage} from './components/resourcePage/app/app.component';
 import { AppComponent as ProjectPage} from './components/projectPage/app/app.component';
 import { LoginPageComponent} from './components/homepage/login-page/login-page.component';
-
+import { AuthGuard } from './guards';
 import { AppComponent as Home} from './components/homepage/app/app.component';
 
 
@@ -17,7 +17,9 @@ const routes:Routes = [
   {path: "resourcesPage", component: ResourcePage}, // CONTAINS THE RESOURCES PAGE(APP)
   {path: "projectPage", component: ProjectPage}, // CONTAINS THE PROJECT PAGE(APP)
   {path: "formulaPage", component: FormulaPage}, // CONTAINS THE FORMALA PAGE(APP)
-  {path: "formulaPage/templete", component: TempletePage} // CONTAINS THE TEMPLETE(SUB_RESOURCES) PAGE(APP)
+  {path: "formulaPage/templete", component: TempletePage}, // CONTAINS THE TEMPLETE(SUB_RESOURCES) PAGE(APP)
+  { path: 'resourcesPage', component: ResourcePage, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '' }
 ];
 
 

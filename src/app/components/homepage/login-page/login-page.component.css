@@ -4,13 +4,13 @@ div{
 
 .LOG-TITLE{
     color: orangered;
-    width: 27%;
+    width: 25%;
 } 
 .LOG-FIELD{
     margin-left: 0vh;
 }
 input{
-    width:90% ;
+    width:110% ;
 }
 input:focus{
     background-color: lightyellow;
@@ -26,18 +26,23 @@ p{
     margin-top: -10vh;
 }
 .LOG-LOGIN{
-    width: 90%;
+    width: 110%;
     background-color: orangered;
     color: ghostwhite;
+   
 }
 .LOG-INPUT{
     margin-top: -3vh;
 }
 .LOG-SIGNUP {
-    width: 30%;
+    width: 37%;
     background-color: orangered;
     color: ghostwhite;
 }
-body{
+.LOG-INV-INP{
+  
     
+}
+.LOG-INV-INP:focus{
+  
 }
