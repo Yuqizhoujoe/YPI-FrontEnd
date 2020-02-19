@@ -78,7 +78,7 @@ export class AppService {
     // initialize checkmark
     this.dataChecked = newArray(dataTable.length);
     this.dataChecked.fill(false);
-    console.log(this.dataChecked);
+    //console.log(this.dataChecked);
   }
 
   /*
@@ -211,7 +211,7 @@ export class AppService {
         break;
       }
     }
-    console.log('switch Project: ' + this.projectName);
+    //console.log('switch Project: ' + this.projectName);
 
   }
 
