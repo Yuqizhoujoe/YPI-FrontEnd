@@ -1,0 +1,18 @@
+<div class="bg-secondary col-12 row ml-1">
+        <div class="col-3 mt-2 pb-2">
+                <div class="input-group ">
+                        <input type="text" name="searchTerm" [(ngModel)]="service.searchTerm" class="form-control" placeholder="Keyword" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                        <button class="btn " type="button" id="button-addon2"><i class="fab fa-searchengin"></i></button>
+                        
+                        </div>
+                        <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+                </div>
+        </div>
+        <div class="col-4 text-white p-0 mt-2 RE">
+            <h2>Resources</h2>
+        </div>
+        <div class=" p-0 mt-2 REX ">
+            <button class="btn" type="button"><i class="fas fa-plus-square"></i></button>
+        </div>
+</div>

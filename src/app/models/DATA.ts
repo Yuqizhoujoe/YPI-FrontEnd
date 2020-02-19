@@ -1,6 +1,6 @@
 export interface DATA {
+  codeNumber: any;
+  name: string;
     
-    name: string;
-    codeNumber: number;
   }
   
