@@ -1,1 +1,90 @@
-<p>THIS IS THE PROJECTS PAGE IAN</p>
+<div class = "selectButton">
+  <select class ="selectProject">
+    <option>item 1</option>
+    <option>item 2</option>
+  </select>
+</div>
+
+<div>
+  <table class="left table-fixed" border="1">
+
+    <caption>
+      <span class="tableTitle">Resource Catalog</span>
+      <span>
+        <button type="button" class="iconButton" name="export" (click)="transferToShow()"><i class="fas fa-share"></i></button>
+      </span>
+      <span  class="dropdown">
+          <button type="button" class="dropbtn"><i class="fa fa-bars"></i></button>
+          <div class="dropdown-content table-responsive">
+            <a href="#"><input type="checkbox" [(ngModel)]="checkAll" (change)="selectAll($event)"> Select All</a>
+            <a href="#"><input type="checkbox" [(ngModel)]="uncheckAll" (change)="unselectAll($event)"> Clear Selection</a>
+          </div>
+      </span>
+
+    </caption>
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Project Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of projectData ">
+        <tr *ngIf="data != null">
+          <td class ="projectName">
+            <span><i class="fas fa-caret-right"></i></span>
+            <span><input type="checkbox" [ngModel]="checkAll" (change)="changeMade($event,data)"></span>
+            <span> {{data.name}}</span>
+          </td>
+          <td class ="projectCode">
+            <span>{{data.codeNumber}}</span>
+          </td>
+        </tr>
+
+        <tr *ngIf="data == null">
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <table class="right">
+    <caption>Project
+      <button type="button" class="iconButton" name="trash" (click)="deleteFromShow()"><i class="fas fa-trash-alt"></i></button>
+    </caption>
+    <thead>
+      <th>Project Name</th>
+      <th>Project Code</th>
+    </thead>
+    <tbody><ng-container *ngFor="let data of show">
+      <tr *ngIf="data != null">
+        <td class ="projectName">
+          <span ><i class="fas fa-caret-right"></i></span>
+          <span ><input type="checkbox" (change)="changeMadeToDelete($event,data)"></span>
+          <span> {{data.name}}</span>
+        </td>
+        <td class ="projectCode">
+          <span>{{data.codeNumber}}</span>
+        </td>
+      </tr>
+
+      <tr *ngIf="data == null">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </ng-container></tbody>
+  </table>
+</div>
+
+<div>
+  <a href="#" class="resourceLink">Edit Resource</a>
+
+  <ul class="pagination">
+    <li><a href="app.component.html">1</a></li>
+    <li><a href="app.component.html">2</a></li>
+  </ul>
+
+  <button type="submit" class="submitButton">Submit</button>
+</div>
+
