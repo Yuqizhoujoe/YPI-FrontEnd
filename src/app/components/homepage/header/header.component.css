@@ -10,7 +10,8 @@ i {
 }
 
 .HEADER-ROW{
-    background-color: orangered;
+	background-color: orangered;
+	height: 100%;
 }
 
 .H-RIGHT{
@@ -31,5 +32,9 @@ i:link, i:visited{
 i:hover, i:active {
 	color:rgba(232, 65, 24,1.0);
 	border-bottom: 1.5px solid #fff;
-	padding-bottom: 5px;
+	
 }
+.bg{
+	background-color: lightgray;
+}
+
