@@ -31,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { ComingSoonPageComponent } from './components/coming-soon-page/coming-soon-page.component';
 
 
 
@@ -49,7 +50,8 @@ import { MatListModule } from '@angular/material/list';
     ResourceHeaderComponent,
     ResourceTableComponent,
     NgbdSortableHeader,
-    AlertComponent
+    AlertComponent,
+    ComingSoonPageComponent
     
   ],
   imports: [BrowserModule, CommonModule,BrowserAnimationsModule,HttpClientModule, AppRoutingModule, BrowserAnimationsModule,
