@@ -55,6 +55,7 @@ export class TempleteAppComponent implements OnInit {
 
   // create formula field
   createFormulaField(index): FormGroup {
+    this.fg = this.dynamicForm.get('fieldGroup') as FormArray;
     this.fg.controls[index]['controls'].formula = this.fb.control('', [Validators.required]);
     return this.fg.controls[index]['controls'].formula;
     /* return this.fb.group({
@@ -123,21 +124,17 @@ export class TempleteAppComponent implements OnInit {
       this.showFormulaField = true;
       // the indexOfFormulaToShow array push this index
       this.indexOfFormulaToShow.push(index);
-      console.log(this.indexOfFormulaToShow + "\nif match");
     } else {
       // if value[3] !== 2 then indexOfFormulaToShow filter out the index
       this.indexOfFormulaToShow = this.indexOfFormulaToShow.filter(elem => {
         return elem !== index;
       })
-      console.log(this.indexOfFormulaToShow + "\nif not match");
     }
-
   }
 
   // submit 
   onSubmit(){
     this.submitted = true;
-
     // stop here if form is invaild
     if (this.dynamicForm.invalid) {
       return;
@@ -147,7 +144,13 @@ export class TempleteAppComponent implements OnInit {
     let fieldGroupLength = this.dynamicForm.value.fieldGroup.length;
     for (let i = 0; i < fieldGroupLength; i++) {
       let objectValue = this.dynamicForm.value.fieldGroup[i];
-      this.formulaService.getFieldFromTempleate(objectValue);
+      let formulaValue = this.fg.controls[i]['controls'].formula;
+      if (formulaValue !== undefined) {
+        objectValue['formula'] = formulaValue.value
+        this.formulaService.getFieldFromTempleate(objectValue);
+      } else {
+        this.formulaService.getFieldFromTempleate(objectValue);
+      }
     }
   }
   

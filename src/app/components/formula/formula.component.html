@@ -73,6 +73,16 @@
 
 <!-- reactive form -->
  <!-- Form to Customize -->
+<!-- <div class = "selectButton">
+    <select class ="selectProject" (click)="switchProject($event)">
+        <option></option>
+        <option *ngFor="let project of projects" [ngValue]="project.projectName">
+            {{project.projectName}}
+        </option>
+    </select>
+</div>
+<br>
+<br> -->
  <div class="formula">
     <!-- form group dynamic form -->
     <form [formGroup]="dynamicFormulaForm">
