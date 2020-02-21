@@ -1,6 +1,8 @@
-
-<div><h1 class="projectTitle">{{projectName}}</h1></div>
-
+<!--
+<div>
+  <h1 class="projectTitle">{{projectName}}</h1>
+</div>
+-->
 <div class = "selectButton">
   <select class ="selectProject" (change)="switchProject($event)">
     <option></option>
@@ -12,7 +14,7 @@
 
 <div class="showTable">
   <!--Left Table  -->
-  <table class="left table-fixed">
+  <table class="table left" border="1">
 
     <caption>
       <span class="tableTitle">Resource Catalog</span>
@@ -35,68 +37,63 @@
     <!--Left Table head -->
     <thead>
       <tr>
-        <th>Project Name</th>
-        <th>Project Code</th>
+        <th class="projectName">Project Name</th>
+        <th class="projectCode">Project Code</th>
       </tr>
     </thead>
     <!--Left Table body -->
     <tbody class="left">
       <ng-container *ngFor="let data of projectData[page] ; let i = index">
-        <tr *ngIf="data != null">
-          <td class ="projectLeft">
-            <span class="dataField"><i class="fas fa-caret-right"></i></span>
-            <span><input type="checkbox" [ngModel]="dataChecked[page*itemPerPage + i]" (change)="changeMade($event,data)"></span>
+        <tr>
+          <td class ="projectName">
+            <span class="dataField"><i class="fas fa-caret-right"> </i></span>
+            <span>
+              <input type="checkbox" [ngModel]="dataChecked[page*itemPerPage + i]" (change)="changeMade($event,data)">
+            </span>
             <span > {{data.name}}</span>
           </td>
-          <td class ="projectLeft">
+          <td class ="projectCode">
             <span class="dataField">{{data.codeNumber}}</span>
           </td>
-        </tr>
 
-        <tr *ngIf="data == null">
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
 
   <!--Right Table  -->
-  <table class="right" >
+  <table class="table right" >
     <caption>Project
       <!--Trash button  -->
       <button type="button" class="iconButton" name="trash" (click)="deleteFromShow()"><i class="fas fa-trash-alt"></i></button>
     </caption>
     <!--Right Table  head-->
     <thead>
-    <tr>
-      <th>Project Name</th>
-      <th>Project Code</th>
+    <tr class="">
+      <th class="projectName">Project Name</th>
+      <th class="projectCode">Project Code</th>
     </tr>
     </thead>
     <!--Right Table  body-->
     <tbody class = "right" ><ng-container *ngFor="let data of show">
       <tr *ngIf="data != null">
-        <td class ="projectRight">
+        <td class ="projectName">
           <span class="dataField"><i class="fas fa-caret-right"></i></span>
           <span ><input type="checkbox" (change)="changeMadeToDelete($event,data)"></span>
           <span> {{data.name}}</span>
         </td>
-        <td class ="projectRight">
+        <td class ="projectCode">
           <span class="dataField">{{data.codeNumber}}</span>
         </td>
       </tr>
 
-      <tr *ngIf="data == null">
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+
     </ng-container></tbody>
   </table>
 
 </div>
 
-<div>
+<div class="bottomButton">
   <!--resource link button -->
   <a class="resourceLink">Edit Resource</a>
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { dataTable } from '../../../../assets/dataTable';
+import { dataTable } from '../../assets/dataTable';
 import {newArray} from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppService {
+export class ProjectService {
 
   projectData = [];
   dataChecked = [];
@@ -21,7 +21,7 @@ export class AppService {
 
   page: number;
   totalPage: number;
-  itemPerPage = 20;
+  itemPerPage = 10;
   projectName;
   constructor() {
   this.dataSetUp();
@@ -32,6 +32,7 @@ export class AppService {
   getSelected() {return this.selected; }
   getDeleteSelected() {return this.deleteSelected; }
   getTotalPage() {return this.totalPage; }
+  getProjects(){return this.projects; }
 
   /*
   * Change page table

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {range} from 'rxjs';
 import {newArray} from '@angular/compiler/src/util';
 import {dataTable} from '../../../../assets/dataTable.js';
-import {AppService} from './app.service';
+import {ProjectService} from '../../../services/project.service';
 
 @Component({
   selector: 'app-app',
@@ -39,9 +39,13 @@ export class AppComponent implements OnInit {
   submitProject;
   setPage;
 
+  // Getter Method
+  getProjects;
 
 
-  constructor(appService: AppService) {
+
+  constructor(appService: ProjectService) {
+    // variables initialazation
     this.projectData = appService.projectData;
     this.projects = appService.projects
     this.show = appService.show;
@@ -53,6 +57,8 @@ export class AppComponent implements OnInit {
     this.page = appService.page;
     this.totalPage = appService.projectName;
     this.itemPerPage = appService.itemPerPage
+
+    // function initialazation
     this.changeMade = appService.changeMade;
     this.changeMadeToDelete = appService.changeMadeToDelete;
     this.transferToShow = appService.transferToShow;
@@ -62,6 +68,9 @@ export class AppComponent implements OnInit {
     this.switchProject = appService.switchProject;
     this.submitProject = appService.submitProject;
     this.setPage = appService.setPage;
+
+    // getter initialazations
+    this.getProjects = appService.getProjects;
   }
   ngOnInit(): void {
   }
