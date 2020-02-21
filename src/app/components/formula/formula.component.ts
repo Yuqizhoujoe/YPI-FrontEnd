@@ -8,6 +8,7 @@ import { Validators } from '@angular/forms';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { ResourceLoader } from '@angular/compiler';
 import { DATA } from '../../models/DATA';
+import { ProjectService } from '../../services/project.service'
 
 @Component({
   selector: 'app-formula',
@@ -16,8 +17,12 @@ import { DATA } from '../../models/DATA';
 })
 export class FormulaComponent implements OnInit {
   // set projects array 
-  projects: DATA[];
-  projects_length: number;
+  projects: any[];
+  project = {
+    projectName: '',
+    data: []
+  };
+  project_length: number;
 
   // set table_name array
   tables: string[];
@@ -42,11 +47,13 @@ export class FormulaComponent implements OnInit {
   formulaPageSubmit: boolean = false;
   data: any;
 
-  constructor(private formulaService:FormulaService, private fb: FormBuilder) { }
+  constructor(private formulaService:FormulaService, private fb: FormBuilder) { 
+  }
 
   ngOnInit() {
     // get project items
     this.getProjectsAtFirst();
+    this.showProjectOne();
 
     // get table name
     this.getTable();
@@ -60,7 +67,7 @@ export class FormulaComponent implements OnInit {
     this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
 
     // push project items' name and cost_code to formArrayForFormula
-    this.projects.map(project => {
+    /* this.projects.map(project => {
       let project_name = this.fb.control({value: project.name, disabled: true});
       let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
       let form_group = this.fb.group({
@@ -68,21 +75,43 @@ export class FormulaComponent implements OnInit {
         cost_code: project_cost_code
       })
       this.formArrayForFormula.push(form_group);
-    });
+    }); */
+
+    this.project.data.map(project => {
+      let project_name = this.fb.control({value: project.name, disabled: true});
+      let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
+      let form_group = this.fb.group({
+        name: project_name,
+        cost_code: project_cost_code
+      })
+      this.formArrayForFormula.push(form_group);
+    })
+    
     this.getFieldFromTemplate();
-    /* after get field from template */
-    console.log("form array for formula controls");
-    console.log(this.formArrayForFormula.controls);
     
   }
 
+  // get projects from project page
   getProjectsAtFirst(){
-    this.formulaService.getProjects().subscribe(projects=>{
-      this.projects=projects.slice(0,5);
-      this.projects_length = projects.length;
-    });
-    this.fillDummyToFieldArray();
+    this.formulaService.getProjects().subscribe(projects=>this.projects=projects);
   }
+
+  // display data of project 1 
+  showProjectOne(){
+    this.project.projectName = this.projects[0].projectName;
+    this.project.data = this.projects[0].data;
+    this.project_length = this.project.data.length;
+  }
+
+  // show project name in drop down
+  switchProject(event:any){
+    for (let i = 0; i < this.projects.length; i++) {
+      if (this.projects[i]['projectName'] === event.target.value) {
+        this.project['projectName'] = this.projects[i].name;
+        this.project['data'] = this.projects[i].codeNumber;
+      }
+    }
+  } 
 
   getTable() {
     this.formulaService.getTable().subscribe(table=>this.tables=table);
@@ -105,9 +134,10 @@ export class FormulaComponent implements OnInit {
   // get fields from template
   getFieldFromTemplate(){
     this.formulaService.sendFieldToFormulaPage().subscribe(fields=>this.fields=fields);
-    console.log("field data from template");
-    console.log(this.fields);
     if (this.fields.length !== 0) {
+      this.fillDummyToFieldArray();
+      console.log("field data from template");
+      console.log(this.fields);
       // if we get the fields, then we push the field.fieldInput, which will be the name of the table, into tables array
       this.fields.map(elem => {
         this.tables.push(elem['fieldInput']);
@@ -132,31 +162,43 @@ export class FormulaComponent implements OnInit {
       });
       // assign this.formArrayForFormula to this.dynamicFormulaForm.get('formArrayForFormula') 
       this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
-      this.projects.map(project => {
+      // map each element of data array inside the project
+      this.project.data.map(project => {
+        // declare project_name variable to a form builder control
         let project_name = this.fb.control({value: project.name, disabled: true});
+        // declare project_cost variable to a form builder control
         let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
+        // declare field_array variable to a form builder array
         let field_array = this.fb.array([]);
+        // map each element of fields
         this.fields.map(field=>{
+          // store each element of fields to form builder control 
           let field_inputs = this.fb.control({value:''});
+          // push each form builder control to field array
           field_array.push(field_inputs);
         });
+        // assign field_array, which contains form builder controls, to formArrayForTemplate 
         this.formArrayForTemplate = field_array;
+        // build up a new form group to store project_name form control, project_cost_code form control, and formArrayForTemplate form array
         let form_group = this.fb.group({
           name: project_name,
           cost_code: project_cost_code,
           field_arrays: this.formArrayForTemplate
         });
+        // push form group to formArrayForFormula
         this.formArrayForFormula.push(form_group);
       });
+    console.log("field types");
+    console.log(this.field_type);
     }
   }
 
+  // formula calculation when click
   formulaCalculation(i: number,a: number){
     let mathOperator = '';
     console.log(this.field_formula_string);
     this.field_formula_string.map(val => {
       let str = val.split(" ");
-      console.log(val);
       for (let i = 0; i < str.length; i++) {
         console.log(str[i]);
         mathOperator += str[i];
@@ -170,6 +212,7 @@ export class FormulaComponent implements OnInit {
     }
     string = string.replace(' ', mathOperator);
     result = eval(string);
+    this.field_formula[i][a] = parseInt(this.field_formula[i][a]);
     this.field_formula[i][a] = 0;
     this.field_formula[i][a] = result;
   }
@@ -177,20 +220,20 @@ export class FormulaComponent implements OnInit {
   // fill dummy data into field_number, field_text, and field_formula 2 layers array
   fillDummyToFieldArray(){
     // field_number
-    /* this.field_number = new Array(this.projects_length).fill(null); */
-    for (let j = 0; j < this.projects_length; j++) {
+   /*  this.field_number = new Array(this.project_length).fill(null); */
+    for (let j = 0; j < this.project_length; j++) {
       this.field_number[j] = new Array(1).fill(null);
     }
 
     // field_text
-/*     this.field_text = new Array(this.projects_length).fill(null); */
-    for (let j = 0; j < this.projects_length; j++) {
+    /* this.field_text = new Array(this.project_length).fill(null); */
+    for (let j = 0; j < this.project_length; j++) {
       this.field_text[j] = new Array(1).fill(null);
     }
 
     // field_formula
-/*     this.field_formula = new Array(this.projects_length).fill(null); */
-    for (let j = 0; j < this.projects_length; j++) {
+    /* this.field_formula = new Array(this.projects_length).fill(null); */
+    for (let j = 0; j < this.project_length; j++) {
       this.field_formula[j] = new Array(1).fill(null);
     }
 
@@ -199,7 +242,7 @@ export class FormulaComponent implements OnInit {
   submit() {
     this.formulaPageSubmit = true;
     this.data = [{}];
-    for (let i = 0; i < this.projects_length; i++) {
+    for (let i = 0; i < this.project_length; i++) {
       this.data[i] = {field_number: this.field_number[i], field_text: this.field_text[i], field_formula: this.field_formula[i]}
     }
     console.log(this.data);
