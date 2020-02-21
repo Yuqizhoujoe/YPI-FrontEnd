@@ -20,17 +20,17 @@
                 </div>
                 </ng-template>
                 <ng-template #popButtons>
-                                <div class="btn-group btn-group-toggle p-0 ml-4">
-                                        <label class="btn-primary col-12" ngbButtonLabel>
+                                <div class="btn-group btn-group-toggle p-0 ">
+                                        <label class="btn-primary " ngbButtonLabel>
                                                 <input type="checkbox" ngbButton [(ngModel)]="model.left"> 
                                                 <i class="fas fa-id-card mt-2"></i>
                                         </label>
-                                        <label (click)="onSignout()" class="btn-danger col-12 ml-1" ngbButtonLabel>
+                                        <label (click)="onSignout()" class="btn-danger  ml-1 justify-content-center" ngbButtonLabel>
                                                 <input type="checkbox" ngbButton [(ngModel)]="model.right"> 
                                                 <i class="fas fa-power-off mt-2"></i>
                                         </label>                             
                                 </div>  
-                                <hr>
+                              
                                 
                 </ng-template>
 

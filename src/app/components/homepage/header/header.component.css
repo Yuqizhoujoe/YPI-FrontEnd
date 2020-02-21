@@ -38,3 +38,7 @@ i:hover, i:active {
 	background-color: lightgray;
 }
 
+label{
+	margin-left: -3%;
+	width: 8rem;
+}
