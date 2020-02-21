@@ -7,6 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { ResourceLoader } from '@angular/compiler';
+import { DATA } from '../../models/DATA';
 
 @Component({
   selector: 'app-formula',
@@ -15,7 +16,7 @@ import { ResourceLoader } from '@angular/compiler';
 })
 export class FormulaComponent implements OnInit {
   // set projects array 
-  projects: Project[];
+  projects: DATA[];
   projects_length: number;
 
   // set table_name array

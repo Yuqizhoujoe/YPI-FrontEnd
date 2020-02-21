@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {range} from 'rxjs';
 import {newArray} from '@angular/compiler/src/util';
 import {dataTable} from '../../../../assets/dataTable.js';
-import {ProjectService} from './project.service';
+import {ProjectService} from '../../../services/project.service';
 
 @Component({
   selector: 'app-app',

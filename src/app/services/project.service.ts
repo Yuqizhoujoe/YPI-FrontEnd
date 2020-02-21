@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { dataTable } from '../../../../assets/dataTable';
+import { dataTable } from '../../assets/dataTable';
 import {newArray} from '@angular/compiler/src/util';
 
 @Injectable({
