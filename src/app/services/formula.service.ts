@@ -5,6 +5,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { SubProject } from '../models/sub_projects';
 import { TABLE } from '../mock-table';
 import { DATA } from '../models/DATA';
+import { ProjectService } from '../services/project.service';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ import { DATA } from '../models/DATA';
 export class FormulaService {
 
   // formula page
-  projects: DATA[];
+  projects: any[];
   sub_projects: SubProject[];
   TABLES = TABLE;
   table: string[];
@@ -21,8 +22,7 @@ export class FormulaService {
   // template page
   fields: Object[] = [];
 
-  constructor() { 
-    
+  constructor(private projectService: ProjectService) { 
   }
 
   getFieldFromTempleate(fieldGroup) {
@@ -35,8 +35,8 @@ export class FormulaService {
     return of(this.fields);
   }
   
-  getProjects(): Observable<DATA[]>{
-    this.projects = PROJECTS;
+  getProjects(): Observable<any[]>{
+    this.projects = this.projectService.projects;
     return of(this.projects);
   }
 
