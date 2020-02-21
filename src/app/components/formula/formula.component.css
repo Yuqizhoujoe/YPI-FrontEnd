@@ -1,7 +1,42 @@
+html,
+body {
+  margin: 0px;
+}
+
+table, th, td {
+    border: none;
+}
+
+table, tbody {
+    background: transparent;
+}
+
+thead {
+    display: block;
+}
+
 input {
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
     border-bottom-style: hidden;
-    background-color: #fff;
+    background: transparent;
 }
+
+/* .fa-sort-down {
+    padding: 1rem;
+} */
+
+/* template navigation */
+.template-navigation {
+    width: 100%;
+    padding-bottom: 1rem;
+    margin-bottom: 4rem;
+    cursor: pointer;
+}
+
+.template-navigation a, .template-navigation li{
+    cursor: pointer;
+}
+
+

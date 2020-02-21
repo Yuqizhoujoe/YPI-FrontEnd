@@ -1,6 +1,7 @@
 import { Project } from './models/project';
+import { dataTable } from '../assets/dataTable.js';
 
-export const PROJECTS: Project[] = [
+/* export const PROJECTS: Project[] = [
     {id: 2, cost_code: '020000', name: 'Existing Conditions', sub_items: [
         {cost_code: '022100', name:'Surveys'},
         {cost_code: '024100', name:'Interior Demolition'},
@@ -15,4 +16,9 @@ export const PROJECTS: Project[] = [
         {cost_code: '044200', name: 'Exterior Cladding - Veneer'},
         {cost_code: '045700', name: 'Masonry Fireplaces'},
     ]}
-]
+] */
+
+export const PROJECTS: Project[] = dataTable.map(function(element, index) {
+    element.id = index+1;
+    return element; 
+});
