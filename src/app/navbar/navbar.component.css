@@ -1,9 +1,9 @@
 .example-container {
-  width: 200px;
+  width: 300px;
   height:100vh;
   border: 1px transparent rgba(0, 0, 0, 0.5);
   position: absolute;
-  background-color: transparent;
+  background-color:transparent;
 }
 
 .example-sidenav-content {
@@ -11,13 +11,15 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  background:black ;
   
 }
 
 .example-sidenav {
   padding: 20px;
-  width: 200px;
- 
+  width: 250px;
+  background-color: #333;
+  z-index: 10;
  
 }
 #gg{
@@ -26,5 +28,8 @@
 
 .ROUTE{
  background-color: grey;
- color: orangered;
+}
+
+mat-drawer-container{
+  background-color: black;
 }

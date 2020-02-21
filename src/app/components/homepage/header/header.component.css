@@ -1,5 +1,5 @@
 i {
-    font-size: 200%;
+    font-size: 300%;
 }
 
 .H-ICON-USER{
@@ -36,7 +36,7 @@ i:hover, i:active {
 }
 .bg{
 	background-color: lightgray;
-	height: 7rem;
+	height: 5rem;
 }
 
 label{
