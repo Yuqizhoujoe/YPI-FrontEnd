@@ -1,6 +1,5 @@
 export interface Project {
-    id: number,
-    cost_code: string,
+    codeNumber: string,
     name: string,
-    sub_items: any
+    id: number
 }

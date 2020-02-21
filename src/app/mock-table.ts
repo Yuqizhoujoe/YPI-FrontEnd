@@ -1,1 +1,1 @@
-export var TABLE = ['NAME', 'COST_CODE', 'EDITABLE', 'ITEM_ID'];
+export const TABLE = ['NAME', 'COST_CODE'];

@@ -4,7 +4,6 @@ import { Project } from '../models/project';
 import { Observable, of, Subject } from 'rxjs';
 import { SubProject } from '../models/sub_projects';
 import { TABLE } from '../mock-table';
-import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -12,13 +11,27 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class FormulaService {
 
+  // formula page
   projects: Project[];
   sub_projects: SubProject[];
   TABLES = TABLE;
   table: string[];
+  
+  // template page
+  fields: Object[] = [];
 
   constructor() { 
     
+  }
+
+  getFieldFromTempleate(fieldGroup) {
+    this.fields.push(fieldGroup);
+    console.log("get the fields from template page");
+  }
+
+  sendFieldToFormulaPage(): Observable<Object[]>{
+    console.log("send the fields to formula page");
+    return of(this.fields);
   }
   
   getProjects(): Observable<Project[]>{
@@ -26,7 +39,7 @@ export class FormulaService {
     return of(this.projects);
   }
 
-  getSubProject(project:Project | number): Observable<SubProject[]> {
+  /* getSubProject(project:Project | number): Observable<SubProject[]> {
     const id = typeof project === 'number' ? project : project.id;
     this.projects.filter((projectToFind) => {
       if (projectToFind.id === id) {
@@ -34,7 +47,7 @@ export class FormulaService {
       }
     });
     return of(this.sub_projects);
-  }
+  } */
 
   getTable(): Observable<any> {
     this.table = this.TABLES;
