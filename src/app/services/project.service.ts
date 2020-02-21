@@ -222,5 +222,7 @@ export class ProjectService {
         project.data = [...this.show];
       }
     }
+
+    console.log(this.projects);
   }
 }

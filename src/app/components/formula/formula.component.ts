@@ -16,7 +16,7 @@ import { ProjectService } from '../../services/project.service'
   styleUrls: ['./formula.component.css']
 })
 export class FormulaComponent implements OnInit {
-  // set projects array 
+  // set projects array
   projects: any[];
   project = {
     projectName: '',
@@ -28,7 +28,7 @@ export class FormulaComponent implements OnInit {
   tables: string[];
   name: boolean = true;
   cost_code: boolean = true;
-  
+
   // field from template page
   fields: any[] = [];
   field_type = [];
@@ -47,7 +47,7 @@ export class FormulaComponent implements OnInit {
   formulaPageSubmit: boolean = false;
   data: any;
 
-  constructor(private formulaService:FormulaService, private fb: FormBuilder) { 
+  constructor(private formulaService:FormulaService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -86,9 +86,9 @@ export class FormulaComponent implements OnInit {
       })
       this.formArrayForFormula.push(form_group);
     })
-    
+
     this.getFieldFromTemplate();
-    
+
   }
 
   // get projects from project page
@@ -96,7 +96,7 @@ export class FormulaComponent implements OnInit {
     this.formulaService.getProjects().subscribe(projects=>this.projects=projects);
   }
 
-  // display data of project 1 
+  // display data of project 1
   showProjectOne(){
     this.project.projectName = this.projects[0].projectName;
     this.project.data = this.projects[0].data;
@@ -111,7 +111,7 @@ export class FormulaComponent implements OnInit {
         this.project['data'] = this.projects[i].codeNumber;
       }
     }
-  } 
+  }
 
   getTable() {
     this.formulaService.getTable().subscribe(table=>this.tables=table);
@@ -149,18 +149,18 @@ export class FormulaComponent implements OnInit {
         if (elem['formula'] !== undefined) {
           this.field_formula_string.push(elem['formula']);
         }
-        // get field input name 
+        // get field input name
         if (elem['type'] !== 2) {
           this.field_number.push(elem['fieldInput']);
         }
       });
       // if get data from template, then display the columns
-      this.showField = true;  
+      this.showField = true;
       // recreate dynamicFormulaForm form group and formArrayForFormula form array
       this.dynamicFormulaForm = this.fb.group({
         formArrayForFormula: this.fb.array([]),
       });
-      // assign this.formArrayForFormula to this.dynamicFormulaForm.get('formArrayForFormula') 
+      // assign this.formArrayForFormula to this.dynamicFormulaForm.get('formArrayForFormula')
       this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
       // map each element of data array inside the project
       this.project.data.map(project => {
@@ -172,12 +172,12 @@ export class FormulaComponent implements OnInit {
         let field_array = this.fb.array([]);
         // map each element of fields
         this.fields.map(field=>{
-          // store each element of fields to form builder control 
+          // store each element of fields to form builder control
           let field_inputs = this.fb.control({value:''});
           // push each form builder control to field array
           field_array.push(field_inputs);
         });
-        // assign field_array, which contains form builder controls, to formArrayForTemplate 
+        // assign field_array, which contains form builder controls, to formArrayForTemplate
         this.formArrayForTemplate = field_array;
         // build up a new form group to store project_name form control, project_cost_code form control, and formArrayForTemplate form array
         let form_group = this.fb.group({
@@ -208,7 +208,7 @@ export class FormulaComponent implements OnInit {
     let result = 0;
     let string = '';
     for (let j = 0; j < this.field_number[i].length; j++) {
-      string = string + this.field_number[i][j] + ' '; 
+      string = string + this.field_number[i][j] + ' ';
     }
     string = string.replace(' ', mathOperator);
     result = eval(string);
@@ -242,7 +242,7 @@ export class FormulaComponent implements OnInit {
   submit() {
     this.formulaPageSubmit = true;
     this.data = [{}];
-    for (let i = 0; i < this.projects_length; i++) {
+    for (let i = 0; i < this.project_length; i++) {
       this.data[i] = {field_number: this.field_number[i], field_text: this.field_text[i], field_formula: this.field_formula[i]}
     }
     console.log(this.data);
@@ -261,7 +261,7 @@ export class FormulaComponent implements OnInit {
       return this.fb.group({
         [name]:this.fb.control('')
       })
-    }); 
+    });
   } */
 
   /* addformArrayForFormulaFieldList(){
@@ -283,11 +283,11 @@ export class FormulaComponent implements OnInit {
   /* saveFieldsIntoObjectArray(){
     for (let i = 0; i < this.fields.length; i++) {
       for (let j = 1; j < this.field_all.length; j++) {
-        this.field_all[j]['number'] = this.field_number[i][j]; 
-        this.field_all[j]['text'] = this.field_text[i][j]; 
-        this.field_all[j]['formula'] = this.field_formula[i][j]; 
+        this.field_all[j]['number'] = this.field_number[i][j];
+        this.field_all[j]['text'] = this.field_text[i][j];
+        this.field_all[j]['formula'] = this.field_formula[i][j];
       }
-    } 
+    }
     console.log("save");
   } */
 
@@ -344,12 +344,12 @@ export class FormulaComponent implements OnInit {
   /* getSubProject(project:Project){
     this.formulaService.getSubProject(project).subscribe(sub_projects=>{this.sub_projects=sub_projects});
     console.log("get sub_items");
-  } 
+  }
 
   compareArray(project: Project){
     if (JSON.stringify(this.sub_projects)==JSON.stringify(project.sub_items)) {
       return true;
-    } 
+    }
     return false;
   }
   */
