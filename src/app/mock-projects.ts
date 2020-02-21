@@ -1,5 +1,6 @@
 import { Project } from './models/project';
 import { dataTable } from '../assets/dataTable.js';
+import { DATA } from './models/DATA';
 
 /* export const PROJECTS: Project[] = [
     {id: 2, cost_code: '020000', name: 'Existing Conditions', sub_items: [
@@ -18,7 +19,7 @@ import { dataTable } from '../assets/dataTable.js';
     ]}
 ] */
 
-export const PROJECTS: Project[] = dataTable.map(function(element, index) {
-    element.id = index+1;
+export const PROJECTS: DATA[] = dataTable.map(function(element, index) {
     return element; 
 });
+

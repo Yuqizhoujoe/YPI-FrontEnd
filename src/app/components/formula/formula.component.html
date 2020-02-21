@@ -75,7 +75,7 @@
  <!-- Form to Customize -->
  <div class="formula">
     <!-- form group dynamic form -->
-    <form [formGroup]="dynamicFormulaForm" [ngSubmit]="submit()">
+    <form [formGroup]="dynamicFormulaForm">
         <!-- table -->
         <table class="table table-hover table-responsive-sd">
             <thead>
@@ -144,7 +144,7 @@
 
                 <!-- submit -->
                 <div class="card-footer text-center form-group col submit-button-container">
-                    <button class="btn btn-primary mr-1" type="submit">Submit</button>
+                    <button class="btn btn-primary mr-1" type="submit" (click)="submit()">Submit</button>
                 </div>
                 <!-- submit -->
                 
