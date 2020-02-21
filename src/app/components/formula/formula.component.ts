@@ -242,7 +242,7 @@ export class FormulaComponent implements OnInit {
   submit() {
     this.formulaPageSubmit = true;
     this.data = [{}];
-    for (let i = 0; i < this.projects_length; i++) {
+    for (let i = 0; i < this.project_length; i++) {
       this.data[i] = {field_number: this.field_number[i], field_text: this.field_text[i], field_formula: this.field_formula[i]}
     }
     console.log(this.data);

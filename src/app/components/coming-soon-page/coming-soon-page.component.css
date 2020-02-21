@@ -1,0 +1,53 @@
+body 
+{
+color: #095479;
+background: #f3f3f3;
+font-size: 12px;
+}
+	 
+a {color: #6389a1;}
+	
+.content_container 
+{
+width: 100%;
+height: 40rem;
+display: block;
+background: orangered;
+background:orangered url(../../../assets/images/pattern_bg.png) left top repeat;
+}
+.content_bg
+{
+width: 100%;
+height: 40rem;
+display: block;
+background: -moz-radial-gradient(center, circle cover, rgba(244,244,244,0.5) 0%, rgba(244,244,244,0) 60%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 50%, color-stop(0%,rgba(244,244,244,0.5)), color-stop(100%,rgba(244,244,244,0))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, circle cover, rgba(244,244,244,0.5) 0%,rgba(244,244,244,0) 60%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, circle cover, rgba(244,244,244,0.5) 0%,rgba(244,244,244,0) 60%); /* Opera 12+ */
+background: -ms-radial-gradient(center, circle cover, rgba(244,244,244,0.5) 0%,rgba(244,244,244,0) 60%); /* IE10+ */
+background: radial-gradient(center, circle cover, rgba(244,244,244,0.5) 0%,rgba(244,244,244,0) 60%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99f4f4f4', endColorstr='#00f4f4f4',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+}
+.content_bg2
+{
+width: 960px;
+height:100%;
+display: block;
+background: url(../../../assets/images/rocket.png) top right no-repeat;
+}
+	 
+
+/*========================================================================================================*/
+
+
+p.slogan
+{
+color: white;
+font: bold 60px/60px verdana, sans-serif;
+text-align:middle;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 300;
+font-display: swap;
+}
+

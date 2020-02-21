@@ -21,17 +21,17 @@ export class AlertService {
             }
         });
     }
-
+    // if the user auth. is successful(message)
     success(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
     }
-
+    // if theres an error retrieving user(message)
     error(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'error', text: message });
     }
-
+    // retrieve the message
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }

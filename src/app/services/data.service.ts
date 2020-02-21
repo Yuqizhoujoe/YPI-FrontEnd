@@ -123,6 +123,6 @@ export class DataService {
   addData(a){
     dataTable.push(a);
     
-    return(dataTable.filter(Boolean));
+    // return(dataTable.filter(Boolean));
   }
 }

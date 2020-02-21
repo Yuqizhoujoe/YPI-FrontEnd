@@ -1,25 +1,70 @@
 
+<div class="bg col-12 row ml-0 rounded shadow-lg">
+        <div class="col-3 mt-2 pb-2">
+                <div class="input-group ">
+                        <input type="text" name="searchTerm" [(ngModel)]="theservice.searchTerm" class="form-control" placeholder="Keyword" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                        <button class="btn " type="button" id="button-addon2"><i class="fab fa-searchengin"></i></button>
+                        
+                        </div>
+                        <span class="ml-3" *ngIf="theservice.loading$ | async">Loading...</span>
+                </div>
+        </div>
+        <div class="col-4 text-black p-0 mt-2 RE">
+            <h2>Resources</h2>
+        </div>
+        <div class=" p-0 mt-2 REX ">
+                <ng-template #popOptions>
+                    <div (click)="showRow()" class="dropdown-item ROW "> 
+                        <p class=""><i class=" fas fa-align-left mr-3"></i>Add Row <p>
+                    </div>
+                    <div (click)="showCol()" class=" dropdown-item ROW"> 
+                        <p class=""><i class=" fas fa-columns mr-3 "></i>Add Column</p>
+                    </div>
+                    <div (click)="importCSV()" class=" dropdown-item ROW">
+                        <p class=""><i class=" fas fa-file-import mr-3"></i>Import CSV</p> 
+                    </div>
+                </ng-template>
+                <button (click)="addCol()" *ngIf="statusCol" type="button" class="btn NEW btn-outline-success btn-success mr-2" placement="left">
+                        <i class="fas fa-check-circle"></i>
+                </button>
 
+                <button type="button" class="btn btn-outline-secondary mr-2" placement="left"
+                        [ngbPopover]="popOptions" popoverTitle="Options View">
+                        <i class="fas fa-plus-square"></i>
+                </button>
+        </div>
+</div>
     
-<table class="table table-striped">
+
+<table class="table table-hover table-striped rounded shadow-lg">
         <thead>
         <tr>
           <th scope="col"></th>
           <th scope="col" sortable="name" (sort)="onSort($event)">RESOURCE NAME</th>
           <th scope="col" sortable="codeNumber" (sort)="onSort($event)">RESOURCE CODE</th>
+          <th scope="col" sortable="newCol" (sort)="onSort($event)"[hidden]="!statusCol"><input name="inputTitle" maxlength="12" type="text"#inputColTitle></th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let li of dataList | async">
           <th scope="row"><i class="fas fa-sign-in-alt"></i></th>
           <td><ngb-highlight [result]="li.name" [term]="theservice.searchTerm"></ngb-highlight></td>
-          <td><ngb-highlight [result]="li.codeNumber " [term]="theservice.searchTerm"></ngb-highlight> </td>
+          <td><ngb-highlight [result]="li.codeNumber " [term]="theservice.searchTerm"></ngb-highlight></td>
+          <td *ngIf="statusCol"><input name="inputColTitle"  maxlength="12" type="text"class="ml-0 " ></td>
+        </tr>
+         
+        <tr  *ngIf="statusRow">
+                <th scope="row"><i class="fas fa-sign-in-alt"></i></th>
+                <td><input  maxlength="12" type="text"class="ml-0 " #inputTitle></td>
+                <td><i (click)="showRow()" class="fas fa-times-circle mr-1"></i><i (click)="addRow(inputTitle.value,inputValue.value)" class="fas fa-check-circle mr-2"></i><input  maxlength="12" type="text"class="ml-0" #inputValue></td>
         </tr>
         </tbody>
 </table>
 <div class="d-flex justify-content-between p-2 mb-5">
         <ngb-pagination
-          [collectionSize]="total | async" [(page)]="theservice.page" [pageSize]="theservice.pageSize">
+    
+          [collectionSize]="total | async" rotate="true" [(page)]="theservice.page" [pageSize]="theservice.pageSize">
         </ngb-pagination>
     
         <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="theservice.pageSize">
