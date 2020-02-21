@@ -15,8 +15,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { LoginPageComponent } from "./components/homepage/login-page/login-page.component";
 import { AppComponent as ResourcePage } from "./components/resourcePage/app/app.component";
 import { AppComponent as ProjectPage } from "./components/projectPage/app/app.component";
-import { AppComponent as FormulaPage } from "./components/formulaPage/app/app.component";
-import { AppComponent as TempletePage } from "./components/formulaPage/app/app.component";
+import { FormulaComponent } from "./components/formula/formula.component";
+import { TempleteAppComponent } from "./components/templete-app/templete-app.component";
 import { FooterComponent } from "./components/homepage/footer/footer.component";
 import { ResourceHeaderComponent } from './components/resourcePage/resource-header/resource-header.component';
 import { ResourceTableComponent } from './components/resourcePage/resource-table/resource-table.component';
@@ -43,8 +43,8 @@ import { MatListModule } from '@angular/material/list';
     LoginPageComponent,
     ResourcePage,
     ProjectPage,
-    FormulaPage,
-    TempletePage,
+    FormulaComponent,
+    TempleteAppComponent,
     FooterComponent,
     ResourceHeaderComponent,
     ResourceTableComponent,

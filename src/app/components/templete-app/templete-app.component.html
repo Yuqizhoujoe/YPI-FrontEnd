@@ -1,0 +1,145 @@
+<div class="template">
+    <!-- table to select table column -->
+    <div class="table">
+        <table class="table-responsive-md table-striped table-bordered">
+            <thead>
+              <tr>
+                  <th colspan="2">Project Scope Fields</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>name</td>
+                    <td><input type="checkbox" checked disabled/></td>
+                </tr>
+                <tr>
+                    <td>cost_code</td>
+                    <td><input type="checkbox" [(ngModel)]="cost_code" (click)="toggleTable()"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button (click)="updateTable()">Save</button>    
+    </div>
+    <!-- Form to Customize -->
+    <div class="survey-form">
+        <!-- form group dynamic form -->
+        <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+            <!-- header -->
+            <div class="card m-3">
+                <h5 class="card-header">Quantity Survey Fields</h5>
+            </div>
+
+            <!-- form array name fg -->
+            <div formArrayName="fieldGroup" class="list-group list-group-flush">
+                <!-- list group -->
+                <div class="list-group-item">
+                    <!-- form group name *ngFor --> 
+                    <div *ngFor="let field of fg.controls; let i = index" class="form-group row"  [formGroupName]="i">
+                   
+                        <div class="form-group col">
+                            <label for="fieldInput">Field</label>
+                            <input type="text" formControlName="fieldInput" #fieldInput class="form-control" required />
+                            <div *ngIf="submitted && getFieldInputValidity(i)" class="invalid-feedback d-block">
+                                <div>Field input is required</div>
+                            </div>
+                            {{ i }}
+                            submitted: {{ submitted }}
+                            invalid: {{ getFieldInputValidity(i) }}
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="type">Type</label>
+                            <select type="checkbox" formControlName="type" #type class="form-control" required (change)="popUpFormula(type.value, i)">
+                                <option [selected]="selected_number" [ngValue]="number">Number</option>
+                                <option [ngValue]="text">Text</option>
+                                <option [ngValue]="formula">Formula</option>
+                            </select>
+                            <div *ngIf="submitted && getTypeValidity(i)" class="invalid-feedback d-block">
+                                <div>Type is required</div>
+                            </div>
+                            {{ i }}
+                            submitted: {{ submitted }}
+                            invalid: {{ getTypeValidity(i) }}
+                        </div>
+
+                        <div class="form-group col">
+                            <ng-container *ngIf="showFormulaField && this.indexOfFormulaToShow.indexOf(i) !== -1">
+                                <label for="formula">Formula</label>
+                                <input type="text" formControlName="formula" #formula class="form-control" required /> 
+                                <div *ngIf="submitted && getFormulaValidity(i)" class="invalid-feedback d-block">
+                                    <div>Field input is required</div>
+                                </div> 
+                            {{ i }}
+                            submitted: {{ submitted }}
+                            invalid: {{ getFormulaValidity(i) }}
+                            </ng-container>
+                        </div>
+
+                        <div class="form-group col">
+                            <i class="fas fa-trash-alt" (click)="removeFieldGroup(i)"></i>
+                        </div> 
+
+                    </div>
+                    <!-- form group name *ngFor -->
+                    
+                </div>
+                <!-- list group -->
+                <!-- button  -->
+                <div class="button">
+
+                    <!-- submit -->
+                    <div class="card-footer text-center form-group col-6 submit-button-container">
+                        <button class="btn btn-primary mr-1" type="submit">Submit</button>
+                    </div>
+                    <!-- submit -->
+
+                    <!-- addon button -->
+                    <div class="btn add-btn" (click)="addFgFieldList()">
+                        <i class="fal fa-plus-square"></i>
+                    </div>
+                    <!-- addon button -->
+                    
+                </div>
+                <!-- button  -->
+
+            </div> 
+            <!-- form array name fg -->    
+
+        </form>
+        <!-- form group dynamic form -->
+    </div> 
+
+    <!-- Form to Customize -->
+    <!-- <form [formGroup]="quantity_survey">
+        <table class="table table-striped table-bordered form-customized">
+            <thead>
+                <tr>
+                    <th colspan="4" scope="col">Quantity Survey Fields</th>
+                </tr>
+            </thead>
+        </table>
+        <ng-container>
+            <tbody>
+                <tr>
+                    <td>
+                        <label>Field</label>
+                        <input type="text" formControlName="field" required>
+                    </td>
+                    <td>
+                        <label class="mr-sm-2" for="inlineFormCustomSelect">Type</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="type">
+                            <option value="" selected disabled>Choose the type</option>
+                            <option *ngFor="let type of types" [ngValue]="type">{{type}}</option>
+                        </select>
+                    </td>
+                    <td class="white-space" formControlName="white_space"></td>
+                    <td>
+                        <i class="fas fa-trash-alt" formControlName="delete"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </ng-container>
+    </form>
+ -->
+</div>
+<!-- end of template -->

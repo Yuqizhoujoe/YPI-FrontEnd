@@ -5,7 +5,7 @@ import {newArray} from '@angular/compiler/src/util';
 @Injectable({
   providedIn: 'root'
 })
-export class AppService {
+export class ProjectService {
 
   projectData = [];
   dataChecked = [];

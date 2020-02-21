@@ -1,0 +1,81 @@
+.template {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.table {
+    width: 40%;
+}
+
+.survey-form {
+    width: 100%;
+    margin-bottom: 5rem;
+}
+
+.form-group.row {
+    display: flex;
+    align-items: center;
+}
+
+.table-striped {
+    width: 300px;
+}
+
+tr, td, th {
+    padding: 1rem;
+}
+
+.white-space {
+    width: 6rem;
+}
+
+label {
+    display: block;
+    margin: .5em 0;
+}
+
+input {
+    height: 2em;
+    font-size: 1em;
+}
+
+.fa-trash-alt {
+    background-color: rgb(253, 173, 81);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 10%;
+}
+
+/* button */
+.button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: right;
+    align-items: flex-end;
+    text-align: right;
+    justify-content: right;
+}
+
+.submit-button-container {
+    width: 100%;
+    background: transparent;
+}
+
+.btn.btn-primary {
+    float: right;
+}
+
+.addon-button {
+    width: 100%;
+}
+
+.fal.fa-plus-square {
+    font-size: 2rem;
+}
+
+/* handle error */
+.invalid-feedback {
+    display: block;
+}

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {range} from 'rxjs';
 import {newArray} from '@angular/compiler/src/util';
 import {dataTable} from '../../../../assets/dataTable.js';
-import {AppService} from './app.service';
+import {ProjectService} from './project.service';
 
 @Component({
   selector: 'app-app',
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(appService: AppService) {
+  constructor(appService: ProjectService) {
     // variables initialazation
     this.projectData = appService.projectData;
     this.projects = appService.projects
