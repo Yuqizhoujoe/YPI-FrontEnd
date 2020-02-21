@@ -16,7 +16,7 @@ input:focus{
     background-color: lightyellow;
 }
 input[type=checkbox]{
-    width:20vw;
+    width:20rem;
     height: 75%;
 }
 h1{
@@ -35,7 +35,7 @@ p{
     margin-top: -3vh;
 }
 .LOG-SIGNUP {
-    width: 37%;
+    width: 5rem;
     background-color: orangered;
     color: ghostwhite;
 }
