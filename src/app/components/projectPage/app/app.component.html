@@ -1,1 +1,112 @@
-<p>THIS IS THE PROJECTS PAGE IAN</p>
+
+<div><h1 class="projectTitle">{{projectName}}</h1></div>
+
+<div class = "selectButton">
+  <select class ="selectProject" (change)="switchProject($event)">
+    <option></option>
+    <option *ngFor="let project of projects" [value]="project.projectName" >
+      <span >{{project.projectName}}</span>
+    </option>
+  </select>
+</div>
+
+<div class="showTable">
+  <!--Left Table  -->
+  <table class="left table-fixed">
+
+    <caption>
+      <span class="tableTitle">Resource Catalog</span>
+      <!--Export button  -->
+      <span>
+        <button type="button" class="iconButton" name="export" (click)="transferToShow()"><i class="fas fa-share"></i></button>
+      </span>
+      <!--Dropdown option  -->
+      <span  class="dropdown">
+          <button type="button" class="dropbtn"><i class="fa fa-bars"></i></button>
+          <div class="dropdown-content table-responsive">
+            <!--Select all  -->
+            <a><input type="checkbox" [(ngModel)]="checkAll" (change)="selectAll($event)"> Select All</a>
+            <!--clear selection -->
+            <a><input type="checkbox" [(ngModel)]="uncheckAll" (change)="unselectAll($event)"> Clear Selection</a>
+          </div>
+      </span>
+
+    </caption>
+    <!--Left Table head -->
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Project Code</th>
+      </tr>
+    </thead>
+    <!--Left Table body -->
+    <tbody class="left">
+      <ng-container *ngFor="let data of projectData[page] ; let i = index">
+        <tr *ngIf="data != null">
+          <td class ="projectLeft">
+            <span class="dataField"><i class="fas fa-caret-right"></i></span>
+            <span><input type="checkbox" [ngModel]="dataChecked[page*itemPerPage + i]" (change)="changeMade($event,data)"></span>
+            <span > {{data.name}}</span>
+          </td>
+          <td class ="projectLeft">
+            <span class="dataField">{{data.codeNumber}}</span>
+          </td>
+        </tr>
+
+        <tr *ngIf="data == null">
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <!--Right Table  -->
+  <table class="right" >
+    <caption>Project
+      <!--Trash button  -->
+      <button type="button" class="iconButton" name="trash" (click)="deleteFromShow()"><i class="fas fa-trash-alt"></i></button>
+    </caption>
+    <!--Right Table  head-->
+    <thead>
+    <tr>
+      <th>Project Name</th>
+      <th>Project Code</th>
+    </tr>
+    </thead>
+    <!--Right Table  body-->
+    <tbody class = "right" ><ng-container *ngFor="let data of show">
+      <tr *ngIf="data != null">
+        <td class ="projectRight">
+          <span class="dataField"><i class="fas fa-caret-right"></i></span>
+          <span ><input type="checkbox" (change)="changeMadeToDelete($event,data)"></span>
+          <span> {{data.name}}</span>
+        </td>
+        <td class ="projectRight">
+          <span class="dataField">{{data.codeNumber}}</span>
+        </td>
+      </tr>
+
+      <tr *ngIf="data == null">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </ng-container></tbody>
+  </table>
+
+</div>
+
+<div>
+  <!--resource link button -->
+  <a class="resourceLink">Edit Resource</a>
+
+  <!--page number -->
+  <div class="pageNumber">
+  <ul class="pagination" *ngFor="let element of projectData; let i = index">
+    <span><button type="button" (click)="setPage(i)">{{i+1}}</button></span>
+  </ul>
+</div>
+  <!--submit button -->
+  <button type="submit" class="submitButton" (click)="submitProject()">Submit</button>
+</div>
+

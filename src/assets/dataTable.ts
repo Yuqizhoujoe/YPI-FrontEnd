@@ -1,6 +1,12 @@
+<<<<<<< HEAD:src/assets/dataTable.js
 
 
 export const dataTable = [
+=======
+import {DATA} from '.././app/models/DATA';
+
+export const dataTable: DATA[] = [
+>>>>>>> 4fed1eaf5e43b2649c2b2528e96304a1188e5fd3:src/assets/dataTable.ts
   {
     codeNumber: "000000",
     name: "General Conditions"
