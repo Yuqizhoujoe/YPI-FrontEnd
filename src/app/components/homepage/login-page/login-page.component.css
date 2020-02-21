@@ -4,19 +4,19 @@ div{
 
 .LOG-TITLE{
     color: orangered;
-    width: 23vw;
+    width: 20rem;
 } 
 .LOG-FIELD{
     margin-left: 0vh;
 }
 input{
-    width:20vw ;
+    width:16rem ;
 }
 input:focus{
     background-color: lightyellow;
 }
 input[type=checkbox]{
-    width:20rem;
+    width:16rem;
     height: 75%;
 }
 h1{
@@ -26,7 +26,7 @@ p{
     margin-top: -10vh;
 }
 .LOG-LOGIN{
-    width: 20vw;
+    width: 16rem;
     background-color: orangered;
     color: ghostwhite;
    

@@ -1,17 +1,17 @@
 
     
-        <nav class="navbar navbar-fixed-top navbar-expand-lg bg">
+        <nav class="navbar navbar-fixed-top navbar-expand-md bg">
 
           
             <div class="HEADER-ROW mb-2">
                     <div class="">
-                            <a class="navbar-brand H p-1" [routerLink]="['/']" routerLinkActive="router-link-active">
+                            <a class="navbar-brand H p-1" [routerLink]="['/homePage']" routerLinkActive="router-link-active">
                                 <i class="fas fa-th-large NAV-ICON mr-2"></i> 
                                     Resources Management
                              </a>
                     </div>
             </div>
-            <div class="H-RIGHT">
+            <div class="H-RIGHT row">
                 <ng-template class="" #popTitle>
                 <div class="jumbotron  bg-dark p-5 text-white">
                         <div class="row justify-content-center mb-0"><h1>Manager</h1> </div>
@@ -34,11 +34,11 @@
                                 
                 </ng-template>
 
-                <button type="button" class="btn mr-2 " placement="bottom"  click=""
+                <button type="button" class="btn " placement="bottom"  click=""
                         [ngbPopover]="popButtons" [popoverTitle]="popTitle" popoverClass=" card bg-secondary">
                         <i class="fas fa-user-astronaut H-ICON-USER "></i>
                 </button>
-                <button type="button" class="btn mr-2" placement="bottom" 
+                <button type="button" class="btn " placement="bottom" 
                         ngbPopover="Questions??" popoverTitle="Contact ADMIN">
                         <i class="far fa-question-circle H-ICON-USER ml-5"></i>
                 </button>  
