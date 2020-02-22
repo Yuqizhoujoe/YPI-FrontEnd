@@ -17,6 +17,7 @@ export class ResourceTableComponent implements OnInit {
   theservice:any;
   statusRow:boolean = false;
   statusCol:boolean = false;
+  statusColTitle:boolean = false;
   rowContent:any;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   
@@ -47,6 +48,7 @@ export class ResourceTableComponent implements OnInit {
   
   showRow(){
     this.statusCol = false;
+    this.statusColTitle = false;
     if (!this.statusRow) {
       this.statusRow = true;
     }else 
@@ -66,15 +68,21 @@ export class ResourceTableComponent implements OnInit {
     this.statusRow = false;
     if (!this.statusCol) {
       this.statusCol = true;
+      this.statusColTitle = true;
     }else 
     if (this.statusCol) {
       this.statusCol = false;
+      this.statusColTitle = false;
     }
   }
   
-  addCol(){
+  addCol(a:any){
+    this.theservice.addColData(a);
+    console.log(a);
     this.statusCol = false;
   }
+
+
 
   importCSV(){
 

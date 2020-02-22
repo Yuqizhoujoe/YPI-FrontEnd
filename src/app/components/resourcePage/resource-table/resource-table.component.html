@@ -25,7 +25,7 @@
                         <p class=""><i class=" fas fa-file-import mr-3"></i>Import CSV</p> 
                     </div>
                 </ng-template>
-                <button (click)="addCol()" *ngIf="statusCol" type="button" class="btn NEW btn-outline-success btn-success mr-2" placement="left">
+                <button (click)="addCol(inputColTitle.value)" *ngIf="statusCol" type="button" class="btn NEW btn-outline-success btn-success mr-2" placement="left">
                         <i class="fas fa-check-circle"></i>
                 </button>
 
@@ -43,7 +43,7 @@
           <th scope="col"></th>
           <th scope="col" sortable="name" (sort)="onSort($event)">RESOURCE NAME</th>
           <th scope="col" sortable="codeNumber" (sort)="onSort($event)">RESOURCE CODE</th>
-          <th scope="col" sortable="newCol" (sort)="onSort($event)"[hidden]="!statusCol"><input name="inputTitle" maxlength="12" type="text"#inputColTitle></th>
+          <th scope="col" sortable="inputColTitle.value" (sort)="onSort($event)"[hidden]="!statusColTitle"><input name="inputTitle" maxlength="12" type="text"#inputColTitle></th>
         </tr>
         </thead>
         <tbody>
@@ -51,7 +51,8 @@
           <th scope="row"><i class="fas fa-sign-in-alt"></i></th>
           <td><ngb-highlight [result]="li.name" [term]="theservice.searchTerm"></ngb-highlight></td>
           <td><ngb-highlight [result]="li.codeNumber " [term]="theservice.searchTerm"></ngb-highlight></td>
-          <td *ngIf="statusCol"><input name="inputColTitle"  maxlength="12" type="text"class="ml-0 " ></td>
+          <td [hidden]="statusCol" ><ngb-highlight [result]="li[inputColTitle.value]" [term]="theservice.searchTerm"></ngb-highlight></td>
+          <td *ngIf="statusCol"><input name="inputColTitle"  maxlength="12" type="text"class="ml-0 " #inputColTitle></td>
         </tr>
          
         <tr  *ngIf="statusRow">
