@@ -1,5 +1,5 @@
 i {
-    font-size: 170%;
+    font-size: 300%;
 }
 
 .H-ICON-USER{
@@ -10,11 +10,12 @@ i {
 }
 
 .HEADER-ROW{
-    background-color: orangered;
+	background-color: orangered;
+	height: 100%;
 }
 
 .H-RIGHT{
-	margin-left: 55%;
+	margin-left: 45%;
 	
 }
 
@@ -31,5 +32,14 @@ i:link, i:visited{
 i:hover, i:active {
 	color:rgba(232, 65, 24,1.0);
 	border-bottom: 1.5px solid #fff;
-	padding-bottom: 5px;
+	
+}
+.bg{
+	background-color: lightgray;
+	height: 5rem;
+}
+
+label{
+	margin-left: -3%;
+	width: 8rem;
 }

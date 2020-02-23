@@ -123,6 +123,14 @@ export class DataService {
   addData(a){
     dataTable.push(a);
     
-    return(dataTable.filter(Boolean));
+    // return(dataTable.filter(Boolean));
+  }
+  addColData(a){
+    console.log(a);
+    // dataTable.map(obj=> ({ ...obj, a: '' }));
+    dataTable.forEach(function (element) {
+      element[`${a}`] = "false";
+    });
+    console.log(dataTable);
   }
 }

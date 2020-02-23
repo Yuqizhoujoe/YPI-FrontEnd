@@ -15,6 +15,10 @@ export class ResourceTableComponent implements OnInit {
   dataList:Observable<DATA[]>;
   total: Observable<number>;
   theservice:any;
+  statusRow:boolean = false;
+  statusCol:boolean = false;
+  statusColTitle:boolean = false;
+  rowContent:any;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   
   constructor(private service:DataService) {
@@ -41,6 +45,47 @@ export class ResourceTableComponent implements OnInit {
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
   }
+  
+  showRow(){
+    this.statusCol = false;
+    this.statusColTitle = false;
+    if (!this.statusRow) {
+      this.statusRow = true;
+    }else 
+    if (this.statusRow) {
+      this.statusRow = false;
+    }
+    
+  }
+  addRow(a:any,b:any){
+    this.rowContent = {codeNumber: b,name: a};
+    this.theservice.addData(this.rowContent);
+    console.log(this.rowContent);
+    this.statusRow = false;
+  }
 
+  showCol(){
+    this.statusRow = false;
+    if (!this.statusCol) {
+      this.statusCol = true;
+      this.statusColTitle = true;
+    }else 
+    if (this.statusCol) {
+      this.statusCol = false;
+      this.statusColTitle = false;
+    }
+  }
+  
+  addCol(a:any){
+    this.theservice.addColData(a);
+    console.log(a);
+    this.statusCol = false;
+  }
+
+
+
+  importCSV(){
+
+  }
 
 }
