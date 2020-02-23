@@ -13,9 +13,11 @@
     margin-bottom: 5rem;
 }
 
-.form-group.row {
+.field-container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    justify-items: center;
 }
 
 .table-striped {
@@ -45,6 +47,7 @@ input {
     color: #fff;
     padding: 1rem;
     border-radius: 10%;
+    cursor: pointer;
 }
 
 /* button */
@@ -58,21 +61,45 @@ input {
     justify-content: right;
 }
 
+
+/* submit btn */
 .submit-button-container {
+    border: none;
+    margin-top: 1rem;
     width: 100%;
+    position: relative;
     background: transparent;
 }
 
-.btn.btn-primary {
-    float: right;
+.btn-primary {
+    position: absolute;
+    right: 4rem;
 }
 
-.addon-button {
-    width: 100%;
+/* add on btn */
+.add-on-btn {
+    position: relative; 
+    cursor: pointer;
+    margin-bottom: 4rem;
 }
 
-.fal.fa-plus-square {
+.fa-plus-square {
     font-size: 2rem;
+    background-color: rgb(253, 173, 81);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 10%;
+    position: absolute;
+    right: 3.3rem;
+}
+
+/* delete btn */
+.delete-btn {
+    margin-left: 3rem;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
 }
 
 /* handle error */

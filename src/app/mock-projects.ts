@@ -19,7 +19,7 @@ import { DATA } from './models/DATA';
     ]}
 ] */
 
-export const PROJECTS: DATA[] = dataTable.map(function(element, index) {
+export const PROJECTS: DATA[] = dataTable.map(function(element) {
     return element; 
 });
 
