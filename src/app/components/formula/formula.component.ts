@@ -18,22 +18,24 @@ import { ProjectService } from '../../services/project.service'
 export class FormulaComponent implements OnInit {
   // set projects array 
   projects: any[];
+  defaultProjects: any[];
   project = {
     projectName: '',
     data: []
   };
-  project_length: number;
 
   // set table_name array
   tables: string[];
-  name: boolean = true;
-  cost_code: boolean = true;
+  display_cost_code: boolean = true;
   
   // field from template page
   fields: any[] = [];
   field_type = [];
   field_formula_string = [];
   field_name = [];
+  field_number_length: number = 0;
+  field_text_length: number = 0;
+  field_formula_length: number = 0;
   showField: boolean = false;
   field_number = [[]];
   field_text = [[]];
@@ -53,11 +55,31 @@ export class FormulaComponent implements OnInit {
   ngOnInit() {
     // get project items
     this.getProjectsAtFirst();
-    this.showProjectOne();
-
+    // get default project items
+    this.getDefaultProjects();
+    // display default project items
+    this.showDefaultProjects();
     // get table name
     this.getTable();
+    // create dynamic form with name and cost_code form control  
+    this.createaDynamicFormAtFirst();
+    // get the field data from template page 
+    this.getFieldFromTemplate();
+    
+  }
 
+  // get projects from project page
+  getProjectsAtFirst(){
+    this.formulaService.getProjects().subscribe(projects=>this.projects=projects);
+    console.log("get the data from formular Service");
+  }
+
+  // get default projects to display at the formula page
+  getDefaultProjects(){
+    this.formulaService.getDefaultProjects().subscribe(defaultProjects=>this.defaultProjects=defaultProjects);
+  }
+
+  createaDynamicFormAtFirst(){
     // assign the dynamicFormulaForm as form group
     this.dynamicFormulaForm = this.fb.group({
       formArrayForFormula: this.fb.array([]),
@@ -66,17 +88,7 @@ export class FormulaComponent implements OnInit {
     // assign the formArrayForFormula as FormArray
     this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
 
-    // push project items' name and cost_code to formArrayForFormula
-    /* this.projects.map(project => {
-      let project_name = this.fb.control({value: project.name, disabled: true});
-      let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
-      let form_group = this.fb.group({
-        name: project_name,
-        cost_code: project_cost_code
-      })
-      this.formArrayForFormula.push(form_group);
-    }); */
-
+    // create form control and form group 
     this.project.data.map(project => {
       let project_name = this.fb.control({value: project.name, disabled: true});
       let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
@@ -84,33 +96,40 @@ export class FormulaComponent implements OnInit {
         name: project_name,
         cost_code: project_cost_code
       })
+      // push the form group into form array
       this.formArrayForFormula.push(form_group);
-    })
-    
-    this.getFieldFromTemplate();
+    });
     
   }
 
-  // get projects from project page
-  getProjectsAtFirst(){
-    this.formulaService.getProjects().subscribe(projects=>this.projects=projects);
-  }
-
-  // display data of project 1 
-  showProjectOne(){
-    this.project.projectName = this.projects[0].projectName;
-    this.project.data = this.projects[0].data;
-    this.project_length = this.project.data.length;
+  // display default project 
+  showDefaultProjects(){
+    this.project.projectName = 'Default Projects';
+    this.project.data = this.defaultProjects;
   }
 
   // show project name in drop down
   switchProject(event:any){
+    // if the event.target.value match one of the projectName, then display the data under the projectName
     for (let i = 0; i < this.projects.length; i++) {
       if (this.projects[i]['projectName'] === event.target.value) {
-        this.project['projectName'] = this.projects[i].name;
-        this.project['data'] = this.projects[i].codeNumber;
+        this.project.projectName = this.projects[i]['projectName'];
+        this.project.data = this.projects[i]['data'];
       }
     }
+    // if choose nothing, display default project items
+    if (event.target.value === '') {
+      this.showDefaultProjects();
+    }
+
+    // if have not get the data from template page, then create dynamic form with name and cost_code form control
+    // if already got the data from template page, then recreate dynamic form with new form control field_array
+    if (this.fields.length === 0) {
+      this.createaDynamicFormAtFirst();
+    } else if (this.fields.length !== 0){
+      this.createDynamicFormAfterTemplate();
+    }
+    
   } 
 
   getTable() {
@@ -120,12 +139,8 @@ export class FormulaComponent implements OnInit {
   }
 
   checkTableCol(){
-    if (this.tables.indexOf('NAME') == -1) {
-      this.name = false;
-    }
-
     if (this.tables.indexOf('COST_CODE') == -1) {
-      this.cost_code = false;
+      this.display_cost_code = false;
     }
 
     this.tables = [...new Set(this.tables)];
@@ -135,10 +150,9 @@ export class FormulaComponent implements OnInit {
   getFieldFromTemplate(){
     this.formulaService.sendFieldToFormulaPage().subscribe(fields=>this.fields=fields);
     if (this.fields.length !== 0) {
-      this.fillDummyToFieldArray();
-      console.log("field data from template");
-      console.log(this.fields);
       // if we get the fields, then we push the field.fieldInput, which will be the name of the table, into tables array
+      console.log("this.fields");
+      console.log(this.fields);
       this.fields.map(elem => {
         this.tables.push(elem['fieldInput']);
         // check the column name of table
@@ -149,62 +163,77 @@ export class FormulaComponent implements OnInit {
         if (elem['formula'] !== undefined) {
           this.field_formula_string.push(elem['formula']);
         }
-        // get field input name 
-        if (elem['type'] !== 2) {
-          this.field_number.push(elem['fieldInput']);
+        // get the number of field_number
+        if (elem['type'] === 0) {
+          this.field_number_length += 1;
+        } 
+        if (elem['type'] === 1) {
+          this.field_text_length += 1;
+        } 
+        if (elem['type'] === 2) {
+          this.field_formula_length += 1;
         }
       });
       // if get data from template, then display the columns
-      this.showField = true;  
-      // recreate dynamicFormulaForm form group and formArrayForFormula form array
-      this.dynamicFormulaForm = this.fb.group({
-        formArrayForFormula: this.fb.array([]),
+      this.showField = true;
+      // if get the field data successfully 
+      // recreate dynamic form with new form control field_array
+      this.createDynamicFormAfterTemplate();
+    }  
+  }
+
+  createDynamicFormAfterTemplate(){
+    this.fillDummyToFieldArray();
+    // recreate dynamicFormulaForm form group and formArrayForFormula form array
+    this.dynamicFormulaForm = this.fb.group({
+      formArrayForFormula: this.fb.array([]),
+    });
+    // assign this.formArrayForFormula to this.dynamicFormulaForm.get('formArrayForFormula') 
+    this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
+    // map each element of data array inside the project
+    this.project.data.map(project => {
+      // declare project_name variable to a form builder control
+      let project_name = this.fb.control({value: project.name, disabled: true});
+      // declare project_cost variable to a form builder control
+      let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
+      // declare field_array variable to a form builder array
+      let field_array = this.fb.array([]);
+      // map each element of fields
+      this.fields.map(field=>{
+        // store each element of fields to form builder control 
+        let field_inputs = this.fb.control({value:''});
+        // push each form builder control to field array
+        field_array.push(field_inputs);
       });
-      // assign this.formArrayForFormula to this.dynamicFormulaForm.get('formArrayForFormula') 
-      this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
-      // map each element of data array inside the project
-      this.project.data.map(project => {
-        // declare project_name variable to a form builder control
-        let project_name = this.fb.control({value: project.name, disabled: true});
-        // declare project_cost variable to a form builder control
-        let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
-        // declare field_array variable to a form builder array
-        let field_array = this.fb.array([]);
-        // map each element of fields
-        this.fields.map(field=>{
-          // store each element of fields to form builder control 
-          let field_inputs = this.fb.control({value:''});
-          // push each form builder control to field array
-          field_array.push(field_inputs);
-        });
-        // assign field_array, which contains form builder controls, to formArrayForTemplate 
-        this.formArrayForTemplate = field_array;
-        // build up a new form group to store project_name form control, project_cost_code form control, and formArrayForTemplate form array
-        let form_group = this.fb.group({
-          name: project_name,
-          cost_code: project_cost_code,
-          field_arrays: this.formArrayForTemplate
-        });
-        // push form group to formArrayForFormula
-        this.formArrayForFormula.push(form_group);
+      // assign field_array, which contains form builder controls, to formArrayForTemplate 
+      this.formArrayForTemplate = field_array;
+      // build up a new form group to store project_name form control, project_cost_code form control, and formArrayForTemplate form array
+      let form_group = this.fb.group({
+        name: project_name,
+        cost_code: project_cost_code,
+        field_arrays: this.formArrayForTemplate
       });
-    console.log("field types");
-    console.log(this.field_type);
-    }
+      // push form group to formArrayForFormula
+      this.formArrayForFormula.push(form_group);
+    });
+    console.log(this.formArrayForFormula.controls);
   }
 
   // formula calculation when click
-  formulaCalculation(i: number,a: number){
+  formulaCalculation(i: number){
     let mathOperator = '';
+    console.log("field formula string when do the calculation");
     console.log(this.field_formula_string);
     this.field_formula_string.map(val => {
       let str = val.split(" ");
       for (let i = 0; i < str.length; i++) {
-        console.log(str[i]);
         mathOperator += str[i];
       }
     });
+    // get the arithmetic operator from the string by using regular expression
     mathOperator = mathOperator.replace(/[a-zA-Z ]/g, "");
+
+    // try to do the math calculation for all the field_numbers in each row  
     let result = 0;
     let string = '';
     for (let j = 0; j < this.field_number[i].length; j++) {
@@ -212,40 +241,50 @@ export class FormulaComponent implements OnInit {
     }
     string = string.replace(' ', mathOperator);
     result = eval(string);
-    this.field_formula[i][a] = parseInt(this.field_formula[i][a]);
-    this.field_formula[i][a] = 0;
-    this.field_formula[i][a] = result;
+
+    // try to get the position of field_formula in the row
+    let field_formula_position = 0;
+    for (let i = 0; i < this.field_type.length; i++) {
+      if (this.field_type[i] == 2) {
+        field_formula_position = i;
+        console.log(i);
+      }
+    }
+    this.field_formula[i][field_formula_position] = 0;
+    this.field_formula[i][field_formula_position] = result;
   }
 
   // fill dummy data into field_number, field_text, and field_formula 2 layers array
   fillDummyToFieldArray(){
     // field_number
    /*  this.field_number = new Array(this.project_length).fill(null); */
-    for (let j = 0; j < this.project_length; j++) {
-      this.field_number[j] = new Array(1).fill(null);
+    for (let j = 0; j < this.project.data.length; j++) {
+      this.field_number[j] = new Array(this.field_number_length).fill(null);
     }
-
+    console.log(this.field_number);
     // field_text
     /* this.field_text = new Array(this.project_length).fill(null); */
-    for (let j = 0; j < this.project_length; j++) {
-      this.field_text[j] = new Array(1).fill(null);
+    for (let j = 0; j < this.project.data.length; j++) {
+      this.field_text[j] = new Array(this.field_text_length).fill(null);
     }
-
     // field_formula
     /* this.field_formula = new Array(this.projects_length).fill(null); */
-    for (let j = 0; j < this.project_length; j++) {
-      this.field_formula[j] = new Array(1).fill(null);
+    for (let j = 0; j < this.project.data.length; j++) {
+      this.field_formula[j] = new Array(this.field_formula_length).fill(null);
     }
-
+    console.log(this.field_formula);
   }
 
   submit() {
     this.formulaPageSubmit = true;
     this.data = [{}];
-    for (let i = 0; i < this.project_length; i++) {
-      this.data[i] = {field_number: this.field_number[i], field_text: this.field_text[i], field_formula: this.field_formula[i]}
+    for (let i = 0; i < this.project.data.length; i++) {
+      this.data[i] = {
+        field_number: this.field_number[i], 
+        field_text: this.field_text[i], 
+        field_formula: this.field_formula[i]}
     }
-    console.log(this.data);
+    alert(JSON.stringify(this.data));
   }
 
   /* createFormGroupForFormula(name: string, cost_code: string){

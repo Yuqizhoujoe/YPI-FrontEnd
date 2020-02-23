@@ -15,6 +15,7 @@ export class FormulaService {
 
   // formula page
   projects: any[];
+  defaultProjects: any[];
   sub_projects: SubProject[];
   TABLES = TABLE;
   table: string[];
@@ -38,6 +39,11 @@ export class FormulaService {
   getProjects(): Observable<any[]>{
     this.projects = this.projectService.projects;
     return of(this.projects);
+  }
+
+  getDefaultProjects(): Observable<any[]>{
+    this.defaultProjects = PROJECTS.slice(0,7);
+    return of(this.defaultProjects);
   }
 
   /* getSubProject(project:Project | number): Observable<SubProject[]> {
