@@ -1,5 +1,5 @@
 export interface DATA {
-  a: string;
+  /* a: string; */
   codeNumber: any,
   name: string
 }

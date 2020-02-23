@@ -151,8 +151,6 @@ export class FormulaComponent implements OnInit {
     this.formulaService.sendFieldToFormulaPage().subscribe(fields=>this.fields=fields);
     if (this.fields.length !== 0) {
       // if we get the fields, then we push the field.fieldInput, which will be the name of the table, into tables array
-      console.log("this.fields");
-      console.log(this.fields);
       this.fields.map(elem => {
         this.tables.push(elem['fieldInput']);
         // check the column name of table
@@ -167,9 +165,11 @@ export class FormulaComponent implements OnInit {
         if (elem['type'] === 0) {
           this.field_number_length += 1;
         } 
+        // get the number of field_type
         if (elem['type'] === 1) {
           this.field_text_length += 1;
         } 
+        // get the number of field_formula
         if (elem['type'] === 2) {
           this.field_formula_length += 1;
         }
@@ -200,8 +200,13 @@ export class FormulaComponent implements OnInit {
       let field_array = this.fb.array([]);
       // map each element of fields
       this.fields.map(field=>{
-        // store each element of fields to form builder control 
-        let field_inputs = this.fb.control({value:''});
+        let field_inputs;
+        if (field['type'] === 2) {
+          field_inputs = this.fb.control({value:'', disabled:true});
+        } else {
+          // store each element of fields to form builder control 
+          field_inputs = this.fb.control({value:''});
+        }
         // push each form builder control to field array
         field_array.push(field_inputs);
       });
@@ -216,14 +221,11 @@ export class FormulaComponent implements OnInit {
       // push form group to formArrayForFormula
       this.formArrayForFormula.push(form_group);
     });
-    console.log(this.formArrayForFormula.controls);
   }
 
   // formula calculation when click
   formulaCalculation(i: number){
     let mathOperator = '';
-    console.log("field formula string when do the calculation");
-    console.log(this.field_formula_string);
     this.field_formula_string.map(val => {
       let str = val.split(" ");
       for (let i = 0; i < str.length; i++) {
@@ -247,9 +249,10 @@ export class FormulaComponent implements OnInit {
     for (let i = 0; i < this.field_type.length; i++) {
       if (this.field_type[i] == 2) {
         field_formula_position = i;
-        console.log(i);
       }
     }
+    console.log("formulaCalculation");
+    console.log(this.field_formula);
     this.field_formula[i][field_formula_position] = 0;
     this.field_formula[i][field_formula_position] = result;
   }
@@ -272,7 +275,6 @@ export class FormulaComponent implements OnInit {
     for (let j = 0; j < this.project.data.length; j++) {
       this.field_formula[j] = new Array(this.field_formula_length).fill(null);
     }
-    console.log(this.field_formula);
   }
 
   submit() {
@@ -280,9 +282,11 @@ export class FormulaComponent implements OnInit {
     this.data = [{}];
     for (let i = 0; i < this.project.data.length; i++) {
       this.data[i] = {
-        field_number: this.field_number[i], 
+        field_number: this.field_number[i].map((val) => {return parseInt(val)}), 
         field_text: this.field_text[i], 
-        field_formula: this.field_formula[i]}
+        field_formula: this.field_formula[i].filter((val)=>{
+          return val !== null;
+        })}
     }
     alert(JSON.stringify(this.data));
   }

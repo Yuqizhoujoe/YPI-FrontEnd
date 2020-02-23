@@ -72,7 +72,7 @@
 -->
 
 <!-- reactive form -->
- <!-- Form to Customize -->
+<!-- Form to Customize -->
 <div class = "selectButton">
     <select class ="selectProject" (change)="switchProject($event)">
         <option></option>
@@ -124,27 +124,27 @@
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
                                         [(ngModel)]="field_number[i][a]" 
                                         (change)="formulaCalculation(i)" />
-                                        i: {{ i }}
+                                        <!-- i: {{ i }}
                                         j: {{ j }}
-                                        field_number: {{ field_number[i][a] }}
+                                        field_number: {{ field_number[i][a] }} -->
                                     </td>
                                 </ng-container>
                                 <!-- text type -->
                                 <ng-container *ngIf="field_type[a] === 1">
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" [(ngModel)]="field_text[i][a]" />
-                                        i: {{ i }}
+                                        <!-- i: {{ i }}
                                         j: {{ j }}
-                                        field_text: {{ field_text[i][a] }}
+                                        field_text: {{ field_text[i][a] }} -->
                                     </td>
                                 </ng-container>
                                 <!-- formula type this.formArrayForFormula() -->
                                 <ng-container *ngIf="field_type[a] === 2">
                                     <td>
-                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" [(ngModel)]="field_formula[i][a]" />
-                                        i: {{ i }}
+                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" [value]="field_formula[i][a]" />
+                                        <!-- i: {{ i }}
                                         j: {{ j }}
-                                        field_formula: {{ field_formula[i][a] }}
+                                        field_formula: {{ field_formula[i][a] }} -->
                                     </td>
                                 </ng-container>
                             </ng-container>
