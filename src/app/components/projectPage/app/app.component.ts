@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   deleteSelected;
   show;
   dataChecked;
+  tableKeys;
   checked: boolean;
   checkAll: boolean;
   uncheckAll: boolean;
@@ -43,7 +44,6 @@ export class AppComponent implements OnInit {
   getProjects;
 
 
-
   constructor(appService: ProjectService) {
     // variables initialazation
     this.projectData = appService.projectData;
@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
     this.selected = appService.selected;
     this.deleteSelected = appService.deleteSelected;
     this.dataChecked = appService.dataChecked;
+    this.tableKeys = appService.tableKeys;
     this.checkAll = appService.checkAll;
     this.uncheckAll = appService.uncheckAll;
     this.page = appService.page;
@@ -71,6 +72,7 @@ export class AppComponent implements OnInit {
 
     // getter initialazations
     this.getProjects = appService.getProjects;
+
   }
   ngOnInit(): void {
   }

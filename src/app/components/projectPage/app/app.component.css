@@ -78,17 +78,18 @@ td{
   float: right;
   margin-right: 3%;
   margin-left: -8%;
-
+  overflow-x: visible !important;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
+
   background-color: #f1f1f1;
   min-width: 9em;
   text-align: left;
-  font-size: x-small;
-  overflow: visible !important;
+  font-size: small;
+  overflow-x: visible !important;
 
 }
 
@@ -103,13 +104,14 @@ td{
 .table-responsive{
   overflow-x: visible !important;
   overflow-y: visible !important;
+
 }
 
 .dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.projectName, .projectCode{
+.projectName, .projectCode, dataColumn{
   margin-right: 1%;
 }
 

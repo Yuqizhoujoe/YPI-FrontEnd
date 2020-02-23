@@ -12,6 +12,7 @@ export class ProjectService {
   selected = [];
   deleteSelected = [];
   show = [];
+  tableKeys = [];
   projects = [{projectName: 'project1', data: []},
     {projectName: 'project2', data: []},
     {projectName: 'project3', data: []}];
@@ -80,6 +81,15 @@ export class ProjectService {
     this.dataChecked = newArray(dataTable.length);
     this.dataChecked.fill(false);
     //console.log(this.dataChecked);
+
+    // get table keys
+    this.tableKeys = Object.keys(dataTable[0]);
+    const tempKey = this.tableKeys[0];
+    this.tableKeys[0] = this.tableKeys[1];
+    this.tableKeys[1] = tempKey;
+    this.tableKeys[2] = 'extra1';
+    //this.tableKeys[3] = 'extra2';
+    console.log(this.tableKeys);
   }
 
   /*
@@ -225,4 +235,5 @@ export class ProjectService {
 
     console.log(this.projects);
   }
+
 }
