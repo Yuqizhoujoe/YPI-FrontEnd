@@ -1,10 +1,12 @@
 .selectProject{
-  float: right;
+float:right;
 }
 .projectTitle{
   text-align: center;
 }
-
+.userInput{
+  width: 8em;
+}
 table{
   width: 49%;
   height: 41em;
@@ -23,7 +25,7 @@ table.left{
 }
 
 table.right{
-  margin-top: 1.5em;
+  margin-top: 1.2em;
   margin-left: 2%;
 }
 
@@ -76,10 +78,13 @@ td{
   position: relative;
   display: inline-block;
   float: right;
-  margin-right: 3%;
-  margin-left: -8%;
   overflow-x: visible !important;
 }
+.selectAllBox{
+  margin-right: 3%;
+  margin-left: -8%;
+}
+
 
 .dropdown-content {
   display: none;
@@ -140,3 +145,4 @@ td{
 .bottomButton{
   margin-bottom: -5em;
 }
+

@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   show;
   dataChecked;
   tableKeys;
+  projectCollection;
+
   checked: boolean;
   checkAll: boolean;
   uncheckAll: boolean;
@@ -39,13 +41,17 @@ export class AppComponent implements OnInit {
   switchProject;
   submitProject;
   setPage;
+  filterSearch;
 
   // Getter Method
   getProjects;
 
+  //temp
+  switchProjectName;
+
 
   constructor(appService: ProjectService) {
-    // variables initialazation
+    // array initialazation
     this.projectData = appService.projectData;
     this.projects = appService.projects
     this.show = appService.show;
@@ -53,6 +59,9 @@ export class AppComponent implements OnInit {
     this.deleteSelected = appService.deleteSelected;
     this.dataChecked = appService.dataChecked;
     this.tableKeys = appService.tableKeys;
+    this.projectCollection = appService.projectCollection;
+
+    // variables
     this.checkAll = appService.checkAll;
     this.uncheckAll = appService.uncheckAll;
     this.page = appService.page;
@@ -69,9 +78,13 @@ export class AppComponent implements OnInit {
     this.switchProject = appService.switchProject;
     this.submitProject = appService.submitProject;
     this.setPage = appService.setPage;
+    this.filterSearch = appService.filterSearch;
 
     // getter initialazations
     this.getProjects = appService.getProjects;
+
+    //temp
+    this.switchProjectName = appService.switchProjectName;
 
   }
   ngOnInit(): void {

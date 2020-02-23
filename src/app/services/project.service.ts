@@ -13,9 +13,11 @@ export class ProjectService {
   deleteSelected = [];
   show = [];
   tableKeys = [];
+  projectCollection = [];
   projects = [{projectName: 'project1', data: []},
     {projectName: 'project2', data: []},
-    {projectName: 'project3', data: []}];
+    {projectName: 'project3', data: []},
+    {projectName: 'korera', data: []}];
   checked: boolean;
   checkAll: boolean;
   uncheckAll: boolean;
@@ -52,6 +54,8 @@ export class ProjectService {
       return a.code - b.code;
     });
 
+    console.log(dataTable);
+
     let count = 0;
     let tempTable = [];
     this.page = 0;
@@ -87,9 +91,16 @@ export class ProjectService {
     const tempKey = this.tableKeys[0];
     this.tableKeys[0] = this.tableKeys[1];
     this.tableKeys[1] = tempKey;
-    this.tableKeys[2] = 'extra1';
+    //this.tableKeys[2] = 'extra1';
     //this.tableKeys[3] = 'extra2';
-    console.log(this.tableKeys);
+    //console.log(this.tableKeys);
+
+    // get projectCollection
+    for(const project of this.projects){
+      //this.projectNameCollection.push(project.projectName);
+      this.projectCollection.push(project.projectName);
+    }
+    //console.log(this.projectNameCollection);
   }
 
   /*
@@ -233,7 +244,42 @@ export class ProjectService {
       }
     }
 
-    console.log(this.projects);
+    //console.log(this.projects);
+  }
+
+  filterSearch(){
+    let input = document.getElementById('userInput');
+    let filter = input['value'];
+    this.projectCollection = [];
+    for(const project of this.projects) {
+      if (filter === '') {
+        this.projectCollection.push(project.projectName);
+      }
+      else{
+        if(project.projectName.includes(filter)){
+          this.projectCollection.push(project.projectName);
+        }
+      }
+    }
+    //console.log(filter);
+  }
+
+
+  switchProjectName(pName){
+    this.show = [];
+    this.selected = [];
+    this.deleteSelected = [];
+    this.checkAll = false;
+    this.uncheckAll = false;
+    this.dataChecked.fill(false);
+
+    this.projectName = pName;
+    for(const project of this.projects){
+      if (project.projectName === this.projectName) {
+        this.show = [...project.data];
+        break;
+      }
+    }
   }
 
 }

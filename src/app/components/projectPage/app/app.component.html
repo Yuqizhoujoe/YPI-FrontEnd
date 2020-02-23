@@ -1,8 +1,23 @@
-<!--
+
 <div>
   <h1 class="projectTitle">{{projectName}}</h1>
 </div>
--->
+
+
+<span  class="dropdown" >
+          <button type="button" >Project Search</button>
+          <div class="dropdown-content table-responsive">
+            <a>
+              <i class="fas fa-search"></i>
+              <input type="text" id="userInput" class="userInput"(keyup)="filterSearch()">
+            </a>
+            <a *ngFor="let project of projectCollection">
+              <span (click)="switchProjectName(project)">{{project}}</span>
+            </a>
+          </div>
+</span>
+
+<!--
 <div class = "selectButton">
   <select class ="selectProject"  (change)="switchProject($event)">
     <option></option>
@@ -11,7 +26,7 @@
     </option>
   </select>
 </div>
-
+-->
 <div class="showTable">
   <!--Left Table  -->
   <table class="table left rounded shadow-lg" border="1">
@@ -23,7 +38,7 @@
         <button type="button" class="iconButton" name="export" (click)="transferToShow()"><i class="fas fa-share"></i></button>
       </span>
       <!--Dropdown option  -->
-      <span  class="dropdown">
+      <span  class="dropdown selectAllBox" name="selectAllBox">
           <button type="button" class="dropbtn "><i class="fa fa-bars"></i></button>
           <div class="dropdown-content table-responsive">
             <!--Select all  -->
