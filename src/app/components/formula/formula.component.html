@@ -73,6 +73,11 @@
 
 <!-- reactive form -->
 <!-- Form to Customize -->
+<div>
+    <h1 *ngIf="project.projectName === 'Default Projects' ? '' : project.projectName" class="text-center">
+        {{ project.projectName }}
+    </h1>
+</div>
 <div class = "selectButton">
     <select class ="selectProject" #selectProject (change)="switchProject($event)">
         <option></option>
@@ -87,7 +92,7 @@
     <!-- form group dynamic form -->
     <form [formGroup]="dynamicFormulaForm">
         <!-- table -->
-        <table class="table table-hover table-responsive-sd table-bordered">
+        <table class="table table-hover table-responsive-sd">
             <thead class="thead-light">
                 <div>
                     <tr class="tr-thead">
@@ -132,7 +137,8 @@
                                 <!-- text type -->
                                 <ng-container *ngIf="field_type[a] === 1">
                                     <td>
-                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" [(ngModel)]="field_text[i][a]" />
+                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
+                                        [(ngModel)]="field_text[i][a]" />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_text: {{ field_text[i][a] }} -->
@@ -141,7 +147,8 @@
                                 <!-- formula type this.formArrayForFormula() -->
                                 <ng-container *ngIf="field_type[a] === 2">
                                     <td>
-                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" [value]="field_formula[i][a]" />
+                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
+                                        [value]="field_formula[i][a]" />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_formula: {{ field_formula[i][a] }} -->

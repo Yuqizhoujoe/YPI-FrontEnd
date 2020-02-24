@@ -42,6 +42,9 @@ export class FormulaComponent implements OnInit {
   field_number = [[]];
   field_text = [[]];
   field_formula = [[]];
+  temp_field_number = [[]];
+  temp_field_text = [[]];
+  temp_field_formula = [[]];
 
   // form
   public dynamicFormulaForm: FormGroup;
@@ -69,6 +72,7 @@ export class FormulaComponent implements OnInit {
     }
     // get the field data from template page 
     this.getFieldFromTemplate();
+
   }
 
   // show project name in drop down
@@ -81,29 +85,35 @@ export class FormulaComponent implements OnInit {
       }
     }
     console.log(this.project);
-
     // if choose nothing, display default project items
     if (event.target.value === '') {
-      this.showDefaultProjects();
       this.showField = false;
-      this.clearTableSwitchProject();
+      this.showDefaultProjects();
       this.tables = ['NAME', 'COST_CODE'];
-      console.log(this.tables);
+      this.createaDynamicFormAtFirst();
     } else {
       if (this.fields.length === 0) {
         // if have no data from template
-        this.clearTableSwitchProject();
+        this.tables = ['NAME', 'COST_CODE'];
         // create dynamic form with name and cost_code form control 
         this.createaDynamicFormAtFirst();
-      } else if (this.fields.length !== 0) {
-        this.fields.map(field => {
-          this.tables.push(field['fieldInput']);
-          // check table
-          this.checkTableCol();
-        });
-        this.showField = true;
-        // create dynamic form if the fields data exists
-        this.createDynamicFormAfterTemplate();
+      } else {
+        // if get the data from template page and get the project data from project page 
+        if (this.project['showField'] === true && this.project.data.length !== 0) {
+          // map each field and push each field's fieldInput into table as col name
+          this.fields.map(field => {
+            this.tables.push(field['fieldInput']);
+            // check whether table'name is repeated
+            this.checkTableCol();
+          });
+          // decide to show the addition col obtained from template page
+          this.showField = true;
+          // create dynamic form if the fields data exists
+          this.createDynamicFormAfterTemplate();
+        } else {
+            this.tables = ['NAME', 'COST_CODE'];
+            this.createaDynamicFormAtFirst();
+        }
       }
     }
 
@@ -134,7 +144,7 @@ export class FormulaComponent implements OnInit {
   // get default projects to display at the formula page
   getDefaultProjects(){
     this.formulaService.getDefaultProjects().subscribe(defaultProjects=>this.defaultProjects=defaultProjects);
-    console.log("get the default data from formular Service");
+    console.log(`new page\nget the default data from formular Service`);
   }
 
   createaDynamicFormAtFirst(){
@@ -165,39 +175,13 @@ export class FormulaComponent implements OnInit {
   showDefaultProjects(){
     this.project.projectName = 'Default Projects';
     this.project.data = this.defaultProjects;
-
   }
-
-  // show project name in drop down
-  switchProject(event:any){
-    // if the event.target.value match one of the projectName, then display the data under the projectName
-    for (let i = 0; i < this.projects.length; i++) {
-      if (this.projects[i]['projectName'] === event.target.value) {
-        this.project.projectName = this.projects[i]['projectName'];
-        this.project.data = this.projects[i]['data'];
-      }
-    }
-
-    // if choose nothing, display default project items
-    if (event.target.value === '') {
-      this.showDefaultProjects();
-    }
-
-    // if have not get the data from template page, then create dynamic form with name and cost_code form control
-    // if already got the data from template page, then recreate dynamic form with new form control field_array
-    if (this.fields.length === 0) {
-      this.createaDynamicFormAtFirst();
-    } else if (this.fields.length !== 0){
-      this.createDynamicFormAfterTemplate();
-    }
-    
-  } 
-
 
   getTable() {
     this.formulaService.getTable().subscribe(table=>this.tables=table);
     // check the column name of table
     this.checkTableCol();
+    console.log(this.tables);
   }
 
   checkTableCol(){
@@ -207,15 +191,13 @@ export class FormulaComponent implements OnInit {
     this.tables = [...new Set(this.tables)];
   }
 
-  // clear the table
-  clearTableSwitchProject(){
-    this.tables = TABLE;
-  }
-
   // get fields from template
   getFieldFromTemplate(){
     this.formulaService.sendFieldToFormulaPage().subscribe(fields=>this.fields=fields);
     if (this.fields.length !== 0) {
+      this.fillDummyToFieldArray();
+      // when get the data from template page, fill null into the table
+      this.project['showField'] = true;
       // if we get the fields, then we push the field.fieldInput, which will be the name of the table, into tables array
       this.fields.map(elem => {
         this.tables.push(elem['fieldInput']);
@@ -294,11 +276,6 @@ export class FormulaComponent implements OnInit {
     });
   }
 
-  /* // clear the fields from template
-  clearFiedls(){
-    this.fields = 
-  }  */
-
   // formula calculation when click
   formulaCalculation(i: number){
     let mathOperator = '';
@@ -350,6 +327,7 @@ export class FormulaComponent implements OnInit {
     for (let j = 0; j < this.project.data.length; j++) {
       this.field_formula[j] = new Array(this.field_formula_length).fill(null);
     }
+    console.log("run rill dummy to field array");
   }
 
   submit() {
@@ -357,6 +335,7 @@ export class FormulaComponent implements OnInit {
     this.data = [{}];
     for (let i = 0; i < this.project.data.length; i++) {
       this.data[i] = {
+        project_name: this.project.projectName,
         field_number: this.field_number[i].map((val) => {return parseInt(val)}), 
         field_text: this.field_text[i], 
         field_formula: this.field_formula[i].filter((val)=>{
@@ -365,6 +344,33 @@ export class FormulaComponent implements OnInit {
     }
     alert(JSON.stringify(this.data));
   }
+
+  /* // assign field data to temporary field data
+  temporaryFieldData(){
+    for (let i = 0; i < this.project.data.length; i++) {
+      for (let j =0; j < this.fields.length; j++) {
+        this.temporary_field_number[i][j] = this.field_number[i][j];
+        this.temporary_field_text[i][j] = this.field_text[i][j];
+        this.temporary_field_formula[i][j] = this.field_formula[i][j];
+      }
+    }
+  }
+
+  // assign temporary field data back to field data
+  fillFieldDataFromTemporary(){
+    for (let i = 0; i < this.project.data.length; i++) {
+      this.field_number[i] = this.temporary_field_number[i];
+      this.field_text[i] = this.temporary_field_text[i];
+      this.field_formula[i] = this.temporary_field_formula[i];
+    }
+    console.log(this.temporary_field_number);
+  } */
+
+
+  /* // clear the table
+  clearTableSwitchProject(){
+    this.tables = TABLE;
+  } */
 
   /* createFormGroupForFormula(name: string, cost_code: string){
     return this.fb.group({
