@@ -175,34 +175,7 @@ export class FormulaComponent implements OnInit {
   showDefaultProjects(){
     this.project.projectName = 'Default Projects';
     this.project.data = this.defaultProjects;
-
   }
-
-  // show project name in drop down
-  switchProject(event:any){
-    // if the event.target.value match one of the projectName, then display the data under the projectName
-    for (let i = 0; i < this.projects.length; i++) {
-      if (this.projects[i]['projectName'] === event.target.value) {
-        this.project.projectName = this.projects[i]['projectName'];
-        this.project.data = this.projects[i]['data'];
-      }
-    }
-
-    // if choose nothing, display default project items
-    if (event.target.value === '') {
-      this.showDefaultProjects();
-    }
-
-    // if have not get the data from template page, then create dynamic form with name and cost_code form control
-    // if already got the data from template page, then recreate dynamic form with new form control field_array
-    if (this.fields.length === 0) {
-      this.createaDynamicFormAtFirst();
-    } else if (this.fields.length !== 0){
-      this.createDynamicFormAfterTemplate();
-    }
-    
-  } 
-
 
   getTable() {
     this.formulaService.getTable().subscribe(table=>this.tables=table);
