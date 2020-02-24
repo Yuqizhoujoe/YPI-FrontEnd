@@ -72,6 +72,7 @@ export class FormulaComponent implements OnInit {
 
   // show project name in drop down
   switchProject(event:any){
+    console.log(this.fields);
     // if the event.target.value match one of the projectName, then display the data under the projectName
     for (let i = 0; i < this.projects.length; i++) {
       if (this.projects[i]['projectName'] === event.target.value) {
@@ -79,39 +80,22 @@ export class FormulaComponent implements OnInit {
         this.project.data = this.projects[i]['data'];
       }
     }
-    console.log(this.project);
-
     // if choose nothing, display default project items
     if (event.target.value === '') {
-      this.showDefaultProjects();
-      this.showField = false;
       this.clearTableSwitchProject();
-      this.tables = ['NAME', 'COST_CODE'];
-      console.log(this.tables);
-    } else {
-      if (this.fields.length === 0) {
-        // if have no data from template
-        this.clearTableSwitchProject();
-        // create dynamic form with name and cost_code form control 
-        this.createaDynamicFormAtFirst();
-      } else if (this.fields.length !== 0) {
-        this.fields.map(field => {
-          this.tables.push(field['fieldInput']);
-          // check table
-          this.checkTableCol();
-        });
-        this.showField = true;
-        // create dynamic form if the fields data exists
-        this.createDynamicFormAfterTemplate();
-      }
+      this.showDefaultProjects();
     }
 
-    /* if (this.project.projectName !== 'Default Projects' 
-      && this.project.data.length !== 0) {
-        this.getTable();
-        console.log(this.tables);
-        this.showField = true;
-    } */
+    if (this.fields.length === 0) {
+      // if have no data from template
+      this.clearTableSwitchProject();
+      // create dynamic form with name and cost_code form control 
+      this.createaDynamicFormAtFirst();
+    } else if (this.fields.length !== 0) {
+      // create dynamic form after get field data from templage
+      this.createDynamicFormAfterTemplate();
+    }
+
     // if have not get the data from template page, then create dynamic form with name and cost_code form control
     // if already got the data from template page, then recreate dynamic form with new form control field_array
     /* if (this.fields.length === 0) {
@@ -190,7 +174,7 @@ export class FormulaComponent implements OnInit {
       // if we get the fields, then we push the field.fieldInput, which will be the name of the table, into tables array
       this.fields.map(elem => {
         this.tables.push(elem['fieldInput']);
-        // check table
+        // check the column name of table
         this.checkTableCol();
         // get the field type
         this.field_type.push(elem['type']);
@@ -261,10 +245,10 @@ export class FormulaComponent implements OnInit {
     });
   }
 
-  /* // clear the fields from template
+  // clear the fields from template
   clearFiedls(){
     this.fields = 
-  }  */
+  } 
 
   // formula calculation when click
   formulaCalculation(i: number){

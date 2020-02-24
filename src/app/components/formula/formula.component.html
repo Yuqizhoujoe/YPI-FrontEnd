@@ -74,7 +74,7 @@
 <!-- reactive form -->
 <!-- Form to Customize -->
 <div class = "selectButton">
-    <select class ="selectProject" (change)="switchProject($event)">
+    <select class ="selectProject" #selectProject (change)="switchProject($event)">
         <option></option>
         <option *ngFor="let project of projects" [ngValue]="project.projectName">
             {{project.projectName}}
