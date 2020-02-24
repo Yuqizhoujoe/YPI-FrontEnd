@@ -60,7 +60,7 @@ export class DataService {
     sortColumn: '',
     sortDirection: ''
   };
-  constructor(private pipe: DecimalPipe) { 
+  constructor(private pipe: DecimalPipe) {
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
       debounceTime(200),
@@ -110,19 +110,19 @@ export class DataService {
 
   getData(){
     return(dataTable);
-   
+
   }
 
   deleteData(a:number){
     dataTable.splice(a, 1);
-    
-    
+
+
     return(dataTable.filter(Boolean));
   }
 
   addData(a){
     dataTable.push(a);
-    
+
     // return(dataTable.filter(Boolean));
   }
   addColData(a){
