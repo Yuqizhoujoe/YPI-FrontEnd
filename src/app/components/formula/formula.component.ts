@@ -16,7 +16,7 @@ import { ProjectService } from '../../services/project.service'
   styleUrls: ['./formula.component.css']
 })
 export class FormulaComponent implements OnInit {
-  // set projects array 
+  // set projects array
   projects: any[];
   defaultProjects: any[];
   project = {
@@ -26,6 +26,7 @@ export class FormulaComponent implements OnInit {
 
   // set table_name array
   tables: string[];
+
   display_cost_code: boolean = true;
   
   // field from template page
@@ -49,7 +50,7 @@ export class FormulaComponent implements OnInit {
   formulaPageSubmit: boolean = false;
   data: any;
 
-  constructor(private formulaService:FormulaService, private fb: FormBuilder) { 
+  constructor(private formulaService:FormulaService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -98,6 +99,7 @@ export class FormulaComponent implements OnInit {
       })
       // push the form group into form array
       this.formArrayForFormula.push(form_group);
+
     });
     
   }
@@ -106,6 +108,7 @@ export class FormulaComponent implements OnInit {
   showDefaultProjects(){
     this.project.projectName = 'Default Projects';
     this.project.data = this.defaultProjects;
+
   }
 
   // show project name in drop down
@@ -117,6 +120,7 @@ export class FormulaComponent implements OnInit {
         this.project.data = this.projects[i]['data'];
       }
     }
+
     // if choose nothing, display default project items
     if (event.target.value === '') {
       this.showDefaultProjects();
@@ -131,6 +135,7 @@ export class FormulaComponent implements OnInit {
     }
     
   } 
+
 
   getTable() {
     this.formulaService.getTable().subscribe(table=>this.tables=table);
@@ -163,6 +168,7 @@ export class FormulaComponent implements OnInit {
         if (elem['formula'] !== undefined) {
           this.field_formula_string.push(elem['formula']);
         }
+
         // get the number of field_number
         if (elem['type'] === 0) {
           this.field_number_length += 1;
@@ -172,10 +178,12 @@ export class FormulaComponent implements OnInit {
         } 
         if (elem['type'] === 2) {
           this.field_formula_length += 1;
+
         }
       });
       // if get data from template, then display the columns
       this.showField = true;
+
       // if get the field data successfully 
       // recreate dynamic form with new form control field_array
       this.createDynamicFormAfterTemplate();
@@ -212,6 +220,7 @@ export class FormulaComponent implements OnInit {
         name: project_name,
         cost_code: project_cost_code,
         field_arrays: this.formArrayForTemplate
+
       });
       // push form group to formArrayForFormula
       this.formArrayForFormula.push(form_group);
@@ -237,7 +246,7 @@ export class FormulaComponent implements OnInit {
     let result = 0;
     let string = '';
     for (let j = 0; j < this.field_number[i].length; j++) {
-      string = string + this.field_number[i][j] + ' '; 
+      string = string + this.field_number[i][j] + ' ';
     }
     string = string.replace(' ', mathOperator);
     result = eval(string);
@@ -300,7 +309,7 @@ export class FormulaComponent implements OnInit {
       return this.fb.group({
         [name]:this.fb.control('')
       })
-    }); 
+    });
   } */
 
   /* addformArrayForFormulaFieldList(){
@@ -322,11 +331,11 @@ export class FormulaComponent implements OnInit {
   /* saveFieldsIntoObjectArray(){
     for (let i = 0; i < this.fields.length; i++) {
       for (let j = 1; j < this.field_all.length; j++) {
-        this.field_all[j]['number'] = this.field_number[i][j]; 
-        this.field_all[j]['text'] = this.field_text[i][j]; 
-        this.field_all[j]['formula'] = this.field_formula[i][j]; 
+        this.field_all[j]['number'] = this.field_number[i][j];
+        this.field_all[j]['text'] = this.field_text[i][j];
+        this.field_all[j]['formula'] = this.field_formula[i][j];
       }
-    } 
+    }
     console.log("save");
   } */
 
@@ -383,12 +392,12 @@ export class FormulaComponent implements OnInit {
   /* getSubProject(project:Project){
     this.formulaService.getSubProject(project).subscribe(sub_projects=>{this.sub_projects=sub_projects});
     console.log("get sub_items");
-  } 
+  }
 
   compareArray(project: Project){
     if (JSON.stringify(this.sub_projects)==JSON.stringify(project.sub_items)) {
       return true;
-    } 
+    }
     return false;
   }
   */
