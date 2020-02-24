@@ -3,9 +3,15 @@ body {
   margin: 0px;
 }
 
-table, th, td {
-    border: none;
+table {
+    width: 500px;
+    height: 500px;
+    overflow: scroll;
 }
+
+/* table, th, td {
+    border: none;
+} */
 
 table, tbody {
     background: transparent;
@@ -13,6 +19,33 @@ table, tbody {
 
 thead {
     display: block;
+    margin:0;
+}
+
+tbody, thead {
+    padding: 0;
+    font-size: 1rem;
+}
+
+.tr-thead > th:not(:first-child) {
+    width: 232px;
+}
+
+.tr-thead > th:first-of-type {
+    width: 55px;
+}
+
+.tbody-row-header {
+    width: 50px;
+}
+
+.list-group-flush {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.list-group-flush::-webkit-scrollbar {
+    display: none;
 }
 
 input {
@@ -26,6 +59,29 @@ input {
 /* .fa-sort-down {
     padding: 1rem;
 } */
+/* select dropdown */
+.selectButton {
+    position: relative;
+    display: flex;
+    justify-items: flex-end;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* button */
+.button {
+    width: 100%;
+    position: relative;
+}
+
+.submit-button-container {
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    justify-items: flex-end;
+    align-items: flex-end;
+}
 
 /* template navigation */
 .template-navigation {

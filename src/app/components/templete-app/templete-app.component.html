@@ -17,8 +17,7 @@
                     <td><input type="checkbox" [(ngModel)]="cost_code" (click)="toggleTable()"></td>
                 </tr>
             </tbody>
-        </table>
-        <button (click)="updateTable()">Save</button>    
+        </table>    
     </div>
     <!-- Form to Customize -->
     <div class="survey-form">
@@ -34,7 +33,7 @@
                 <!-- list group -->
                 <div class="list-group-item">
                     <!-- form group name *ngFor --> 
-                    <div *ngFor="let field of fg.controls; let i = index" class="form-group row"  [formGroupName]="i">
+                    <div *ngFor="let field of fg.controls; let i = index" class="form-group row field-container"  [formGroupName]="i">
                    
                         <div class="form-group col">
                             <label for="fieldInput">Field</label>
@@ -42,9 +41,6 @@
                             <div *ngIf="submitted && getFieldInputValidity(i)" class="invalid-feedback d-block">
                                 <div>Field input is required</div>
                             </div>
-                            {{ i }}
-                            submitted: {{ submitted }}
-                            invalid: {{ getFieldInputValidity(i) }}
                         </div>
 
                         <div class="form-group col">
@@ -57,9 +53,6 @@
                             <div *ngIf="submitted && getTypeValidity(i)" class="invalid-feedback d-block">
                                 <div>Type is required</div>
                             </div>
-                            {{ i }}
-                            submitted: {{ submitted }}
-                            invalid: {{ getTypeValidity(i) }}
                         </div>
 
                         <div class="form-group col">
@@ -69,19 +62,22 @@
                                 <div *ngIf="submitted && getFormulaValidity(i)" class="invalid-feedback d-block">
                                     <div>Field input is required</div>
                                 </div> 
-                            {{ i }}
-                            submitted: {{ submitted }}
-                            invalid: {{ getFormulaValidity(i) }}
                             </ng-container>
                         </div>
 
-                        <div class="form-group col">
+                        <div class="form-group col delete-btn">
                             <i class="fas fa-trash-alt" (click)="removeFieldGroup(i)"></i>
                         </div> 
 
                     </div>
                     <!-- form group name *ngFor -->
-                    
+
+                    <!-- add field button -->
+                    <div class="add-on-btn" (click)="addFgFieldList()">
+                        <i class="fas fa-plus-square"></i>
+                    </div>
+                    <!-- add field button -->
+
                 </div>
                 <!-- list group -->
                 <!-- button  -->
@@ -89,16 +85,12 @@
 
                     <!-- submit -->
                     <div class="card-footer text-center form-group col-6 submit-button-container">
-                        <button class="btn btn-primary mr-1" type="submit">Submit</button>
+                        <button 
+                        class="btn btn-primary mr-1" 
+                        type="submit" 
+                        (click)="updateTable()">Submit</button>
                     </div>
                     <!-- submit -->
-
-                    <!-- addon button -->
-                    <div class="btn add-btn" (click)="addFgFieldList()">
-                        <i class="fal fa-plus-square"></i>
-                    </div>
-                    <!-- addon button -->
-                    
                 </div>
                 <!-- button  -->
 
