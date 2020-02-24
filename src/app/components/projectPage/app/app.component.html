@@ -1,17 +1,32 @@
-<!--
+
 <div>
   <h1 class="projectTitle">{{projectName}}</h1>
 </div>
--->
+
+
+<span  class="dropdown" >
+          <button type="button" >Project Search</button>
+          <div class="dropdown-content table-responsive">
+            <a>
+              <i class="fas fa-search"></i>
+              <input type="text" id="userInput" class="userInput"(keyup)="filterSearch()">
+            </a>
+            <a *ngFor="let project of projectCollection">
+              <span (click)="switchProjectName(project)">{{project}}</span>
+            </a>
+          </div>
+</span>
+
+<!--
 <div class = "selectButton">
-  <select class ="selectProject" (change)="switchProject($event)">
+  <select class ="selectProject"  (change)="switchProject($event)">
     <option></option>
     <option *ngFor="let project of projects" [value]="project.projectName" >
       <span >{{project.projectName}}</span>
     </option>
   </select>
 </div>
-
+-->
 <div class="showTable">
   <!--Left Table  -->
   <table class="table left rounded shadow-lg" border="1">
@@ -23,8 +38,8 @@
         <button type="button" class="iconButton" name="export" (click)="transferToShow()"><i class="fas fa-share"></i></button>
       </span>
       <!--Dropdown option  -->
-      <span  class="dropdown">
-          <button type="button" class="dropbtn"><i class="fa fa-bars"></i></button>
+      <span  class="dropdown selectAllBox" name="selectAllBox">
+          <button type="button" class="dropbtn "><i class="fa fa-bars"></i></button>
           <div class="dropdown-content table-responsive">
             <!--Select all  -->
             <a><input type="checkbox" [(ngModel)]="checkAll" (change)="selectAll($event)"> Select All</a>
@@ -37,14 +52,36 @@
     <!--Left Table head -->
     <thead>
       <tr>
+        <ng-container *ngFor="let key of tableKeys">
+          <th >{{key}}</th>
+          <!--
         <th class="projectName">Project Name</th>
         <th class="projectCode">Project Code</th>
+        -->
+        </ng-container>
+
       </tr>
     </thead>
     <!--Left Table body -->
     <tbody class="left">
       <ng-container *ngFor="let data of projectData[page] ; let i = index">
         <tr>
+
+          <ng-container *ngFor="let key of tableKeys">
+            <td class="dataColumn">
+              <span *ngIf="key === tableKeys[0]">
+                <span class="dataField">
+                  <i class="fas fa-caret-right"> </i>
+                </span>
+                <span>
+                <input type="checkbox" [ngModel]="dataChecked[page*itemPerPage + i]" (change)="changeMade($event,data)">
+                </span>
+              </span>
+              <span class="dataField">{{data[key]}}</span>
+            </td>
+          </ng-container>
+
+          <!--
           <td class ="projectName">
             <span class="dataField"><i class="fas fa-caret-right"> </i></span>
             <span>
@@ -55,7 +92,7 @@
           <td class ="projectCode">
             <span class="dataField">{{data.codeNumber}}</span>
           </td>
-
+          -->
         </tr>
       </ng-container>
     </tbody>
@@ -70,13 +107,30 @@
     <!--Right Table  head-->
     <thead>
     <tr class="">
+      <ng-container *ngFor="let key of tableKeys">
+        <th >{{key}}</th>
+        <!--
       <th class="projectName">Project Name</th>
       <th class="projectCode">Project Code</th>
+      -->
+      </ng-container>
     </tr>
     </thead>
     <!--Right Table  body-->
-    <tbody class = "right" ><ng-container *ngFor="let data of show">
-      <tr *ngIf="data != null">
+    <tbody class = "right" >
+    <ng-container *ngFor="let data of show">
+      <tr>
+        <ng-container *ngFor="let key of tableKeys">
+          <td>
+            <span *ngIf="key === tableKeys[0]" >
+              <span class="dataField"><i class="fas fa-caret-right"></i></span>
+              <span ><input type="checkbox" (change)="changeMadeToDelete($event,data)"></span>
+            </span>
+            <span class="dataField">{{data[key]}}</span>
+          </td>
+        </ng-container>
+
+        <!--
         <td class ="projectName">
           <span class="dataField"><i class="fas fa-caret-right"></i></span>
           <span ><input type="checkbox" (change)="changeMadeToDelete($event,data)"></span>
@@ -85,6 +139,7 @@
         <td class ="projectCode">
           <span class="dataField">{{data.codeNumber}}</span>
         </td>
+        -->
       </tr>
 
 
