@@ -12,7 +12,7 @@ import { ComingSoonPageComponent } from './components/coming-soon-page/coming-so
 import { CommonModule } from '@angular/common';
 
 const routes:Routes = [
-  {path: "", component: Home}, // CONTAINS  THE HEADER/NAVBAR/FOOTER
+  // {path: "", component: Home}, // CONTAINS  THE HEADER/NAVBAR/FOOTER
   {path: "homePage", component: LoginPageComponent}, // CONTAINS THE LOGIN PAGE (HOME PAGE)(APP)
   {path: "resourcesPage", component: ResourcePage}, // CONTAINS THE RESOURCES PAGE(APP)
   {path: "projectPage", component: ProjectPage}, // CONTAINS THE PROJECT PAGE(APP)
@@ -26,7 +26,7 @@ const routes:Routes = [
   {path: "approvedChange", component: ComingSoonPageComponent},
   {path: "summary", component: ComingSoonPageComponent},
   {path: 'resourcesPage', component: ResourcePage, canActivate: [AuthGuard] },
-  {path: '**', redirectTo: '' }
+  {path: '', redirectTo: '/homePage', pathMatch: 'full' }
 
 ];
 
