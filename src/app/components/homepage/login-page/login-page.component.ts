@@ -28,8 +28,8 @@ export class LoginPageComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private alertService: AlertService
   ) {
-    // if (this.authenticationService.currentUserValue) { 
-      if (this.authenticationService.currentUserValue) { 
+    // if (this.authenticationService.currentUserValue) {
+      if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/resourcesPage']);
         }
    }
@@ -45,26 +45,27 @@ export class LoginPageComponent implements OnInit {
   }
 
    // convenience getter for easy access to form fields
-  get f() { 
-    return this.loginForm.controls; 
+  get f() {
+    return this.loginForm.controls;
   }
-  
-  onSubmit(){ 
+
+  onSubmit(){
     this.submitted = true;
 
         // stop here if form is invalid
         if (this.loginForm.invalid) {
-         
+
             return;
-              
+
         }
-        this.router.navigate(['/resourcesPage']);
+        console.log(this.f.username.value);
+
         this.loading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigate(['/resourcesPage']);
                 },
                 error => {
                     this.alertService.error(error);
@@ -72,6 +73,6 @@ export class LoginPageComponent implements OnInit {
                 });
 
   }
-  
+
 
 }

@@ -14,9 +14,9 @@ import { CommonModule } from '@angular/common';
 const routes:Routes = [
   // {path: "", component: Home}, // CONTAINS  THE HEADER/NAVBAR/FOOTER
   {path: "homePage", component: LoginPageComponent}, // CONTAINS THE LOGIN PAGE (HOME PAGE)(APP)
-  {path: "resourcesPage", component: ResourcePage}, // CONTAINS THE RESOURCES PAGE(APP)
-  {path: "projectPage", component: ProjectPage}, // CONTAINS THE PROJECT PAGE(APP)
-  {path: "formulaPage", component: FormulaComponent}, // CONTAINS THE FORMALA PAGE(APP)
+  {path: "resourcesPage", component: ResourcePage, canActivate: [AuthGuard] }, // CONTAINS THE RESOURCES PAGE(APP)
+  {path: "projectPage", component: ProjectPage,  canActivate: [AuthGuard] }, // CONTAINS THE PROJECT PAGE(APP)
+  {path: "formulaPage", component: FormulaComponent, canActivate: [AuthGuard] }, // CONTAINS THE FORMALA PAGE(APP)
   {path: "formulaPage/templete", component: TempleteAppComponent}, // CONTAINS THE TEMPLETE(SUB_RESOURCES) PAGE(APP
   {path: "changeRequest", component: ComingSoonPageComponent},
   {path: "budget", component: ComingSoonPageComponent},
