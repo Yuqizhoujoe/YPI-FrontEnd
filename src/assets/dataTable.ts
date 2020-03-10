@@ -1,6 +1,6 @@
-import {DATA} from '.././app/models/DATA';
 
-export const dataTable: DATA[] = [
+
+export const dataTable  = [
   {
     codeNumber: "000000",
     name: "General Conditions"

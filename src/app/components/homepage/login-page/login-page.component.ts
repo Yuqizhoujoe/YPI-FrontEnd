@@ -49,7 +49,9 @@ export class LoginPageComponent implements OnInit {
     return this.loginForm.controls; 
   }
   
-  onSubmit(){ 
+  onSubmit(event){ 
+    event.preventDefault();
+    
     this.submitted = true;
 
         // stop here if form is invalid
@@ -58,13 +60,14 @@ export class LoginPageComponent implements OnInit {
             return;
               
         }
-        this.router.navigate(['/resourcesPage']);
+      
         this.loading = true;
+        console.log(this.f.username.value, this.f.password.value );
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                  this.router.navigate(['/resourcesPage']);
                 },
                 error => {
                     this.alertService.error(error);
