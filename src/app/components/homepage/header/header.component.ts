@@ -12,9 +12,18 @@ export class HeaderComponent implements OnInit {
     left: true,
     right: false
   };
+  routers;
   constructor(
+    private route:ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService) { 
+      this.route.paramMap.subscribe(params => {
+        console.log(params);// (+) converts string 'id' to a number
+ 
+        // In a real app: dispatch action to load the details here.
+     });
+    console.log(this.routers);
+    }
 
   ngOnInit(): void {
   }
@@ -23,4 +32,6 @@ export class HeaderComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/homePage']);
   }
+
+
 }

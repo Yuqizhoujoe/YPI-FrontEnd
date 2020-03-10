@@ -1,6 +1,6 @@
 export interface DATA {
-
-  codeNumber: any,
-  name: string
+  resourceId: number
+  cost_Code: any,
+  resourceName: string
 }
 
