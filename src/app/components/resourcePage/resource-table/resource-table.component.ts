@@ -23,7 +23,9 @@ export class ResourceTableComponent implements OnInit {
   
   constructor(private service:DataService) {
     this.dataList= service.datas$;
+    console.log(this.dataList)
     this.total = service.total$;
+    
     this.theservice = service;
    }
    
@@ -31,7 +33,7 @@ export class ResourceTableComponent implements OnInit {
   }
 
   callLog():void{
-    console.log(this.dataList);
+    console.log(this.dataList + "hyhhh");
   }
   
   onSort({column, direction}: SortEvent) {
@@ -58,7 +60,7 @@ export class ResourceTableComponent implements OnInit {
     
   }
   addRow(a:any,b:any){
-    this.rowContent = {codeNumber: b,name: a};
+    this.rowContent = {cost_Code: b,resourceName: a};
     this.theservice.addData(this.rowContent);
     console.log(this.rowContent);
     this.statusRow = false;
