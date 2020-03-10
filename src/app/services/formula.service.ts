@@ -26,21 +26,24 @@ export class FormulaService {
   constructor(private projectService: ProjectService) { 
   }
 
+  // get the data from template page
   getFieldFromTempleate(fieldGroup) {
     this.fields.push(fieldGroup);
     console.log("get the fields from template page");
   }
 
+  // send the data from template page to formula page
   sendFieldToFormulaPage(): Observable<Object[]>{
     console.log("send the fields to formula page");
     return of(this.fields);
   }
-  
+
+  // get the project data from project page
   getProjects(): Observable<any[]>{
     this.projects = this.projectService.projects;
     return of(this.projects);
   }
-
+ 
   getDefaultProjects(): Observable<any[]>{
     this.defaultProjects = PROJECTS.slice(0,7);
     return of(this.defaultProjects);
@@ -55,6 +58,8 @@ export class FormulaService {
     });
     return of(this.sub_projects);
   } */
+
+  //
 
   getTable(): Observable<any> {
     this.table = this.TABLES;

@@ -37,31 +37,42 @@
                    
                         <div class="form-group col">
                             <label for="fieldInput">Field</label>
-                            <input type="text" formControlName="fieldInput" #fieldInput class="form-control" required />
+                            <input type="text" formControlName="fieldInput" #fieldInput 
+                            class="form-control"
+                            [placeholder]="placeholder_fieldInput[i]" 
+                            required />
                             <div *ngIf="submitted && getFieldInputValidity(i)" class="invalid-feedback d-block">
                                 <div>Field input is required</div>
                             </div>
+                            {{ i }}
                         </div>
 
                         <div class="form-group col">
                             <label for="type">Type</label>
-                            <select type="checkbox" formControlName="type" #type class="form-control" required (change)="popUpFormula(type.value, i)">
-                                <option [selected]="selected_number" [ngValue]="number">Number</option>
+                            <select type="checkbox" formControlName="type" #type 
+                            class="form-control" 
+                            required (change)="popUpFormula(type.value, i)">
+                                <option [ngValue]="number">Number</option>
                                 <option [ngValue]="text">Text</option>
                                 <option [ngValue]="formula">Formula</option>
                             </select>
                             <div *ngIf="submitted && getTypeValidity(i)" class="invalid-feedback d-block">
                                 <div>Type is required</div>
                             </div>
+                            {{ i }}
                         </div>
 
                         <div class="form-group col">
                             <ng-container *ngIf="showFormulaField && this.indexOfFormulaToShow.indexOf(i) !== -1">
                                 <label for="formula">Formula</label>
-                                <input type="text" formControlName="formula" #formula class="form-control" required /> 
+                                <input type="text" formControlName="formula" #formula 
+                                class="form-control"
+                                [placeholder]="placeholder_formula[i]" 
+                                required /> 
                                 <div *ngIf="submitted && getFormulaValidity(i)" class="invalid-feedback d-block">
                                     <div>Field input is required</div>
                                 </div> 
+                                {{ i }}
                             </ng-container>
                         </div>
 

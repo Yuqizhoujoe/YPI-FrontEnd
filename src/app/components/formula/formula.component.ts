@@ -333,11 +333,16 @@ export class FormulaComponent implements OnInit {
   submit() {
     this.formulaPageSubmit = true;
     this.data = [{}];
+    this.temp_field_number = this.field_number;
+    this.temp_field_text = this.field_text;
+    this.temp_field_formula = this.field_formula;
     for (let i = 0; i < this.project.data.length; i++) {
       this.data[i] = {
         project_name: this.project.projectName,
         field_number: this.field_number[i].map((val) => {return parseInt(val)}), 
-        field_text: this.field_text[i], 
+        field_text: this.field_text[i].filter((val)=>{
+          return val !== null;
+        }), 
         field_formula: this.field_formula[i].filter((val)=>{
           return val !== null;
         })}
