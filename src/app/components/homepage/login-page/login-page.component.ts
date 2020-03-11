@@ -68,6 +68,7 @@ export class LoginPageComponent implements OnInit {
                     this.router.navigate(['/resourcesPage']);
                 },
                 error => {
+                    
                     this.alertService.error(error);
                     this.loading = false;
                 });
