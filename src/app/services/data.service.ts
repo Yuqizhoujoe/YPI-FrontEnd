@@ -2,7 +2,7 @@ import { Injectable, PipeTransform } from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-
+import { AuthenticationService } from '../services/authentication.service';
 import {DATA} from '../models/DATA';
 
 
@@ -54,7 +54,7 @@ export class DataService {
   private _search$ = new Subject<void>();
   private _datas$ = new BehaviorSubject<DATA[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
-
+  private currentUser;
   private _newData;
 
 
@@ -65,10 +65,20 @@ export class DataService {
     sortColumn: '',
     sortDirection: ''
   };
-  constructor(private pipe: DecimalPipe,private http: HttpClient) {
-    this.http.get<DATA[]>('http://localhost:8080/YPI_Backend_war/resources').subscribe(data => {
+  constructor(private pipe: DecimalPipe,private http: HttpClient, private authenticationService: AuthenticationService) {
+    
+    this.currentUser = this.authenticationService.currentUserValue;
+    console.log(this.currentUser.token + "memem");
+
+    const headers = { 'Authorization': ` Bearer ${this.currentUser.token}` };
+    this.http.get<DATA[]>('http://localhost:8080/YPI_Backend_war/resources', { headers }).subscribe(data => {
       this._newData = data;
       console.log(this._newData);
+    //   const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
+    // const body = { resourceName: a.resourceName,cost_Code:a.cost_Code  }
+    // this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
+    // newResource = data.id;
+   
    
     this._search$.pipe(
       tap(() => this._loading$.next(false)),
@@ -127,17 +137,23 @@ export class DataService {
 
   }
 
-  deleteData(a:number){
-    this._newData.splice(a, 1);
-
-
+  removeResource(a:number){
+    
+    let newResource;
+    const headers = { 'Authorization':` Bearer ${this.currentUser.token}`}
+    
+    this.http.delete<any>(`http://localhost:8080/YPI_Backend_war/resource/delete/${a}`, { headers }).subscribe(data => {
+      newResource = data;
+      console.log(newResource);
+  })
+    console.log(this.datas$);
     return(this._newData.filter(Boolean));
   }
 
-  addData(a){
+  addResource(a){
     this._newData.push(a);
     let newResource;
-    const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
+    const headers = { 'Authorization':` Bearer ${this.currentUser.token}`};
     const body = { resourceName: a.resourceName,cost_Code:a.cost_Code  }
     this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
     newResource = data.id;
