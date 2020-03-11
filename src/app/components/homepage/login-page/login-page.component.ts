@@ -48,8 +48,8 @@ export class LoginPageComponent implements OnInit {
   get f() {
     return this.loginForm.controls;
   }
-  
-  onSubmit(){
+
+  onSubmit(event){
     this.submitted = true;
 
         // stop here if form is invalid
@@ -69,7 +69,7 @@ export class LoginPageComponent implements OnInit {
                     this.router.navigate(['/resourcesPage']);
                 },
                 error => {
-                    
+
                     this.alertService.error(error);
                     this.loading = false;
                 });

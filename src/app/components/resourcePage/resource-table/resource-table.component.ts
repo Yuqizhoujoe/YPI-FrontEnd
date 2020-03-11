@@ -20,22 +20,24 @@ export class ResourceTableComponent implements OnInit {
   statusColTitle:boolean = false;
   rowContent:any;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-  
+
   constructor(private service:DataService) {
-    this.dataList= service.datas$;
-    console.log(this.dataList)
+    //console.log('dataList');
+    //console.log(this.dataList);
+    this.dataList = service.datas$;
+    console.log(service.datas$);
     this.total = service.total$;
-    
+
     this.theservice = service;
    }
-   
+
   ngOnInit(): void {
   }
 
   callLog():void{
     console.log(this.dataList + "hyhhh");
   }
-  
+
   onSort({column, direction}: SortEvent) {
     // resetting other headers
     this.headers.forEach(header => {
@@ -47,17 +49,17 @@ export class ResourceTableComponent implements OnInit {
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
   }
-  
+
   showRow(){
     this.statusCol = false;
     this.statusColTitle = false;
     if (!this.statusRow) {
       this.statusRow = true;
-    }else 
+    }else
     if (this.statusRow) {
       this.statusRow = false;
     }
-    
+
   }
   addRow(a:any,b:any){
     this.rowContent = {cost_Code: b,resourceName: a};
@@ -65,11 +67,11 @@ export class ResourceTableComponent implements OnInit {
     console.log(this.rowContent);
     this.statusRow = false;
   }
-  
+
   removeResource(a:number){
-    
+
     this.theservice.removeResource(a);
-    
+
     console.log(a);
     var removeIndex = this.dataList.source.value.map(function(item) { return item.resourceId; }).indexOf(a);
     // remove object
@@ -85,13 +87,13 @@ export class ResourceTableComponent implements OnInit {
     if (!this.statusCol) {
       this.statusCol = true;
       this.statusColTitle = true;
-    }else 
+    }else
     if (this.statusCol) {
       this.statusCol = false;
       this.statusColTitle = false;
     }
   }
-  
+
   addCol(a:any){
     this.theservice.addColData(a);
     console.log(a);
