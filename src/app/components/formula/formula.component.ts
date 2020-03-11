@@ -57,14 +57,12 @@ export class FormulaComponent implements OnInit {
   }
 
   ngOnInit() {
-    // get default project items
-    this.getDefaultProjects();
+    // get project items
+    this.getProjects();
     // display default project items
     this.showDefaultProjects();
     // get table name
     this.getTable();
-    // get project items
-    this.getProjectsAtFirst();
     // if we got the data then create dynamic form with name and cost_code form control 
     if (this.project.data.length !== 0) {
       this.createaDynamicFormAtFirst();
@@ -135,15 +133,10 @@ export class FormulaComponent implements OnInit {
   }
 
   // get projects from project page
-  getProjectsAtFirst(){
+  getProjects(){
     this.formulaService.getProjects().subscribe(projects=>this.projects=projects);
+    this.defaultProjects = this.projects;
     console.log("get the data from formular Service");
-  }
-
-  // get default projects to display at the formula page
-  getDefaultProjects(){
-    this.formulaService.getDefaultProjects().subscribe(defaultProjects=>this.defaultProjects=defaultProjects);
-    console.log(`new page\nget the default data from formular Service`);
   }
 
   createaDynamicFormAtFirst(){
@@ -165,7 +158,7 @@ export class FormulaComponent implements OnInit {
       })
       // push the form group into form array
       this.formArrayForFormula.push(form_group);
-
+      
     });
     
   }

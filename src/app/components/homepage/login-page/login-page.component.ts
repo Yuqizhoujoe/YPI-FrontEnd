@@ -48,8 +48,8 @@ export class LoginPageComponent implements OnInit {
   get f() {
     return this.loginForm.controls;
   }
-  
-  onSubmit(){
+
+  onSubmit(event){
     this.submitted = true;
 
         // stop here if form is invalid

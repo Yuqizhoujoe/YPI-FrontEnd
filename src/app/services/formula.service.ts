@@ -14,7 +14,7 @@ export class FormulaService {
 
   // formula page
   projects: any[];
-  defaultProjects: DATA[];
+  defaultProjects: any[];
   TABLES = TABLE;
   table: string[];
   
@@ -48,9 +48,10 @@ export class FormulaService {
     return of(this.projects);
   }
  
-  getDefaultProjects(): Observable<DATA[]>{
+  getDefaultProjects(): Observable<any[]>{/* 
     this.http.get<DATA[]>('http://localhost:8080/YPI_Backend_war/resources').subscribe(data => this.defaultProjects = data.slice(0,7));
-    console.log("this.defaultProjects" + this.defaultProjects);
+    console.log("this.defaultProjects" + this.defaultProjects); */
+    this.defaultProjects = this.projectService.projects.slice(1,10);
     return of(this.defaultProjects);
   }
 
