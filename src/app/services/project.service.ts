@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { dataTable } from '../../assets/dataTable';
 import {newArray} from '@angular/compiler/src/util';
 import { HttpClient } from '@angular/common/http';
+import {DataService} from './data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,8 @@ export class ProjectService {
   totalPage: number;
   itemPerPage = 10;
   projectName;
-  constructor(private http: HttpClient) {
-  this.dataSetUp();
+  constructor(private http: HttpClient, private service:DataService) {
+  this.dataSetUp(service);
   }
 
   getProjectData()  {return this.projectData; }
@@ -50,13 +51,19 @@ export class ProjectService {
   /* Set Up data to display table
   separate items into smaller page
   */
-  private dataSetUp() {
+  private dataSetUp(service) {
+    /*
     dataTable.sort((a: any, b: any) => {
       return a.code - b.code;
     });
+    */
 
-    console.log(dataTable);
 
+    //console.log(dataTable);
+    let dataList = service.datas$;
+
+    console.log('dataList');
+    console.log(dataList);
     let count = 0;
     let tempTable = [];
     this.page = 0;
