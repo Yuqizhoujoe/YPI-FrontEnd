@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges, AfterViewChecked } from '@angular/core';
 import { Project } from '../../models/project';
-import { SubProject } from '../../models/sub_projects';
 import { FormulaService } from '../../services/formula.service';
 import { FormGroup, FormControl, CheckboxRequiredValidator, Form, FormArray} from '@angular/forms';
 import { FormBuilder } from '@angular/forms';

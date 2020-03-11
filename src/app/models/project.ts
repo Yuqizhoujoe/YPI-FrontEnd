@@ -1,5 +1,4 @@
 export interface Project {
-    codeNumber: string,
-    name: string,
-    id: number
+    projectId: number,
+    projectName: String
 }

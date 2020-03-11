@@ -1,11 +1,10 @@
 import { Injectable, OnInit, AfterContentInit, Output } from '@angular/core';
-import { PROJECTS } from '../mock-projects';
 import { Project } from '../models/project';
 import { Observable, of, Subject } from 'rxjs';
-import { SubProject } from '../models/sub_projects';
 import { TABLE } from '../mock-table';
 import { DATA } from '../models/DATA';
 import { ProjectService } from '../services/project.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -15,21 +14,26 @@ export class FormulaService {
 
   // formula page
   projects: any[];
-  defaultProjects: any[];
-  sub_projects: SubProject[];
+  defaultProjects: DATA[];
   TABLES = TABLE;
   table: string[];
   
   // template page
   fields: Object[] = [];
 
-  constructor(private projectService: ProjectService) { 
+  constructor(private projectService: ProjectService, private http: HttpClient) { 
   }
 
   // get the data from template page
   getFieldFromTempleate(fieldGroup) {
     this.fields.push(fieldGroup);
-    console.log("get the fields from template page");
+    /* let newResource;
+    const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
+    const body = { resourceName: fieldGroup.resourceName,cost_Code:a.cost_Code  }
+    this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
+    newResource = data.id;
+    console.log(newResource);
+    }); */
   }
 
   // send the data from template page to formula page
@@ -44,22 +48,11 @@ export class FormulaService {
     return of(this.projects);
   }
  
-  getDefaultProjects(): Observable<any[]>{
-    this.defaultProjects = PROJECTS.slice(0,7);
+  getDefaultProjects(): Observable<DATA[]>{
+    this.http.get<DATA[]>('http://localhost:8080/YPI_Backend_war/resources').subscribe(data => this.defaultProjects = data.slice(0,7));
+    console.log("this.defaultProjects" + this.defaultProjects);
     return of(this.defaultProjects);
   }
-
-  /* getSubProject(project:Project | number): Observable<SubProject[]> {
-    const id = typeof project === 'number' ? project : project.id;
-    this.projects.filter((projectToFind) => {
-      if (projectToFind.id === id) {
-        this.sub_projects = projectToFind.sub_items;
-      }
-    });
-    return of(this.sub_projects);
-  } */
-
-  //
 
   getTable(): Observable<any> {
     this.table = this.TABLES;

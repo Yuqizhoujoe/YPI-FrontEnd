@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { dataTable } from '../../assets/dataTable';
 import {newArray} from '@angular/compiler/src/util';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class ProjectService {
   totalPage: number;
   itemPerPage = 10;
   projectName;
-  constructor() {
+  constructor(private http: HttpClient) {
   this.dataSetUp();
   }
 
@@ -241,6 +242,7 @@ export class ProjectService {
     for(const project of this.projects){
       if (project.projectName === this.projectName){
         project.data = [...this.show];
+        this.http.post
       }
     }
 
