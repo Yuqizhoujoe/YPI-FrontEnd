@@ -12,7 +12,7 @@ import { DecimalPipe } from '@angular/common';
   providers: [DataService, DecimalPipe]
 })
 export class ResourceTableComponent implements OnInit {
-  dataList:Observable<DATA[]>;
+  dataList:any;
   total: Observable<number>;
   theservice:any;
   statusRow:boolean = false;
@@ -61,9 +61,23 @@ export class ResourceTableComponent implements OnInit {
   }
   addRow(a:any,b:any){
     this.rowContent = {cost_Code: b,resourceName: a};
-    this.theservice.addData(this.rowContent);
+    this.theservice.addResource(this.rowContent);
     console.log(this.rowContent);
     this.statusRow = false;
+  }
+  
+  removeResource(a:number){
+    
+    this.theservice.removeResource(a);
+    
+    console.log(a);
+    var removeIndex = this.dataList.source.value.map(function(item) { return item.resourceId; }).indexOf(a);
+    // remove object
+    console.log(removeIndex);
+    this.dataList.source.value.splice(removeIndex, 1);
+    // this.dataList.source.value.splice(a, 1);
+    console.log(this.dataList.source.value);
+    //  this.dataList.source.value.filter(Boolean);
   }
 
   showCol(){

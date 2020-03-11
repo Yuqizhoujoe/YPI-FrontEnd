@@ -22,7 +22,7 @@ export class AlertService {
         });
     }
     // if the user auth. is successful(message)
-    success(message: string, keepAfterNavigationChange = false) {
+    success(message: string, keepAfterNavigationChange = true) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
     }
