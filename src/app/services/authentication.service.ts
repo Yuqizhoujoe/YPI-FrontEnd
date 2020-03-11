@@ -16,10 +16,12 @@ export class AuthenticationService {
     }
 
     public get currentUserValue(): User {
+        
         return this.currentUserSubject.value;
     }
 
     login(username: string, password: string) {
+
       console.log("im here");
         return this.http.post<any>(`http://localhost:8080/YPI_Backend_war/authenticate`, { username, password })
             .pipe(map(user => {
@@ -27,9 +29,9 @@ export class AuthenticationService {
                 if (user.token) {
                     console.log(user.token);
                     console.log(username);
-
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
+                    console.log(user);
                     this.currentUserSubject.next(user);
 
                 }

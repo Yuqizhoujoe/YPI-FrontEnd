@@ -26,7 +26,8 @@ const routes:Routes = [
   {path: "approvedChange", component: ComingSoonPageComponent},
   {path: "summary", component: ComingSoonPageComponent},
   {path: 'resourcesPage', component: ResourcePage, canActivate: [AuthGuard] },
-  {path: '', redirectTo: '/homePage', pathMatch: 'full' }
+  {path: '', redirectTo: '/homePage', pathMatch: 'full' },
+  {path: "**", redirectTo: '/homePage', pathMatch: 'full' }
 
 ];
 

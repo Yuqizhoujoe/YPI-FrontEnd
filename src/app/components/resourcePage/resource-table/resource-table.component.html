@@ -49,8 +49,8 @@
         <tbody>
         <tr *ngFor="let li of dataList | async">
           <th scope="row"><i class="fas fa-sign-in-alt"></i></th>
-          <td><ngb-highlight [result]="li.name" [term]="theservice.searchTerm"></ngb-highlight></td>
-          <td><ngb-highlight [result]="li.codeNumber " [term]="theservice.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="li.resourceName" [term]="theservice.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="li.cost_Code " [term]="theservice.searchTerm"></ngb-highlight></td>
           <td [hidden]="statusCol" ><ngb-highlight [result]="li[inputColTitle.value]" [term]="theservice.searchTerm"></ngb-highlight></td>
           <td *ngIf="statusCol"><input name="inputColTitle"  maxlength="12" type="text"class="ml-0 " #inputColTitle></td>
         </tr>
