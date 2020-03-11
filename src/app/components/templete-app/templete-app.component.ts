@@ -31,9 +31,18 @@ export class TempleteAppComponent implements OnInit {
   // for submit
   submitted = false;
   invalid: boolean;
+  // keep the submitted data in the input box 
+  placeholder_fieldInput: any[];
+  placeholder_type: any[];
+  placeholder_formula: any[];
 
   constructor(private formulaService:FormulaService, private fb: FormBuilder) { 
-   }
+    for (let i = 0; i < 3; i++) {
+      this.placeholder_fieldInput = new Array(1).fill(null);
+      this.placeholder_type = new Array(1).fill(null);
+      this.placeholder_formula = new Array(1).fill(null);
+    }
+  }
 
   ngOnInit(): void {
     /* initiate the form structure */
@@ -49,12 +58,13 @@ export class TempleteAppComponent implements OnInit {
   createFieldList(): FormGroup {
     return this.fb.group({
       fieldInput: this.fb.control('', [Validators.required]),
-      type: this.fb.control('', [Validators.required])
+      type: this.fb.control(this.number, [Validators.required])
     });
   } 
 
   // create formula field
   createFormulaField(index): FormGroup {
+    console.log("trigger this function");
     this.fg = this.dynamicForm.get('fieldGroup') as FormArray;
     this.fg.controls[index]['controls'].formula = this.fb.control('', [Validators.required]);
     return this.fg.controls[index]['controls'].formula;
@@ -84,9 +94,10 @@ export class TempleteAppComponent implements OnInit {
 
   // add field when click 
   addFgFieldList(){
-    if (this.fg.controls.length >= 3) {
+    /* if (this.fg.controls.length >= 3) {
       this.fg.push(this.createFieldList());
-    }    
+    } */
+    this.fg.push(this.createFieldList());    
   }
 
   // remove field when click
@@ -144,6 +155,9 @@ export class TempleteAppComponent implements OnInit {
     let fieldGroupLength = this.dynamicForm.value.fieldGroup.length;
     for (let i = 0; i < fieldGroupLength; i++) {
       let objectValue = this.dynamicForm.value.fieldGroup[i];
+      this.placeholder_fieldInput[i] = objectValue['fieldInput'];
+      this.placeholder_type[i] = objectValue['type'];
+      this.placeholder_formula[i] = objectValue['formula'];
       let formulaValue = this.fg.controls[i]['controls'].formula;
       if (formulaValue !== undefined) {
         objectValue['formula'] = formulaValue.value
@@ -154,6 +168,7 @@ export class TempleteAppComponent implements OnInit {
     }
   }
   
+  // need modify - make the cost_code default to checked
   toggleTable() { 
     if (!this.cost_code) {
       if (this.table_name.indexOf('COST_CODE') == -1) {
@@ -166,13 +181,11 @@ export class TempleteAppComponent implements OnInit {
     }
   } 
 
+  // formular service get the update table data
   updateTable() {
     this.formulaService.updateTable(this.table_name);
   }
 
   // form - quantity survey
-  
-
-  
 
 }

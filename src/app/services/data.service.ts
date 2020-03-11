@@ -158,9 +158,10 @@ export class DataService {
     this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
     newResource = data.id;
     console.log(newResource);
-})
+    });
     // return(this._newData.filter(Boolean));
   }
+
   addColData(a){
     console.log(a);
     // this._newData.map(obj=> ({ ...obj, a: '' }));

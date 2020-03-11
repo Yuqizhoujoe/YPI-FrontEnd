@@ -88,9 +88,9 @@
 </div>
 <br>
 <br>
- <div class="formula">
+ <div class="">
     <!-- form group dynamic form -->
-    <form [formGroup]="dynamicFormulaForm">
+    <form [formGroup]="dynamicFormulaForm" class="formula">
         <!-- table -->
         <table class="table table-hover table-responsive-sd">
             <thead class="thead-light">
@@ -128,7 +128,8 @@
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
                                         [(ngModel)]="field_number[i][a]" 
-                                        (change)="formulaCalculation(i)" />
+                                        (change)="formulaCalculation(i)"
+                                        placeholder="temp_field_number[i][a]" />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_number: {{ field_number[i][a] }} -->
@@ -138,7 +139,8 @@
                                 <ng-container *ngIf="field_type[a] === 1">
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [(ngModel)]="field_text[i][a]" />
+                                        [(ngModel)]="field_text[i][a]"
+                                        placeholder="temp_field_text[i][a]" />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_text: {{ field_text[i][a] }} -->
@@ -148,7 +150,8 @@
                                 <ng-container *ngIf="field_type[a] === 2">
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [value]="field_formula[i][a]" />
+                                        [value]="field_formula[i][a]" 
+                                        placeholder="temp_field_formula[i][a]"/>
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_formula: {{ field_formula[i][a] }} -->

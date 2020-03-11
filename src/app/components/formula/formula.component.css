@@ -99,5 +99,6 @@ input:hover {
 .template-navigation a, .template-navigation li{
     cursor: pointer;
 }
-
-
+.formula{
+    width: 25rem;
+}
