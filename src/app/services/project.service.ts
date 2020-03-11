@@ -242,7 +242,13 @@ export class ProjectService {
     for(const project of this.projects){
       if (project.projectName === this.projectName){
         project.data = [...this.show];
-        this.http.post
+        /* let newProject;
+        const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
+        const body = { projectName: project.projectName }
+        this.http.post<any>('http://localhost:8080/YPI_Backend_war/addProject', body, { headers }).subscribe(data => {
+          newProject = data.id;
+          console.log(newProject);
+        }); */
       }
     }
 

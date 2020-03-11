@@ -33,7 +33,7 @@ export class FormulaService {
     this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
     newResource = data.id;
     console.log(newResource);
-    }); */
+    }); */ 
   }
 
   // send the data from template page to formula page
