@@ -7,6 +7,9 @@ float:right;
 .userInput{
   width: 8em;
 }
+body{
+  z-index: 12;
+}
 table{
   width: 49%;
   height: 41em;
@@ -15,6 +18,7 @@ table{
   display: inline-block;
   overflow-y: scroll;
   border: 1px solid #aaaaaa;
+
 
 }
 
