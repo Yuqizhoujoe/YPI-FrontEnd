@@ -21,20 +21,26 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        console.log(username);
-        return this.http.post<any>(`${environment.apiUrl}authenticate`, { username, password })
+
+      console.log("im here");
+        return this.http.post<any>(`http://localhost:8080/YPI_Backend_war/authenticate`, { username, password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
-
+                if (user.token) {
+                    console.log(user.token);
+                    console.log(username);
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     console.log(user);
                     this.currentUserSubject.next(user);
-                }
 
-                console.log(user);
-                return user;
+                }
+              return user;
+                // else {
+                //   console.log('fail to login');
+                //   return null;
+                // }
+                // return user;
             }));
     }
 
