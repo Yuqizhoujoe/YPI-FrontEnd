@@ -1,75 +1,3 @@
-<!-- table
-<div class="formula">
-     
-    <table class="table table-hover">
-        <tr class="table-orange">
-            <ng-container *ngFor="let table of tables">
-                <th scope="col">{{table}}</th>
-            </ng-container>
-        </tr>
-        <tbody *ngFor="let project of projects; let project_index = index">
-            <tr>
-                <ng-container *ngIf="name">
-                    <td><i class="fas fa-sort-down"></i>
-                        <input #project_name class="input-search" type="text" value={{project.name}} [(ngModel)]="project.name"></td>
-                </ng-container>
-                <ng-container *ngIf="cost_code">
-                    <td><input #project_cost_code type="text" value={{project.codeNumber}} [(ngModel)]="project.codeNumber"></td>
-                </ng-container>
-                <ng-container *ngIf="showField">
-                    <ng-container *ngFor="let field of fields; let field_index = index">
-                        <ng-container *ngIf="field.type === 0">
-                            <td><input type="text" [(ngModel)]="field_number[project_index][field_index]"></td> 
-                        </ng-container>
-                        <ng-container *ngIf="field.type === 1">
-                            <td><input type="text" [(ngModel)]="field_type[project_index][field_index]"></td>
-                        </ng-container>
-                        <ng-container *ngIf="field.type === 2">
-                            <td><input type="text" [(ngModel)]="field_formula[project_index][field_index]"></td>
-                        </ng-container>
-                    </ng-container>
-                </ng-container>
-            </tr>
-            -->
-            <!-- <ng-container *ngIf="compareArray(project)">
-                <ng-container *ngIf="isDisplay">
-                    <tr *ngFor="let sub_project of sub_projects">
-                        <ng-container *ngIf="name">
-                            <td><input #sub_project_name type="text" value={{sub_project.name}} [(ngModel)]="sub_project.name"></td>
-                        </ng-container>
-                        <ng-container *ngIf="cost_code">
-                            <td><input #sub_project_cost_code type="text" value={{sub_project.cost_code}} [(ngModel)]="sub_project.cost_code"></td>
-                        </ng-container>
-                    </tr>
-                </ng-container>
-            </ng-container> 
-        </tbody>
-    </table>
-    -->
-    <!-- page navigation 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <ng-container *ngFor="let page of pages_array">
-                <li class="page-item"><a class="page-link" (click)="getProjectsForPages(page)">{{page}}</a></li>
-            </ng-container>
-        </ul>
-      </nav>
-    -->
-
-    <!-- template navigation 
-    <div class="template-navigation">
-        <a routerLink="/formulaPage/templete">Edit Quantity Survey Template</a>
-         submit button 
-        <br>
-        <button type="button" class="btn btn-outline-dark">Submit</button>
-    </div>
-
-     submit button 
-    <div class="card-footer text-center form-group col-6 submit-button-container">
-        <button class="btn btn-primary mr-1" type="submit" (click)="saveFieldsIntoObjectArray()">Submit</button>
-    </div>
-</div>
--->
 
 <!-- reactive form -->
 <!-- Form to Customize -->
@@ -79,10 +7,10 @@
     </h1>
 </div>
 <div class = "selectButton">
-    <select class ="selectProject" #selectProject (change)="switchProject($event)">
+    <select class ="seletc_resource" #selectProject (change)="switchProject($event)">
         <option></option>
-        <option *ngFor="let project of projects" [ngValue]="project.projectName">
-            {{project.projectName}}
+        <option *ngFor="let resource of resources" [ngValue]="resource.projectName">
+            {{resource.projectName}}
         </option>
     </select>
 </div>
@@ -99,9 +27,9 @@
                         <th scope="col">
                             #
                         </th>
-                        <ng-container *ngFor="let table of tables">
+                        <ng-container *ngFor="let colname of table_col_names">
                             <th scope="col">
-                                <input type="text" disabled value={{table}} class="font-weight-bold text-center"/>
+                                <input type="text" disabled value={{colname}} class="font-weight-bold text-center"/>
                             </th>
                         </ng-container>
                     </tr>
@@ -121,37 +49,37 @@
                                 <input type="text" formControlName="cost_code" class="form-control p-3 mb-2 bg-white text-dark" />
                             </td>
                         </ng-container>
-                        <ng-container *ngIf="showField" formArrayName="field_arrays">
-                            <ng-container *ngFor="let field_array of faff.get('field_arrays').controls; let j = index; let a = index">
+                        <ng-container *ngIf="showTemplate" formArrayName="field_arrays">
+                            <ng-container *ngFor="let template_data of faff.get('template_data_array').controls; let j = index; let a = index">
                                 <!-- number type -->
-                                <ng-container *ngIf="field_type[a] === 0">
+                                <ng-container *ngIf="type[a] === 0">
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [(ngModel)]="field_number[i][a]" 
+                                        [(ngModel)]="number[i][a]" 
                                         (change)="formulaCalculation(i)"
-                                        placeholder="temp_field_number[i][a]" />
+                                        placeholder="temp_number[i][a]" />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_number: {{ field_number[i][a] }} -->
                                     </td>
                                 </ng-container>
                                 <!-- text type -->
-                                <ng-container *ngIf="field_type[a] === 1">
+                                <ng-container *ngIf="type[a] === 1">
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [(ngModel)]="field_text[i][a]"
-                                        placeholder="temp_field_text[i][a]" />
+                                        [(ngModel)]="text[i][a]"
+                                        placeholder="temp_type[i][a]" />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_text: {{ field_text[i][a] }} -->
                                     </td>
                                 </ng-container>
                                 <!-- formula type this.formArrayForFormula() -->
-                                <ng-container *ngIf="field_type[a] === 2">
+                                <ng-container *ngIf="type[a] === 2">
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [value]="field_formula[i][a]" 
-                                        placeholder="temp_field_formula[i][a]"/>
+                                        [value]="formula[i][a]" 
+                                        placeholder="temp_formula[i][a]"/>
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_formula: {{ field_formula[i][a] }} -->
