@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { dataTable } from '../../assets/dataTable';
+import { dataTable as dataList } from '../../assets/dataTable';
 import {newArray} from '@angular/compiler/src/util';
 import { HttpClient } from '@angular/common/http';
 import {DataService} from './data.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { Project } from '../models/project';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-
+  // fields
   projectData = [];
   dataChecked = [];
   selected = [];
@@ -16,10 +19,10 @@ export class ProjectService {
   show = [];
   tableKeys = [];
   projectCollection = [];
-  projects = [{projectName: 'project1', data: []},
-    {projectName: 'project2', data: []},
-    {projectName: 'project3', data: []},
-    {projectName: 'korera', data: []}];
+  projects = [{projectId: 1, projectName: 'project1', data: []},
+    {projectId: 2, projectName: 'project2', data: []},
+    {projectId: 3, projectName: 'project3', data: []},
+    {projectId: 4, projectName: 'korera', data: []}];
   checked: boolean;
   checkAll: boolean;
   uncheckAll: boolean;
@@ -28,8 +31,8 @@ export class ProjectService {
   totalPage: number;
   itemPerPage = 10;
   projectName;
-  constructor(private http: HttpClient, private service:DataService) {
-  this.dataSetUp(service);
+  constructor(private service:DataService) {
+    this.dataSetUp(service);
   }
 
   getProjectData()  {return this.projectData; }
@@ -60,15 +63,16 @@ export class ProjectService {
 
 
     //console.log(dataTable);
-    let dataList = service.datas$;
 
-    console.log('dataList');
+    // get the observable data from data service
+    let dataList = service._newData;
+    console.log("dataList");
     console.log(dataList);
     let count = 0;
     let tempTable = [];
     this.page = 0;
-    // Transfer data from dataTable to projectData
-    for (const data of dataTable) {
+    // Transfer data from dataList to projectData
+    for (const data of dataList) {
       // put data into page
       if (count < this.itemPerPage) {
         tempTable.push(data);
@@ -82,7 +86,6 @@ export class ProjectService {
         count = 0;
       }
     }
-
     // Last page (if there are any data)
     if (tempTable.length > 0) {
       this.projectData.push(tempTable);
@@ -90,12 +93,14 @@ export class ProjectService {
     }
 
     // initialize checkmark
-    this.dataChecked = newArray(dataTable.length);
+    this.dataChecked = newArray(dataList.length);
     this.dataChecked.fill(false);
     //console.log(this.dataChecked);
 
     // get table keys
-    this.tableKeys = Object.keys(dataTable[0]);
+    this.tableKeys = Object.keys(dataList[0]).filter(colnames => {
+      return colnames !== 'resourceId';
+    });
     const tempKey = this.tableKeys[0];
     this.tableKeys[0] = this.tableKeys[1];
     this.tableKeys[1] = tempKey;
@@ -108,7 +113,6 @@ export class ProjectService {
       //this.projectNameCollection.push(project.projectName);
       this.projectCollection.push(project.projectName);
     }
-    //console.log(this.projectNameCollection);
   }
 
   /*
@@ -151,7 +155,7 @@ export class ProjectService {
         this.show.push(data);
       }
     }
-  this.selected = [];
+    this.selected = [];
     this.show.sort((a, b) => {
       return a.code - b.code;
     });
@@ -245,22 +249,25 @@ export class ProjectService {
 
   }
 
-  submitProject(){
+  /* submitProject(){
+    console.log(this.service);
+    console.log(this.httpJoe);
     for(const project of this.projects){
       if (project.projectName === this.projectName){
         project.data = [...this.show];
-        /* let newProject;
-        const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
-        const body = { projectName: project.projectName }
-        this.http.post<any>('http://localhost:8080/YPI_Backend_war/addProject', body, { headers }).subscribe(data => {
-          newProject = data.id;
-          console.log(newProject);
-        }); */
+        // post project data to DB - projectResource 
+        let newProjectResources;
+        // create body
+        const body = project.data;
+        // http post projectResources
+        this.httpJoe.post<any>(`http://localhost:8080/YPI_BackEnd_war/project/${project.projectId}/resources`, body).subscribe(data => {
+          console.log(data);
+        });
       }
     }
 
     //console.log(this.projects);
-  }
+  } */
 
   filterSearch(){
     let input = document.getElementById('userInput');

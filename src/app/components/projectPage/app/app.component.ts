@@ -3,13 +3,14 @@ import {range} from 'rxjs';
 import {newArray} from '@angular/compiler/src/util';
 import {dataTable} from '../../../../assets/dataTable.js';
 import {ProjectService} from '../../../services/project.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
 
 
   // Variables
@@ -39,7 +40,7 @@ export class AppComponent implements OnInit {
   selectAll;
   unselectAll;
   switchProject;
-  submitProject;
+  // submitProject;
   setPage;
   filterSearch;
 
@@ -50,7 +51,7 @@ export class AppComponent implements OnInit {
   switchProjectName;
 
 
-  constructor(appService: ProjectService) {
+  constructor(appService: ProjectService, private http: HttpClient, ) {
     // array initialazation
     this.projectData = appService.projectData;
     this.projects = appService.projects
@@ -76,7 +77,6 @@ export class AppComponent implements OnInit {
     this.selectAll = appService.selectAll;
     this.unselectAll = appService.unselectAll;
     this.switchProject = appService.switchProject;
-    this.submitProject = appService.submitProject;
     this.setPage = appService.setPage;
     this.filterSearch = appService.filterSearch;
 
@@ -85,9 +85,24 @@ export class AppComponent implements OnInit {
 
     //temp
     this.switchProjectName = appService.switchProjectName;
-
   }
-  ngOnInit(): void {
+
+  // submit
+submit(): void {
+  for(const project of this.projects){
+    if (project.projectName === this.projectName){
+      project.data = [...this.show];
+      // post project data to DB - projectResource 
+      let newProjectResources;
+      // create body
+      const body = project.data;
+      // http post projectResources
+      this.http.post<any>(`http://localhost:8080/YPI_BackEnd_war/project/${project.projectId}/resources`, body).subscribe(data => {
+        console.log("post data from project page");
+        console.log(data);
+        });
+      }
+    }
   }
 
 

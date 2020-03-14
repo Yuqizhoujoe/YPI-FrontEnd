@@ -1,33 +1,40 @@
 import { Component, OnInit, OnChanges, AfterViewChecked } from '@angular/core';
+// model
 import { Project } from '../../models/project';
+import { projectResource } from '../../models/projectResource';
+
+// service
 import { FormulaService } from '../../services/formula.service';
+import { ProjectService } from '../../services/project.service';
 import { FormGroup, FormControl, CheckboxRequiredValidator, Form, FormArray} from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { ResourceLoader } from '@angular/compiler';
 import { DATA } from '../../models/DATA';
-import { ProjectService } from '../../services/project.service';
 import { TABLE_COL_NAMES } from '../../mock-table';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-formula',
   templateUrl: './formula.component.html',
   styleUrls: ['./formula.component.css']
 })
-export class FormulaComponent implements OnInit {
-  // resource array 
-  resources: any[];
-  // default resource array
-  defaultResources: any[];
-  // project
-  project = {
-    projectName: '',
-    resource: []
-  };
+export class FormulaComponent implements OnInit, OnChanges, AfterViewChecked {
+  // private field
+  // data from formula service 
+  private source: any;
+  private resources: projectResource[];
+  private defaultResources = new BehaviorSubject<projectResource[]>([]);
+  // project_resources
+  private project_resources: projectResource[];
 
-  // set table_name array
-  table_col_names: string[];
+  // public field
+  // data from project service
+  public project_name: Project[] = [];
+
+  // table colnames | async
+  table_col_names: string[] = [];
   // boolean to display Cost Code
   display_cost_code: boolean = true;
   
@@ -80,48 +87,79 @@ export class FormulaComponent implements OnInit {
   
   // constructor 
   // inject formulaService and formbuilder
-  constructor(private formulaService:FormulaService, private fb: FormBuilder) {
-  }
-
-  // init - life cycle hook
-  ngOnInit() {
-    // get project items
-    this.getResources();
-    // display default project items
-    this.displayDefaultResources();
-    // get table name
-    this.getTableColNames();
-    // if we got the data then create dynamic form with name and cost_code form control 
-    if (this.project.resource.length !== 0) {
-      this.createaDynamicFormAtFirst();
+  constructor(private formulaService:FormulaService, private fb: FormBuilder, private projectService: ProjectService) {
+    for (let projectNames of projectService.projects) {
+      console.log(projectService.projects);
+      this.project_name.push(projectNames);
     }
+  }
+
+    ///////////////////////////////////////////////
+  // life cycle hook 
+  /////////////////////////////////////////////
+
+  ngOnInit() {
+    this.source = this.formulaService._default.source;
+    // get the default data
+    this.getDefaultResources();
     // get the field data from template page 
-    this.getTemplateData();
+    // this.getTemplateData();
+
+  }
+
+  ngOnChanges() {
+  }
+
+  ngAfterViewChecked() {
+  }
+
+  ///////////////////////////////////////////////
+  // set data 
+  /////////////////////////////////////////////  
+
+  setProjectResource(pr: projectResource[]) {
+    this.project_resources = pr;
+  }
+
+  setTableColnames() {
 
   }
 
   /////////////////////////////////////////////
-  // retrieve data 
+  // get data 
   /////////////////////////////////////////////
 
-  // get resources for each project 
-  getResources(){
-    this.formulaService.getResources().subscribe(resources=>this.resources=resources);
-    this.defaultResources = this.resources[0];
-    console.log("get the projects: ");
-    console.log(this.resources);
-    console.log("default project: ");
-    console.log(this.defaultResources);
+  // get resources for each project
+  getDefaultResources() {
+    this.source.subscribe(data => {
+      this.defaultResources.next(data);
+      this.defaultResources.subscribe(data => {
+        this.setProjectResource(data);
+        // get the colnames
+        this.getTableColNames(data);
+        // create form group
+        this.createaDynamicFormAtFirst(data);
+      });
+    });
+  } 
+  
+  // get the resources by projectId
+  getResourcesByProjectId(projectId: number){
+    // get the resources
+    this.formulaService._resource(projectId).subscribe(data=> this.resources = data);
+    // set the resources
+    this.setProjectResource(this.resources);
   }
 
   // get fields from template
   getTemplateData(){
     // get the template_data
-    this.formulaService.sendFieldToFormulaPage().subscribe(templateData=>this.template_data=templateData);
+    this.formulaService._template().subscribe(data => {
+      this.template_data = data;
+    });
     if (this.template_data.length !== 0) {
       // fill null to number, text, and formula array
       this.fillNull();
-      this.project['showTemplate'] = true;
       // loop through template_data
       this.template_data.map(elem => {
         // get the table col names 
@@ -157,52 +195,55 @@ export class FormulaComponent implements OnInit {
 
 
   // get table colnames data
-  getTableColNames() {
-    this.formulaService.getTableColNames().subscribe(colnames=>this.table_col_names=colnames);
+  getTableColNames(data: projectResource[]) {
+    for (let key of Object.keys(data[0].resource)) {
+      if (key !== 'resourceId') {
+        this.table_col_names.push(key);
+        }
+      } 
     // check the column name of table
     this.checkTableCol();
-    console.log(this.table_col_names);
   }
 
   checkTableCol(){
-    // display col cost_code 
+    /* // display col cost_code 
     if (this.table_col_names.indexOf('COST_CODE') == -1) {
       this.display_cost_code = false;
-    }
+    } */
     // make sure the colnames are not duplicate
     this.table_col_names = [...new Set(this.table_col_names)];
   }
-
 
   /////////////////////////////////////////////
   // create reactive form
   /////////////////////////////////////////////
 
   // create form group 
-  createaDynamicFormAtFirst(){
-    // create form group - dynamicFormulaForm
-    this.dynamicFormulaForm = this.fb.group({
-      // create form array - formArrayForFormula
-      formArrayForFormula: this.fb.array([]),
-    });
- 
-    this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
+  createaDynamicFormAtFirst(data: projectResource[]){
+    if (data !== null) {
+        // create form group - dynamicFormulaForm
+      this.dynamicFormulaForm = this.fb.group({
+        // create form array - formArrayForFormula
+        formArrayForFormula: this.fb.array([]),
+      });
+  
+      this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
 
-    // loop through project's resources
-    this.project.resource.map(project => {
-      // create form control for project_name
-      let project_name = this.fb.control({value: project.name, disabled: true});
-      // create form control for project_cost_code
-      let project_cost_code = this.fb.control({value: project.codeNumber, disabled: true});
-      // create form group for project_name and project_cost_code form controls
-      let form_group = this.fb.group({
-        name: project_name,
-        cost_code: project_cost_code
-      })
-      // push the form group into form array - formArrayForFormula 
-      this.formArrayForFormula.push(form_group);
-    });
-    
+      // loop through project's resources
+      data.map(project_resource => {
+        // create form control for project_name
+        let project_name = this.fb.control({value: project_resource.resource.resourceName, disabled: true});
+        // create form control for project_cost_code
+        let project_cost_code = this.fb.control({value: project_resource.resource.cost_Code, disabled: true});
+        // create form group for project_name and project_cost_code form controls
+        let form_group = this.fb.group({
+          name: project_name,
+          cost_code: project_cost_code
+        })
+        // push the form group into form array - formArrayForFormula 
+        this.formArrayForFormula.push(form_group);
+      });
+    }    
   }
 
   // create form group after get data from template
@@ -216,9 +257,9 @@ export class FormulaComponent implements OnInit {
     });
     this.formArrayForFormula = this.dynamicFormulaForm.get('formArrayForFormula') as FormArray;
     // loop through project's resources
-    this.project.resource.map(resource => {
-      let project_name = this.fb.control({value: resource.name, disabled: true});
-      let project_cost_code = this.fb.control({value: resource.codeNumber, disabled: true});
+    this.project_resources.map(project_resource => {
+      let project_name = this.fb.control({value: project_resource.resource.resourceName, disabled: true});
+      let project_cost_code = this.fb.control({value: project_resource.resource.cost_Code, disabled: true});
       // create template data form array
       let form_array = this.fb.array([]);
       // loop through template_data
@@ -249,37 +290,24 @@ export class FormulaComponent implements OnInit {
   // display data
   /////////////////////////////////////////////
 
-  // display default project 
-  displayDefaultResources(){
-    // set the project's projectName to Default Projects 
-    this.project.projectName = 'Default Projects';
-    // set the project data to defaultResources
-    this.project.resource = this.defaultResources;
-  }
-
   // switch different projects
   switchProject(event:any){
-    // loop through resources
-    for (let i = 0; i < this.resources.length; i++) {
-      if (this.resources[i]['projectName'] === event.target.value) {
-        this.project.projectName = this.resources[i]['projectName'];
-        this.project.resource = this.resources[i]['data'];
+    // switch within projects
+    for (let data of this.project_name) {
+      if (data.projectName === event.target.value) {
+        this.getResourcesByProjectId(data.projectId);
       }
     }
-    console.log(this.project);
-    // if choose nothing, display default project items
+    // if select none
     if (event.target.value === '') {
-      // display default resources
-      this.displayDefaultResources();
-    } else {
-      if (this.template_data.length === 0) {
-        // if have no data from template
-        this.table_col_names = ['NAME', 'COST_CODE'];
-        // create dynamic form with name and cost_code form control 
+      this.getDefaultResources();
+    } 
+    /* else {
+      if (this.template_data.length === 0) { 
         this.createaDynamicFormAtFirst();
       } else {
-        // if get the data from template page and get the project data from project page 
-        if (this.project['showTemplate'] === true && this.project.resource.length !== 0) {
+        // if get the data from template page 
+        if (this.project_resources['showTemplate'] === true && this.project_resources.length !== 0) {
           // map each field and push each field's fieldInput into table as col name
           this.template_data.map(templateData => {
             this.table_col_names.push(templateData['fieldInput']);
@@ -295,7 +323,7 @@ export class FormulaComponent implements OnInit {
             this.createaDynamicFormAtFirst();
         }
       }
-    }
+    } */
     
   }
   
@@ -336,15 +364,15 @@ export class FormulaComponent implements OnInit {
   // fill dummy data into field_number, field_text, and field_formula 2 layers array
   fillNull(){
     // fill null to number array
-    for (let j = 0; j < this.project.resource.length; j++) {
+    for (let j = 0; j < this.project_resources.length; j++) {
       this.number[j] = new Array(this.number_length).fill(null);
     }
     // fill null to text array
-    for (let j = 0; j < this.project.resource.length; j++) {
+    for (let j = 0; j < this.project_resources.length; j++) {
       this.text[j] = new Array(this.text_length).fill(null);
     }
     // fill null to formula array
-    for (let j = 0; j < this.project.resource.length; j++) {
+    for (let j = 0; j < this.project_resources.length; j++) {
       this.formula[j] = new Array(this.formula_length).fill(null);
     }
     console.log("run rill dummy to field array");
@@ -357,9 +385,9 @@ export class FormulaComponent implements OnInit {
     this.temp_number = this.number;
     this.temp_text = this.text;
     this.temp_formula = this.formula;
-    for (let i = 0; i < this.project.resource.length; i++) {
+    for (let i = 0; i < this.project_resources.length; i++) {
       this.data[i] = {
-        project_name: this.project.projectName,
+        project_name: this.project_resources[0].project.projectName,
         number: this.number[i].map((val) => {return parseInt(val)}), 
         text: this.text[i].filter((val)=>{
           return val !== null;

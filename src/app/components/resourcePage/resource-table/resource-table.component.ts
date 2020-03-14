@@ -25,7 +25,7 @@ export class ResourceTableComponent implements OnInit {
     //console.log('dataList');
     //console.log(this.dataList);
     this.dataList = service.datas$;
-    console.log(service.datas$);
+    // console.log(service.datas$);
     this.total = service.total$;
 
     this.theservice = service;

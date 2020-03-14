@@ -1,16 +1,12 @@
 
 <!-- reactive form -->
 <!-- Form to Customize -->
-<div>
-    <h1 *ngIf="project.projectName === 'Default Projects' ? '' : project.projectName" class="text-center">
-        {{ project.projectName }}
-    </h1>
-</div>
+
 <div class = "selectButton">
     <select class ="seletc_resource" #selectProject (change)="switchProject($event)">
         <option></option>
-        <option *ngFor="let resource of resources" [ngValue]="resource.projectName">
-            {{resource.projectName}}
+        <option *ngFor="let project of project_name" [ngValue]="project.projectName">
+            {{project.projectName}}
         </option>
     </select>
 </div>
@@ -57,7 +53,7 @@
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
                                         [(ngModel)]="number[i][a]" 
                                         (change)="formulaCalculation(i)"
-                                        placeholder="temp_number[i][a]" />
+                                        />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_number: {{ field_number[i][a] }} -->
@@ -68,7 +64,7 @@
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
                                         [(ngModel)]="text[i][a]"
-                                        placeholder="temp_type[i][a]" />
+                                         />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_text: {{ field_text[i][a] }} -->
@@ -79,7 +75,7 @@
                                     <td>
                                         <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
                                         [value]="formula[i][a]" 
-                                        placeholder="temp_formula[i][a]"/>
+                                        />
                                         <!-- i: {{ i }}
                                         j: {{ j }}
                                         field_formula: {{ field_formula[i][a] }} -->

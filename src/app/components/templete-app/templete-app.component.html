@@ -39,7 +39,6 @@
                             <label for="fieldInput">Field</label>
                             <input type="text" formControlName="fieldInput" #fieldInput 
                             class="form-control"
-                            [placeholder]="placeholder_fieldInput[i]" 
                             required />
                             <div *ngIf="submitted && getFieldInputValidity(i)" class="invalid-feedback d-block">
                                 <div>Field input is required</div>
@@ -67,7 +66,6 @@
                                 <label for="formula">Formula</label>
                                 <input type="text" formControlName="formula" #formula 
                                 class="form-control"
-                                [placeholder]="placeholder_formula[i]" 
                                 required /> 
                                 <div *ngIf="submitted && getFormulaValidity(i)" class="invalid-feedback d-block">
                                     <div>Field input is required</div>

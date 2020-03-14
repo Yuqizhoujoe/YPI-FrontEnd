@@ -1,6 +1,9 @@
 import { Injectable, OnInit, AfterContentInit, Output } from '@angular/core';
+// model
 import { Project } from '../models/project';
-import { Observable, of, Subject } from 'rxjs';
+import { projectResource } from '../models/projectResource';
+// observable
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { TABLE_COL_NAMES } from '../mock-table';
 import { DATA } from '../models/DATA';
 import { ProjectService } from '../services/project.service';
@@ -12,54 +15,60 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FormulaService {
 
-  // formula page
-  resources: any[];
-  defaultResources: any[];
-  table_col_names = TABLE_COL_NAMES;
-  tableColNames: string[];
-  
-  // template page
-  template_obj: Object[] = [];
+  // resources for each project
+  private resources: projectResource[];
+  // default resources from project1
+  private defaultResources = new BehaviorSubject<projectResource[]>([]);
+  // project resources
+  private project_resources: projectResource[];
+  // table colnames
+  private table_col_names = TABLE_COL_NAMES;
+  // 
+  private tableColNames: string[];
+  // template data
+  template_data: Object[] = [];
 
   constructor(private projectService: ProjectService, private http: HttpClient) { 
   }
 
-  // get the data from template page
-  getFieldFromTempleate(fieldGroup) {
-    this.template_obj.push(fieldGroup);
-    /* let newResource;
-    const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
-    const body = { resourceName: fieldGroup.resourceName,cost_Code:a.cost_Code  }
-    this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
-    newResource = data.id;
-    console.log(newResource);
-    }); */ 
+  /////////////////////////////////////////////
+  // set data 
+  /////////////////////////////////////////////
+
+  setProjectResource(pr: projectResource[]) {
+    this.project_resources = pr;
   }
 
-  // send the data from template page to formula page
-  sendFieldToFormulaPage(): Observable<Object[]>{
-    console.log("send the fields to formula page");
-    return of(this.template_obj);
+  /////////////////////////////////////////////
+  // get data 
+  /////////////////////////////////////////////
+
+  // default resources 
+   get _default(): Observable<projectResource[]> {
+     // get the default resources from project 1
+    this.http.get<any[]>('http://localhost:8080/YPI_BackEnd_war/project/1/projectResource').subscribe(data => {
+      this.defaultResources.next(data);
+    });
+    return this.defaultResources.asObservable();
   }
 
-  // get the project data from project page
-  getResources(): Observable<any[]>{
-    this.resources = this.projectService.projects;
+  // get resources by projectId
+  _resource(projectId: number): Observable<projectResource[]> {
+    this.http.get<any[]>(`http://localhost:8080/YPI_BackEnd_war/project/${projectId}/projectResource`).subscribe(data => {
+      this.resources = data;
+    });
     return of(this.resources);
-  }
- 
-  getDefaultResources(): Observable<any[]>{/* 
-    this.http.get<DATA[]>('http://localhost:8080/YPI_Backend_war/resources').subscribe(data => this.defaultProjects = data.slice(0,7));
-    console.log("this.defaultProjects" + this.defaultProjects); */
-    this.defaultResources = this.projectService.projects.slice(1,10);
-    return of(this.defaultResources);
+  } 
+
+  // template data
+  _template(): Observable<any[]> { return of(this.template_data); }
+
+  // get the data from template page
+  getTemplateData(fieldGroup) {
+    this.template_data.push(fieldGroup); 
   }
 
-  getTableColNames(): Observable<any> {
-    this.tableColNames = this.table_col_names;
-    return of(this.tableColNames);
-  }
-
+  // update table colnames
   updateTable(table: string[]) {
     this.table_col_names = table;
     console.log(this.table_col_names);
