@@ -71,9 +71,9 @@ export class DataService {
     console.log(this.currentUser.token + "memem");
 
     const headers = { 'Authorization': ` Bearer ${this.currentUser.token}` };
-    this.http.get<DATA[]>('http://localhost:8080/YPI_Backend_war/resources', { headers }).subscribe(data => {
+    this.http.get<DATA[]>('http://localhost:8080/YPI_BackEnd_war/resources', { headers }).subscribe(data => {
       this._newData = data;
-      console.log(this._newData);
+      // console.log(this._newData);
     //   const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' }
     // const body = { resourceName: a.resourceName,cost_Code:a.cost_Code  }
     // this.http.post<any>('http://localhost:8080/YPI_Backend_war/addResource', body, { headers }).subscribe(data => {
@@ -89,7 +89,7 @@ export class DataService {
     ).subscribe(result => {
       this._datas$.next(result.datas);
       this._total$.next(result.total);
-      console.log(result);
+      // console.log(result);
     });
 
     this._search$.next();
@@ -134,7 +134,6 @@ export class DataService {
 
   getData(){
     return(this._newData);
-
   }
 
   removeResource(a:number){

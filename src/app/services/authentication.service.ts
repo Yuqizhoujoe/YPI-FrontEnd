@@ -23,7 +23,7 @@ export class AuthenticationService {
     login(username: string, password: string) {
 
       console.log("im here");
-        return this.http.post<any>(`http://localhost:8080/YPI_Backend_war/authenticate`, { username, password })
+        return this.http.post<any>("http://localhost:8080/YPI_BackEnd_war/authenticate", { username, password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user.token) {

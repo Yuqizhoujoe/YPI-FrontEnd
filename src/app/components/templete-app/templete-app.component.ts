@@ -31,17 +31,9 @@ export class TempleteAppComponent implements OnInit {
   // for submit
   submitted = false;
   invalid: boolean;
-  // keep the submitted data in the input box 
-  placeholder_fieldInput: any[];
-  placeholder_type: any[];
-  placeholder_formula: any[];
 
   constructor(private formulaService:FormulaService, private fb: FormBuilder) { 
-    for (let i = 0; i < 3; i++) {
-      this.placeholder_fieldInput = new Array(1).fill(null);
-      this.placeholder_type = new Array(1).fill(null);
-      this.placeholder_formula = new Array(1).fill(null);
-    }
+    
   }
 
   ngOnInit(): void {
@@ -155,15 +147,12 @@ export class TempleteAppComponent implements OnInit {
     let fieldGroupLength = this.dynamicForm.value.fieldGroup.length;
     for (let i = 0; i < fieldGroupLength; i++) {
       let objectValue = this.dynamicForm.value.fieldGroup[i];
-      this.placeholder_fieldInput[i] = objectValue['fieldInput'];
-      this.placeholder_type[i] = objectValue['type'];
-      this.placeholder_formula[i] = objectValue['formula'];
       let formulaValue = this.fg.controls[i]['controls'].formula;
       if (formulaValue !== undefined) {
         objectValue['formula'] = formulaValue.value
-        this.formulaService.getFieldFromTempleate(objectValue);
+        this.formulaService.getTemplateData(objectValue);
       } else {
-        this.formulaService.getFieldFromTempleate(objectValue);
+        this.formulaService.getTemplateData(objectValue);
       }
     }
   }
