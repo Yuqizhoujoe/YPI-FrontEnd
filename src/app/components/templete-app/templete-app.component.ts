@@ -5,135 +5,229 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 
+// observable
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+
+// model 
+import { Template } from '../../models/template';
+import { TemplateDataArray }  from '../../models/TemplateDataArr';
+import { projectResource }  from '../../models/projectResource';
+
 @Component({
   selector: 'app-templete-app',
   templateUrl: './templete-app.component.html',
   styleUrls: ['./templete-app.component.css']
 })
 export class TempleteAppComponent implements OnInit {
-  // for table 
-  cost_code = false;
-  table_name: string[] = ['NAME'];
-  types: any = ['Number', 'Text', 'Formula'];
+    /////////////////////////////////////////////
+  // private fields 
+  /////////////////////////////////////////////
 
-  // for formula field
-  selected_number: string = "Number";
-  number: number = 0;
-  text: number = 1;
-  formula: number = 2;
+  // projectId
+  private projectId: number;
+  // template data
+  private template = new BehaviorSubject<Template[]>([]);
+  // projectResource
+  private projectResource: projectResource[] = [];
+
+  /////////////////////////////////////////////
+  // public fields 
+  /////////////////////////////////////////////
+  
+  // template data array
+  public templateDataArray: TemplateDataArray;
+  // Toggle Table Colname 
+  public cost_code = true;
+  public table_name: string[] = [];
+  public types: any = ['Number', 'Text', 'Formula'];
+
+  // Formula Form Control
   showFormulaField: boolean = false;
   indexOfFormulaToShow: number[] = [];
 
-  // for dynamic form reactive form 
+  // Select Option ngValue
+  formula: string = 'Formula';
+  text: string = 'Text';
+  number: string = 'Number';
+
+  // Form
   public dynamicForm: FormGroup;
   public fg: FormArray;
 
-  // for submit
+  // Submit
   submitted = false;
+
+  // Validation
   invalid: boolean;
 
   constructor(private formulaService:FormulaService, private fb: FormBuilder) { 
-    
+    // get the project Id
+    this.getProjectId();
+    console.log("this projectId");
+    console.log(this.projectId);
   }
 
   ngOnInit(): void {
-    /* initiate the form structure */
-    this.dynamicForm = this.fb.group({
-      fieldGroup: this.fb.array([
-      ])
-    });
-    this.fg = this.dynamicForm.get('fieldGroup') as FormArray;
-    this.addFgFieldListAtFirst(); 
+    // create the form and get the template data
+    this.getTemplateData(this.projectId);
   }
 
-  // field list group
-  createFieldList(): FormGroup {
+  /////////////////////////////////////////////
+  // get 
+  /////////////////////////////////////////////
+
+  // get project Id
+  getProjectId(){
+    this.projectId = this.formulaService._projectId;
+  }
+
+  // get template data
+  getTemplateData(id:number) {
+    this.formulaService._template(id).subscribe(data => {
+      this.template.next(data);
+      this.template.subscribe(d => {
+        if (d.length !== 0) {
+          this.createDynamicFormWithData(d);
+        } else {
+          this.createDynamicFormWithoutData();
+        }
+        d.map(data => {
+          this.setTheTemplateDataArray(data);
+        });
+      });
+    });
+  }
+
+  /////////////////////////////////////////////
+  // set  
+  /////////////////////////////////////////////
+
+  setTheTemplateDataArray(data: Template) {
+    this.templateDataArray.templateNumber.push(data.templateName);
+    this.templateDataArray.templateType.push(data.templateType);
+    this.templateDataArray.templateFormula.push(data.templateFormula);
+  }
+
+  /////////////////////////////////////////////
+  // create form group 
+  /////////////////////////////////////////////
+
+  // create Form Group With Data
+  createFormGroupWithData(data: Template, index: number): FormGroup {
+    console.log("createFormGroupWithData");
+    console.log(data.templateFormula);
+    if (data.templateFormula !== null) {
+      console.log("formula is not null");
+      // set boolean variable showFormulaField to true - display formula field
+      this.showFormulaField = true;
+      this.indexOfFormulaToShow.push(index);
+      return this.fb.group({ 
+        templateName: this.fb.control(data.templateName, [Validators.required]),
+        templateType: this.fb.control(data.templateType, [Validators.required]),
+        templateFormula: this.fb.control(data.templateFormula, [Validators.required])
+      })
+    } else {
+      console.log("formula is null");
+      return this.fb.group({
+        templateName: this.fb.control(data.templateName, [Validators.required]),
+        templateType: this.fb.control(data.templateType, [Validators.required])
+      }) 
+    }
+  }
+
+  // create Form Group Without Data
+  createFormGroupWithoutData(): FormGroup {
+    console.log("createFormGroupWithoutData");
     return this.fb.group({
-      fieldInput: this.fb.control('', [Validators.required]),
-      type: this.fb.control(this.number, [Validators.required])
+      templateName: this.fb.control('', [Validators.required]),
+      templateType: this.fb.control('Number', [Validators.required])
     });
   } 
 
-  // create formula field
-  createFormulaField(index): FormGroup {
-    console.log("trigger this function");
-    this.fg = this.dynamicForm.get('fieldGroup') as FormArray;
-    this.fg.controls[index]['controls'].formula = this.fb.control('', [Validators.required]);
-    return this.fg.controls[index]['controls'].formula;
-    /* return this.fb.group({
-      fieldInput: this.fb.control('', [Validators.required]),
-      type: this.fb.control('', [Validators.required]),
-      formula: this.fb.control('', [Validators.required])
-    }); */
+  // create Formula Control
+  createFormulaContol(index): FormGroup {
+    this.fg = this.dynamicForm.get('template') as FormArray; 
+    this.fg.controls[index]['controls'].templateFormula = this.fb.control('', [Validators.required]);
+    return this.fg.controls[index]['controls'].templateFormula;
   } 
 
-  // add field at the first
-  addFgFieldListAtFirst(){
-    // assign array variable to fb.array
-    let array = this.fb.array([])
-    // push 3 times to generate 3 form groups
+  // create Dynamic Form
+  createDynamicFormWithoutData(){
+    let array = this.fb.array([]);
     if (array.controls.length < 3) {
       for (let i = 0; i < 3; i++) {
-        array.push(this.createFieldList());
+        array.push(this.createFormGroupWithoutData());
       }
     }
-    // recreate dynamicForm 
     this.dynamicForm = this.fb.group({
-      'fieldGroup':array
-    })
-    this.fg = this.dynamicForm.get('fieldGroup') as FormArray;
+      'template':array
+    });
+    this.fg = this.dynamicForm.get('template') as FormArray;
   }
 
-  // add field when click 
-  addFgFieldList(){
-    /* if (this.fg.controls.length >= 3) {
-      this.fg.push(this.createFieldList());
-    } */
-    this.fg.push(this.createFieldList());    
+  // create Dynamic Form With Data
+  createDynamicFormWithData(data: Template[]) {
+    let array = this.fb.array([]);
+    for (let i = 0; i < data.length; i++) {
+      array.push(this.createFormGroupWithData(data[i],i));
+    }
+    this.dynamicForm = this.fb.group({
+      'template': array
+    });
+    this.fg = this.dynamicForm.get('template') as FormArray;
+    console.log(this.fg);
   }
 
-  // remove field when click
-  removeFieldGroup(i): void {
-    (this.dynamicForm.get('fieldGroup') as FormArray).removeAt(i);
+  // add Form Group 
+  addFormGroup(){
+    this.fg.push(this.createFormGroupWithoutData());    
   }
 
-  // get validity
+  // remove Form Group
+  removeFormGroup(i): void {
+    (this.dynamicForm.get('template') as FormArray).removeAt(i);
+  }
+
+  /////////////////////////////////////////////
+  // Validation 
+  /////////////////////////////////////////////
+
   getFieldInputValidity(i) {
-     /* let validity = (this.dynamicForm.get('fieldGroup') as FormArray).controls[i].controls.fieldInput.invalid;
-    if (validity) {
-      this.invalid = true;
-    } else {
-      this.invalid = false;
-    } */ 
-    return (this.dynamicForm.get('fieldGroup') as FormArray).controls[i]['controls'].fieldInput.invalid;
+    return (this.dynamicForm.get('template') as FormArray).controls[i]['controls'].templateName.invalid;
   } 
 
   getTypeValidity(i) {
-    return (this.dynamicForm.get('fieldGroup') as FormArray).controls[i]['controls'].type.invalid;
+    return (this.dynamicForm.get('template') as FormArray).controls[i]['controls'].templateType.invalid;
   }
 
   getFormulaValidity(i) {
-/*     this.fg.controls[i].value.formula = this.fg.controls[i].controls.formula.value; */
-    return (this.dynamicForm.get('fieldGroup') as FormArray).controls[i]['controls'].formula.invalid;
+    return (this.dynamicForm.get('template') as FormArray).controls[i]['controls'].templateFormula.invalid;
   } 
 
-  // pop up the formula field 
+  /////////////////////////////////////////////
+  // Display 
+  /////////////////////////////////////////////
+
+  // display the formula 
   popUpFormula(value:any, index:any){
-    // value[3] = 2 indicates formula
-    if (value[3] === '2') {
+    if (value.indexOf(this.formula) !== -1) {
       // use createFormulaField function to add formula form control into fg fieldGroup form group object 
-      this.createFormulaField(index);
+      this.createFormulaContol(index);
       // set boolean variable showFormulaField to true - display formula field
       this.showFormulaField = true;
       // the indexOfFormulaToShow array push this index
       this.indexOfFormulaToShow.push(index);
     } else {
-      // if value[3] !== 2 then indexOfFormulaToShow filter out the index
+      // indexOfFormulaToShow filter out the index
       this.indexOfFormulaToShow = this.indexOfFormulaToShow.filter(elem => {
         return elem !== index;
       })
     }
   }
+
+  /////////////////////////////////////////////
+  // Submit 
+  /////////////////////////////////////////////
 
   // submit 
   onSubmit(){
@@ -144,37 +238,35 @@ export class TempleteAppComponent implements OnInit {
     }
 
     // formula service get submitted data
-    let fieldGroupLength = this.dynamicForm.value.fieldGroup.length;
+    let fieldGroupLength = this.dynamicForm.value.template.length;
+    console.log(fieldGroupLength);
+    console.log(this.dynamicForm.value);
     for (let i = 0; i < fieldGroupLength; i++) {
-      let objectValue = this.dynamicForm.value.fieldGroup[i];
-      let formulaValue = this.fg.controls[i]['controls'].formula;
+      let objectValue = this.dynamicForm.value.template[i];
+      let formulaValue = this.fg.controls[i]['controls'].templateFormula;
+      console.log(objectValue);
+      console.log(formulaValue);
+      if (formulaValue === undefined) {
+        this.formulaService._postTemplate(this.projectId, objectValue);
+      }
       if (formulaValue !== undefined) {
-        objectValue['formula'] = formulaValue.value
-        this.formulaService.getTemplateData(objectValue);
-      } else {
-        this.formulaService.getTemplateData(objectValue);
+        objectValue['templateFormula'] = formulaValue.value
+        this.formulaService._postTemplate(this.projectId, objectValue);
       }
     }
   }
+
+  /////////////////////////////////////////////
+  // Table 
+  /////////////////////////////////////////////
   
-  // need modify - make the cost_code default to checked
-  toggleTable() { 
+  _table() {
+    console.log(this.cost_code); 
     if (!this.cost_code) {
-      if (this.table_name.indexOf('COST_CODE') == -1) {
-        this.table_name.push('COST_CODE');
-      }
-    } else {
-      this.table_name = this.table_name.filter(value => {
-        return value !== 'COST_CODE';
-      });
+      this.table_name.push('costCode');
     }
+    this.formulaService._setToggleTable(this.table_name);
   } 
 
-  // formular service get the update table data
-  updateTable() {
-    this.formulaService.updateTable(this.table_name);
-  }
-
-  // form - quantity survey
 
 }

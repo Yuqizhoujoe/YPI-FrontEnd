@@ -14,7 +14,7 @@
                 </tr>
                 <tr>
                     <td>cost_code</td>
-                    <td><input type="checkbox" [(ngModel)]="cost_code" (click)="toggleTable()"></td>
+                    <td><input type="checkbox" [(ngModel)]="cost_code" (click)="_table()"></td>
                 </tr>
             </tbody>
         </table>    
@@ -29,15 +29,15 @@
             </div>
 
             <!-- form array name fg -->
-            <div formArrayName="fieldGroup" class="list-group list-group-flush">
+            <div formArrayName="template" class="list-group list-group-flush">
                 <!-- list group -->
                 <div class="list-group-item">
                     <!-- form group name *ngFor --> 
                     <div *ngFor="let field of fg.controls; let i = index" class="form-group row field-container"  [formGroupName]="i">
                    
                         <div class="form-group col">
-                            <label for="fieldInput">Field</label>
-                            <input type="text" formControlName="fieldInput" #fieldInput 
+                            <label for="templateName">Field</label>
+                            <input type="text" formControlName="templateName" #fieldInput 
                             class="form-control"
                             required />
                             <div *ngIf="submitted && getFieldInputValidity(i)" class="invalid-feedback d-block">
@@ -47,8 +47,8 @@
                         </div>
 
                         <div class="form-group col">
-                            <label for="type">Type</label>
-                            <select type="checkbox" formControlName="type" #type 
+                            <label for="templateType">Type</label>
+                            <select type="checkbox" formControlName="templateType" #type 
                             class="form-control" 
                             required (change)="popUpFormula(type.value, i)">
                                 <option [ngValue]="number">Number</option>
@@ -63,8 +63,8 @@
 
                         <div class="form-group col">
                             <ng-container *ngIf="showFormulaField && this.indexOfFormulaToShow.indexOf(i) !== -1">
-                                <label for="formula">Formula</label>
-                                <input type="text" formControlName="formula" #formula 
+                                <label for="templateFormula">Formula</label>
+                                <input type="text" formControlName="templateFormula" #formula 
                                 class="form-control"
                                 required /> 
                                 <div *ngIf="submitted && getFormulaValidity(i)" class="invalid-feedback d-block">
@@ -75,14 +75,14 @@
                         </div>
 
                         <div class="form-group col delete-btn">
-                            <i class="fas fa-trash-alt" (click)="removeFieldGroup(i)"></i>
+                            <i class="fas fa-trash-alt" (click)="removeFormGroup(i)"></i>
                         </div> 
 
                     </div>
                     <!-- form group name *ngFor -->
 
                     <!-- add field button -->
-                    <div class="add-on-btn" (click)="addFgFieldList()">
+                    <div class="add-on-btn" (click)="addFormGroup()">
                         <i class="fas fa-plus-square"></i>
                     </div>
                     <!-- add field button -->
@@ -96,8 +96,7 @@
                     <div class="card-footer text-center form-group col-6 submit-button-container">
                         <button 
                         class="btn btn-primary mr-1" 
-                        type="submit" 
-                        (click)="updateTable()">Submit</button>
+                        type="submit">Submit</button>
                     </div>
                     <!-- submit -->
                 </div>

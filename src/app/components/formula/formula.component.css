@@ -5,7 +5,6 @@ body {
 }
 
 table {
-/*     width: 500px; */
     height: 500px;
     overflow: scroll;
 }
@@ -28,26 +27,11 @@ tbody, thead {
     font-size: 1rem;
 }
 
-.tr-thead > th:not(:first-child) {
-    width: 232px;
-}
-
-.tr-thead > th:first-of-type {
-    width: 55px;
-}
-
-.tbody-row-header {
-    width: 50px;
-}
-
 .list-group-flush {
     height: 500px;
     overflow-y: scroll;
 }
 
-.list-group-flush::-webkit-scrollbar {
-    display: none;
-}
 
 input {
     border-top-style: hidden;
@@ -61,9 +45,6 @@ input:hover {
     background-color: rgb(156, 156, 156);
 }
 
-/* .fa-sort-down {
-    padding: 1rem;
-} */
 /* select dropdown */
 .selectButton {
     position: relative;
@@ -99,6 +80,7 @@ input:hover {
 .template-navigation a, .template-navigation li{
     cursor: pointer;
 }
-.formula{
+
+.DynamicForm{
     width: 25rem;
 }

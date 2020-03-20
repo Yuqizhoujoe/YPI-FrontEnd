@@ -12,11 +12,11 @@
 </div>
 <br>
 <br>
- <div class="">
+ <div class="DynamicForm">
     <!-- form group dynamic form -->
     <form [formGroup]="dynamicFormulaForm" class="formula">
         <!-- table -->
-        <table class="table table-hover table-responsive-sd">
+        <table class="table table-hover w-auto">
             <thead class="thead-light">
                 <div>
                     <tr class="tr-thead">
@@ -38,47 +38,47 @@
                             {{ i+1 }}
                         </th>
                         <td>
-                            <input type="text" formControlName="name" class="form-control p-3 mb-2 bg-white text-dark"  />
+                            <input type="text" formControlName="name" class="form-control bg-white text-dark"  />
                         </td>
                         <ng-container *ngIf="display_cost_code">
                             <td>
-                                <input type="text" formControlName="cost_code" class="form-control p-3 mb-2 bg-white text-dark" />
+                                <input type="text" formControlName="cost_code" class="form-control bg-white text-dark" />
                             </td>
                         </ng-container>
-                        <ng-container *ngIf="showTemplate" formArrayName="field_arrays">
+                        <ng-container *ngIf="displayTemplate" formArrayName="template_data_array">
                             <ng-container *ngFor="let template_data of faff.get('template_data_array').controls; let j = index; let a = index">
                                 <!-- number type -->
-                                <ng-container *ngIf="type[a] === 0">
+                                <ng-container *ngIf="type[a] === 'Number'">
                                     <td>
-                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [(ngModel)]="number[i][a]" 
+                                        <input type="text" class="form-control bg-white text-dark" [formControlName]="j" 
+                                        [(ngModel)]="Number$[i][a]" 
                                         (change)="formulaCalculation(i)"
                                         />
-                                        <!-- i: {{ i }}
+                                        i: {{ i }}
                                         j: {{ j }}
-                                        field_number: {{ field_number[i][a] }} -->
+                                        number: {{ Number$[i][a] }}
                                     </td>
                                 </ng-container>
                                 <!-- text type -->
-                                <ng-container *ngIf="type[a] === 1">
+                                <ng-container *ngIf="type[a] === 'Text'">
                                     <td>
-                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [(ngModel)]="text[i][a]"
+                                        <input type="text" class="form-control bg-white text-dark" [formControlName]="j" 
+                                        [(ngModel)]="Text$[i][a]"
                                          />
-                                        <!-- i: {{ i }}
+                                        i: {{ i }}
                                         j: {{ j }}
-                                        field_text: {{ field_text[i][a] }} -->
+                                        text: {{ Text$[i][a] }}
                                     </td>
                                 </ng-container>
                                 <!-- formula type this.formArrayForFormula() -->
-                                <ng-container *ngIf="type[a] === 2">
+                                <ng-container *ngIf="type[a] === 'Formula'">
                                     <td>
-                                        <input type="text" class="form-control p-3 mb-2 bg-white text-dark" [formControlName]="j" 
-                                        [value]="formula[i][a]" 
+                                        <input type="text" class="form-control bg-white text-dark" [formControlName]="j" 
+                                        [(ngModel)]="Formula$[i][a]" 
                                         />
-                                        <!-- i: {{ i }}
+                                        i: {{ i }}
                                         j: {{ j }}
-                                        field_formula: {{ field_formula[i][a] }} -->
+                                        formula: {{ Formula$[i][a] }}
                                     </td>
                                 </ng-container>
                             </ng-container>
